@@ -198,7 +198,6 @@ const DEFAULT_INVOICE = {
     paidDate: '',
     amount: 0 
   },
-  // Ensure default items have EMPTY strings for qty/price
   items: [
     { id: 1, name: '', description: '', quantity: '', price: '', hsn: '' }
   ],
@@ -216,14 +215,68 @@ const CURRENCIES = [
   { code: 'AED', symbol: 'AED', locale: 'ar-AE' },
 ];
 
-const AdUnit = ({ type, label }) => (
-  <div className={`w-full bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400 text-sm font-semibold rounded-lg overflow-hidden transition-all duration-300 ${type === 'sidebar' ? 'h-[600px] sticky top-24' : 'h-[120px] my-8'}`}>
-    <div className="text-center p-4">
-      <p className="uppercase tracking-widest text-xs mb-2">Advertisement</p>
-      <p className="text-xs opacity-75 font-normal">{label}</p>
+const APP_FEATURES = [
+  {
+    id: 'templates',
+    icon: <Layout />,
+    title: 'Beautiful Templates',
+    description: 'Clean, modern, and professional designs that impress clients.'
+  },
+  {
+    id: 'security',
+    icon: <ShieldCheck />,
+    title: '100% Secure',
+    description: 'Data stays in your browser. No servers, no tracking, complete privacy.'
+  },
+  {
+    id: 'speed',
+    icon: <Zap />,
+    title: 'Instant PDF',
+    description: 'Generate high-quality A4 PDFs in milliseconds.'
+  },
+  {
+    id: 'global',
+    icon: <Globe />,
+    title: 'Global Currencies',
+    description: 'Support for USD, EUR, INR, GBP and many more.'
+  }
+];
+
+const AdUnit = ({ type, label }) => {
+  const adRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      if (window.adsbygoogle && adRef.current) {
+        if (adRef.current.innerHTML === "") {
+           (window.adsbygoogle = window.adsbygoogle || []).push({});
+        }
+      }
+    } catch (e) {
+      console.error("AdSense Error:", e);
+    }
+  }, []);
+
+  // Hide sidebar ads on screens smaller than 1024px (lg breakpoint)
+  const visibilityClass = type === 'sidebar' ? 'hidden lg:flex' : 'flex';
+
+  return (
+    <div className={`w-full bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700 ${visibilityClass} flex-col items-center justify-center text-slate-400 text-sm font-semibold rounded-lg overflow-hidden transition-all duration-300 ${type === 'sidebar' ? 'h-[600px] sticky top-24' : 'h-[120px] my-8'} no-print relative`}>
+      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+        <p className="uppercase tracking-widest text-xs mb-2">Advertisement</p>
+        <p className="text-xs opacity-75 font-normal">{label}</p>
+      </div>
+      <ins className="adsbygoogle"
+         style={{ display: 'block', width: '100%', height: '100%' }}
+         data-ad-client="ca-pub-2676342226418259"
+         data-ad-slot={type === 'sidebar' ? "1234567891" : "1234567890"}
+         data-ad-format="auto"
+         data-full-width-responsive="true"
+         ref={adRef}
+      />
     </div>
-  </div>
-);
+  );
+};
 
 const FeatureCard = ({ icon, title, desc }) => (
   <div className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
@@ -233,6 +286,77 @@ const FeatureCard = ({ icon, title, desc }) => (
     <h3 className="font-bold text-lg mb-2 text-slate-900 dark:text-white">{title}</h3>
     <p className="text-slate-600 dark:text-slate-400 text-sm">{desc}</p>
   </div>
+);
+
+const LegalLayout = ({ title, children }) => (
+  <div className="container mx-auto px-4 py-12 max-w-4xl min-h-[60vh] animate-in fade-in duration-500">
+    <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm border border-slate-200 dark:border-slate-700">
+      <h1 className="text-3xl font-bold mb-6 text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-700 pb-4">{title}</h1>
+      <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400">
+        {children}
+      </div>
+    </div>
+  </div>
+);
+
+const PrivacyPolicy = () => (
+  <LegalLayout title="Privacy Policy">
+    <p className="mb-4">Last updated: {new Date().getFullYear()}</p>
+    <p className="mb-4">At InvoicePro, we take your privacy seriously. This Privacy Policy explains how we handle your data.</p>
+    
+    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">1. Data Collection & Storage</h3>
+    <p className="mb-4">We respect your data privacy. <strong>We do not store any of your invoice data on our servers.</strong></p>
+    <p className="mb-4">All data entered into the invoice generator (including client details, amounts, and business information) is stored locally on your device using your browser's Local Storage technology. This means your data never leaves your computer.</p>
+
+    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">2. Cookies</h3>
+    <p className="mb-4">We use local storage cookies solely to remember your preferences (such as Light/Dark mode and your last used invoice number) to improve your user experience.</p>
+
+    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">3. Third-Party Services</h3>
+    <p className="mb-4">We use Google AdSense to serve advertisements. Google may use cookies to serve ads based on your prior visits to our website or other websites.</p>
+  </LegalLayout>
+);
+
+const TermsOfService = () => (
+  <LegalLayout title="Terms of Service">
+    <p className="mb-4">By accessing and using InvoicePro, you accept and agree to be bound by the terms and provision of this agreement.</p>
+
+    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">1. Use of Service</h3>
+    <p className="mb-4">InvoicePro is a free tool provided for freelancers and small businesses. You agree to use this service only for lawful purposes.</p>
+
+    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">2. Disclaimer of Warranties</h3>
+    <p className="mb-4">The service is provided on an "as is" and "as available" basis. We make no warranties regarding the accuracy of calculations for tax purposes. Please consult an accountant for official financial advice.</p>
+
+    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">3. Limitation of Liability</h3>
+    <p className="mb-4">In no event shall InvoicePro be liable for any direct, indirect, incidental, or consequential damages arising out of the use of our service.</p>
+  </LegalLayout>
+);
+
+const AboutUs = () => (
+  <LegalLayout title="About Us">
+    <p className="mb-4">InvoicePro was built with a simple mission: <strong>To make professional invoicing free and accessible to everyone.</strong></p>
+    <p className="mb-4">We understand that freelancers, consultants, and small business owners often struggle with complex accounting software. That's why we created a tool that is:</p>
+    <ul className="list-disc pl-5 mb-6 space-y-2">
+      <li>Fast and easy to use</li>
+      <li>Privacy-focused (No server storage)</li>
+      <li>Professional and compliant</li>
+      <li>Completely free</li>
+    </ul>
+    <p className="mb-4">Our team is dedicated to maintaining this tool and ensuring it remains the best free invoice generator on the web.</p>
+  </LegalLayout>
+);
+
+const ContactUs = () => (
+  <LegalLayout title="Contact Us">
+    <p className="mb-4">Have questions, suggestions, or need support? We'd love to hear from you.</p>
+    
+    <div className="bg-slate-50 dark:bg-slate-700/50 p-6 rounded-xl border border-slate-200 dark:border-slate-700 inline-block pr-12">
+      <h3 className="font-bold text-lg mb-2">Email Support</h3>
+      <p className="text-slate-600 dark:text-slate-400 mb-4">For general inquiries and technical support:</p>
+      <a href="mailto:support@invoicepro.com" className="text-indigo-600 font-semibold hover:underline">support@invoicepro.com</a>
+    </div>
+
+    <p className="mt-8 text-sm text-slate-500">We usually respond within 24-48 business hours.</p>
+  </LegalLayout>
 );
 
 export default function App() {
@@ -251,7 +375,6 @@ export default function App() {
     loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
     loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
     
-    // Auto-numbering Logic & Data Loading
     const saved = localStorage.getItem('premiumInvoiceData');
     if (saved) {
       try { 
@@ -261,7 +384,10 @@ export default function App() {
         if (parsed.payment.amount === undefined) parsed.payment.amount = 0;
         if (parsed.sender && parsed.sender.signature === undefined) parsed.sender.signature = '';
         
-        // Data migration for items
+        if (parsed.notes === 'Thank you for your business!') {
+           parsed.notes = 'Thank you for your shopping!';
+        }
+
         if (parsed.items) {
           parsed.items = parsed.items.map(item => ({
              ...item,
@@ -289,7 +415,6 @@ export default function App() {
     }
   }, []);
 
-  // Persistence
   useEffect(() => {
     try {
       localStorage.setItem('premiumInvoiceData', JSON.stringify(invoice));
@@ -306,8 +431,10 @@ export default function App() {
     if (activeRoute === 'home') {
       document.title = 'Free Invoice Generator - Create Professional Invoices Online';
     } else {
-      document.title = `${INVOICE_TYPES[activeRoute].title} | InvoicePro`;
-      if (INVOICE_TYPES[activeRoute].subCategories?.length > 0) {
+      const currentTitle = INVOICE_TYPES[activeRoute]?.title || 'Invoice Generator';
+      document.title = `${currentTitle} | InvoicePro`;
+      
+      if (INVOICE_TYPES[activeRoute]?.subCategories?.length > 0) {
         setInvoice(prev => ({
            ...prev,
            documentTitle: INVOICE_TYPES[activeRoute].subCategories[0].toUpperCase()
@@ -368,12 +495,7 @@ export default function App() {
         status: newStatus,
         amount: newStatus === 'pending' ? 0 : prev.payment.amount,
         referenceId: newStatus === 'pending' ? '' : prev.payment.referenceId,
-        paidDate:
-          newStatus === 'paid'
-            ? (prev.payment.paidDate || new Date().toISOString().split('T')[0])
-            : newStatus === 'partial'
-            ? prev.payment.paidDate
-            : ''
+        paidDate: newStatus === 'pending' ? '' : (prev.payment.paidDate || new Date().toISOString().split('T')[0])
       }
     }));
   };
@@ -443,7 +565,6 @@ export default function App() {
               transform-origin: top center;
             }
             
-            /* Logo Fix for Print */
             img[alt="Logo"] {
               max-height: 60px !important;
               width: auto !important;
@@ -451,7 +572,6 @@ export default function App() {
               object-position: left !important;
             }
 
-             /* Ensure single page */
             @page {
               size: A4;
               margin: 0;
@@ -461,6 +581,9 @@ export default function App() {
                  width: 210mm;
                  height: 297mm;
                  overflow: hidden;
+              }
+              .invoice-footer-brand {
+                 display: none !important;
               }
             }
           </style>
@@ -507,25 +630,9 @@ export default function App() {
     const originalTransform = element.style.transform;
     const originalTransformOrigin = element.style.transformOrigin;
 
-    // 1. Un-restrict height to measure content
     element.style.boxShadow = 'none';
-    element.style.height = 'auto';
-    element.style.maxHeight = 'none';
-    element.style.overflow = 'visible';
-    
-    // 2. Measure for scaling
-    const targetRatioHeight = element.offsetWidth * 1.4141; 
-    
-    let scale = 1;
-    if (element.scrollHeight > targetRatioHeight) {
-       scale = targetRatioHeight / element.scrollHeight;
-    }
-
-    // 3. Apply scaling transform
-    if (scale < 1) {
-       element.style.transform = `scale(${scale})`;
-       element.style.transformOrigin = 'top left'; 
-    }
+    element.style.height = '297mm'; 
+    element.style.overflow = 'hidden'; 
 
     try {
       const canvas = await window.html2canvas(element, {
@@ -556,7 +663,7 @@ export default function App() {
                 img.style.width = 'auto';
                 img.style.height = 'auto';
                 img.style.maxWidth = '60%';
-                img.style.maxHeight = '100px'; // Cap height
+                img.style.maxHeight = '100px';
                 img.style.objectFit = 'contain';
                 img.style.display = 'block';
                 img.style.margin = '0 auto';
@@ -578,13 +685,21 @@ export default function App() {
                 preview.style.position = 'relative';
              }
              
-             // Fix Logo Rendering in PDF
              const logoImg = preview.querySelector('img[alt="Logo"]');
              if (logoImg) {
                logoImg.style.maxHeight = '60px';
                logoImg.style.width = 'auto';
                logoImg.style.objectFit = 'contain';
                logoImg.style.objectPosition = 'left';
+             }
+
+             const footerBrand = preview.querySelector('.invoice-footer-brand');
+             if (footerBrand) {
+                 if (logo || invoice.sender.name) {
+                     footerBrand.innerText = invoice.sender.name || '';
+                 } else {
+                     footerBrand.innerText = 'Created with InvoicePro';
+                 }
              }
            }
         }
@@ -701,11 +816,59 @@ export default function App() {
     return 'bg-slate-100 text-slate-600 border-slate-200';
   };
 
+  // --- RENDER ---
+  if (['privacy', 'terms', 'about', 'contact'].includes(activeRoute)) {
+    let PageContent = null;
+    if (activeRoute === 'privacy') PageContent = PrivacyPolicy;
+    if (activeRoute === 'terms') PageContent = TermsOfService;
+    if (activeRoute === 'about') PageContent = AboutUs;
+    if (activeRoute === 'contact') PageContent = ContactUs;
+
+    return (
+      <div className={`min-h-screen font-sans transition-colors duration-300 ${darkMode ? 'dark bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+        <nav className="sticky top-0 z-40 w-full backdrop-blur-lg bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800">
+           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+              <div 
+                className="flex items-center gap-2 cursor-pointer group" 
+                onClick={() => setActiveRoute('home')}
+              >
+                <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+                  <Zap size={20} fill="currentColor" />
+                </div>
+                <span className="font-bold text-xl tracking-tight">Invoice<span className="text-indigo-600">Pro</span></span>
+              </div>
+              <div className="flex gap-3">
+                 <button 
+                   onClick={() => setDarkMode(!darkMode)}
+                   className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                 >
+                   {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+                 </button>
+                 <button onClick={() => setActiveRoute('home')} className="px-4 py-2 text-sm font-medium hover:text-indigo-600">Back</button>
+              </div>
+           </div>
+        </nav>
+        {PageContent && <PageContent />}
+        <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-20 pt-16 pb-8">
+           <div className="container mx-auto px-4 text-center">
+             <div className="flex justify-center gap-6 text-sm text-slate-500 dark:text-slate-400 mb-8">
+               <button onClick={() => setActiveRoute('privacy')} className="hover:text-indigo-600">Privacy Policy</button>
+               <button onClick={() => setActiveRoute('terms')} className="hover:text-indigo-600">Terms of Service</button>
+               <button onClick={() => setActiveRoute('about')} className="hover:text-indigo-600">About Us</button>
+               <button onClick={() => setActiveRoute('contact')} className="hover:text-indigo-600">Contact</button>
+             </div>
+             <p className="text-xs text-slate-400">&copy; {new Date().getFullYear()} InvoicePro. All rights reserved.</p>
+           </div>
+        </footer>
+      </div>
+    );
+  }
+
   return (
     <div className={`min-h-screen font-sans transition-colors duration-300 ${darkMode ? 'dark bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
       
       {/* --- NAVBAR --- */}
-      <nav className="sticky top-0 z-40 w-full backdrop-blur-lg bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800">
+      <nav className="sticky top-0 z-40 w-full backdrop-blur-lg bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 no-print">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div 
             className="flex items-center gap-2 cursor-pointer group" 
@@ -822,10 +985,14 @@ export default function App() {
                 <p className="text-slate-500 dark:text-slate-400">Everything you need to get paid faster, without the headache.</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <FeatureCard icon={<Layout />} title="Beautiful Templates" desc="Clean, modern, and professional designs that impress clients." />
-                <FeatureCard icon={<ShieldCheck />} title="100% Secure" desc="Data stays in your browser. No servers, no tracking, complete privacy." />
-                <FeatureCard icon={<Zap />} title="Instant PDF" desc="Generate high-quality A4 PDFs in milliseconds." />
-                <FeatureCard icon={<Globe />} title="Global Currencies" desc="Support for USD, EUR, INR, GBP and many more." />
+                {APP_FEATURES.map((feature) => (
+                  <FeatureCard 
+                    key={feature.id}
+                    icon={feature.icon} 
+                    title={feature.title} 
+                    desc={feature.description} 
+                  />
+                ))}
               </div>
             </div>
           </section>
@@ -894,7 +1061,7 @@ export default function App() {
                    </select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                   <div>
                     <label className="label">Invoice No</label>
                     <input className="input" value={invoice.invoiceNo} onChange={(e) => updateRoot('invoiceNo', e.target.value)} />
@@ -935,7 +1102,7 @@ export default function App() {
                 {config?.id === 'transport' && (
                   <div className="mb-6 bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-100 dark:border-orange-800">
                     <h3 className="text-xs font-bold uppercase text-orange-600 mb-2 flex items-center gap-2"><Truck size={14}/> Transport Details</h3>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="text-[10px] uppercase text-gray-500 font-bold mb-1 block">{getLabel('Vehicle No.')}</label>
                         <input className="input" value={invoice.transport.vehicleNo} onChange={(e) => updateNested('transport', 'vehicleNo', e.target.value)} />
@@ -953,7 +1120,7 @@ export default function App() {
                 {config?.id === 'salon' && (
                   <div className="mb-6 bg-pink-50 dark:bg-pink-900/20 p-4 rounded-lg border border-pink-100 dark:border-pink-800">
                     <h3 className="text-xs font-bold uppercase text-pink-600 mb-2 flex items-center gap-2"><Scissors size={14}/> Service Details</h3>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="text-[10px] uppercase text-gray-500 font-bold mb-1 block">{getLabel('Stylist Name')}</label>
                         <input className="input" value={invoice.salon.stylist} onChange={(e) => updateNested('salon', 'stylist', e.target.value)} />
@@ -1010,8 +1177,8 @@ export default function App() {
                   <h3 className="font-bold text-slate-700 dark:text-slate-300 mb-3">Line Items</h3>
                   <div className="space-y-3">
                     {invoice.items.map((item) => (
-                      <div key={item.id} className="flex gap-2 items-start p-2 border border-slate-100 dark:border-slate-700 rounded bg-white dark:bg-slate-900 shadow-sm">
-                        <div className="flex-grow space-y-2">
+                      <div key={item.id} className="flex flex-wrap sm:flex-nowrap gap-2 items-start p-2 border border-slate-100 dark:border-slate-700 rounded bg-white dark:bg-slate-900 shadow-sm">
+                        <div className="w-full sm:w-auto flex-grow space-y-2">
                           <input 
                             placeholder={getDescriptionPlaceholder()}
                             className="input font-medium" 
@@ -1034,7 +1201,7 @@ export default function App() {
                             />
                           )}
                         </div>
-                        <div className="w-20">
+                        <div className="w-[28%] sm:w-20">
                           <input 
                              type="number" 
                              placeholder="Qty" 
@@ -1044,7 +1211,7 @@ export default function App() {
                              onChange={(e) => updateItem(item.id, 'quantity', e.target.value)}
                            />
                         </div>
-                        <div className="w-24">
+                        <div className="w-[28%] sm:w-24">
                           <input 
                              type="number" 
                              placeholder="Unit Price" 
@@ -1055,8 +1222,8 @@ export default function App() {
                            />
                         </div>
                         {/* Read-Only Amount Display - STATIC DIV */}
-                        <div className="w-24 flex items-center justify-end px-2 h-10 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 overflow-hidden">
-                             <span className="font-bold text-slate-700 dark:text-slate-300 text-sm truncate">
+                        <div className="w-[28%] sm:w-24 flex items-center justify-end px-2 h-10 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 overflow-hidden">
+                             <span className="font-bold text-slate-700 dark:text-slate-300 text-xs sm:text-sm truncate">
                                 {formatCurrency(calculateLineItem(item.quantity, item.price))}
                              </span>
                         </div>
@@ -1196,7 +1363,7 @@ export default function App() {
                   </div>
                   <p className="text-xs text-slate-500 mb-4">This information acts as payment proof for this invoice.</p>
                   
-                  <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="label">Payment Status</label>
                       <select 
@@ -1239,7 +1406,7 @@ export default function App() {
                      </div>
                   )}
 
-                  <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="label">Transaction ID / Ref No</label>
                       <input 
@@ -1331,6 +1498,7 @@ export default function App() {
                   id="invoice-preview"
                   ref={previewRef}
                   className="bg-white text-slate-900 w-full p-[10mm] md:p-[15mm] text-sm leading-normal relative shadow-sm"
+                  // STRICT A4 STYLE: fixed size, overflow hidden
                   style={{ width: '210mm', minHeight: '297mm', maxHeight: '297mm', overflow: 'hidden' }} 
                 >
                   {/* HEADER */}
@@ -1598,7 +1766,7 @@ export default function App() {
 
                   {/* Company Footer (replaces SaaS watermark) */}
                   <div className="absolute bottom-4 left-0 w-full text-center">
-                    <p className="text-[10px] text-slate-300 uppercase tracking-widest">{invoice.sender.name || 'InvoicePro'}</p>
+                    <p className="text-[10px] text-slate-300 uppercase tracking-widest invoice-footer-brand">{invoice.sender.name || 'Created with InvoicePro'}</p>
                   </div>
 
                 </div>
@@ -1635,9 +1803,9 @@ export default function App() {
              <div>
                <h4 className="font-bold mb-4 text-slate-900 dark:text-white">Legal</h4>
                <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
-                 <li><a href="#" className="hover:text-indigo-600">Privacy Policy</a></li>
-                 <li><a href="#" className="hover:text-indigo-600">Terms of Service</a></li>
-                 <li><a href="#" className="hover:text-indigo-600">Cookie Policy</a></li>
+                 <li><button onClick={() => setActiveRoute('privacy')} className="hover:text-indigo-600">Privacy Policy</button></li>
+                 <li><button onClick={() => setActiveRoute('terms')} className="hover:text-indigo-600">Terms of Service</button></li>
+                 <li><button onClick={() => setActiveRoute('about')} className="hover:text-indigo-600">About Us</button></li>
                </ul>
              </div>
              <div>
@@ -1674,6 +1842,7 @@ export default function App() {
             overflow: hidden !important;
             page-break-inside: avoid !important;
             z-index: 9999;
+            transform-origin: top center;
           }
           
           /* Ensure logo scales properly in print */
