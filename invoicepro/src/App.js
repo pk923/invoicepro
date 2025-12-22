@@ -45,6 +45,9 @@ const INVOICE_TYPES = {
     id: 'standard',
     path: '/standard-invoice-generator',
     title: 'Standard Invoice Generator',
+    metaTitle: 'Free Standard Invoice Generator | Create Professional Invoices Online',
+    metaDesc: 'Create standard business invoices instantly. Free online invoice generator for small businesses, contractors, and freelancers. Download PDF with no signup.',
+    keywords: 'standard invoice, free invoice generator, online invoice maker, simple bill generator',
     icon: <FileText className="w-6 h-6" />,
     color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/30',
     description: 'The classic invoice format suitable for any business need.',
@@ -68,6 +71,9 @@ const INVOICE_TYPES = {
     id: 'gst',
     path: '/gst-invoice-generator',
     title: 'GST Invoice Generator',
+    metaTitle: 'GST Invoice Generator India | Free GST Bill Maker Online',
+    metaDesc: 'Generate GST-compliant invoices with CGST, SGST, & IGST calculations automatically. Best free GST billing software for Indian businesses.',
+    keywords: 'gst invoice generator, gst bill maker, india gst invoice, online tax invoice',
     icon: <CreditCard className="w-6 h-6" />,
     color: 'text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30',
     description: 'Compliant GST format with CGST, SGST, and IGST breakdowns.',
@@ -90,6 +96,9 @@ const INVOICE_TYPES = {
     id: 'freelance',
     path: '/freelance-invoice-generator',
     title: 'Freelance Invoice Maker',
+    metaTitle: 'Freelance Invoice Maker | Free Billing Tool for Consultants',
+    metaDesc: 'Create professional freelance invoices in seconds. Ideal for developers, designers, writers, and consultants. Download PDF invoices for free.',
+    keywords: 'freelance invoice, invoice for freelancers, consulting invoice, contractor bill maker',
     icon: <Briefcase className="w-6 h-6" />,
     color: 'text-purple-600 bg-purple-100 dark:bg-purple-900/30',
     description: 'Clean, simple invoices designed for freelancers and contractors.',
@@ -112,6 +121,9 @@ const INVOICE_TYPES = {
     id: 'transport',
     path: '/transport-invoice-generator',
     title: 'Transport & Logistics Invoice',
+    metaTitle: 'Transport Invoice Generator | Logistics Bill Format',
+    metaDesc: 'Generate transport and logistics invoices with vehicle number, driver details, and route information. Free tool for transporters and fleet owners.',
+    keywords: 'transport invoice, logistics bill, lorry receipt, fleet invoice generator',
     icon: <Truck className="w-6 h-6" />,
     color: 'text-orange-600 bg-orange-100 dark:bg-orange-900/30',
     description: 'Logistics bill format with Vehicle No, Route, and Driver details.',
@@ -134,6 +146,9 @@ const INVOICE_TYPES = {
     id: 'salon',
     path: '/salon-invoice-generator',
     title: 'Salon & Spa Invoice',
+    metaTitle: 'Salon & Spa Invoice Generator | Beauty Parlour Bill Maker',
+    metaDesc: 'Create elegant receipts for salons, spas, and beauty clinics. Manage appointments and stylist details. Free PDF download.',
+    keywords: 'salon invoice, spa bill, beauty parlour receipt, stylist invoice',
     icon: <Scissors className="w-6 h-6" />,
     color: 'text-pink-600 bg-pink-100 dark:bg-pink-900/30',
     description: 'Elegant receipts for beauty salons, spas, and stylists.',
@@ -243,6 +258,86 @@ const APP_FEATURES = [
   }
 ];
 
+// --- SEO MANAGER (Head Injection) ---
+const updateHead = (meta) => {
+  // Update Title
+  document.title = meta.title;
+
+  // Helper to set meta tags
+  const setMeta = (name, content) => {
+    let element = document.querySelector(`meta[name="${name}"]`);
+    if (!element) {
+      element = document.createElement('meta');
+      element.setAttribute('name', name);
+      document.head.appendChild(element);
+    }
+    element.setAttribute('content', content);
+  };
+  
+  // Helper for OG tags (property instead of name)
+  const setOg = (property, content) => {
+    let element = document.querySelector(`meta[property="${property}"]`);
+    if (!element) {
+      element = document.createElement('meta');
+      element.setAttribute('property', property);
+      document.head.appendChild(element);
+    }
+    element.setAttribute('content', content);
+  };
+
+  const setLink = (rel, href) => {
+    let element = document.querySelector(`link[rel="${rel}"]`);
+    if (!element) {
+      element = document.createElement('link');
+      element.setAttribute('rel', rel);
+      document.head.appendChild(element);
+    }
+    element.setAttribute('href', href);
+  };
+
+  setMeta('description', meta.description);
+  setMeta('keywords', meta.keywords);
+  setLink('canonical', meta.url);
+
+  // Open Graph
+  setOg('og:title', meta.title);
+  setOg('og:description', meta.description);
+  setOg('og:url', meta.url);
+  setOg('og:type', 'website');
+  
+  // Twitter
+  setMeta('twitter:card', 'summary_large_image');
+  setMeta('twitter:title', meta.title);
+  setMeta('twitter:description', meta.description);
+
+  // JSON-LD Schema (Replace existing script to prevent duplicates)
+  const schemaScriptId = 'app-schema-json-ld';
+  let schemaScript = document.getElementById(schemaScriptId);
+  if (!schemaScript) {
+    schemaScript = document.createElement('script');
+    schemaScript.id = schemaScriptId;
+    schemaScript.type = 'application/ld+json';
+    document.head.appendChild(schemaScript);
+  }
+  
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "InvoicePro",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": meta.url,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": meta.description
+  };
+  schemaScript.textContent = JSON.stringify(schemaData);
+};
+
+
 const AdUnit = ({ type, label }) => {
   const adRef = useRef(null);
 
@@ -254,7 +349,7 @@ const AdUnit = ({ type, label }) => {
         }
       }
     } catch (e) {
-      console.error("AdSense Error:", e);
+      // console.error("AdSense Error:", e);
     }
   }, []);
 
@@ -373,6 +468,96 @@ export default function App() {
   const previewRef = useRef(null);
   const config = activeRoute !== 'home' ? INVOICE_TYPES[activeRoute] : null;
 
+  // --- ROUTING & SEO LOGIC ---
+  
+  useEffect(() => {
+    const path = window.location.pathname;
+    let foundRoute = 'home';
+    
+    if (['/privacy', '/terms', '/about', '/contact'].includes(path)) {
+      foundRoute = path.substring(1); 
+    } else {
+      Object.values(INVOICE_TYPES).forEach(type => {
+        if (path === type.path) {
+          foundRoute = type.id;
+        }
+      });
+    }
+
+    if (foundRoute !== 'home') {
+      setActiveRoute(foundRoute);
+    }
+  }, []);
+
+  useEffect(() => {
+    let meta = {
+      title: 'Free Invoice Generator | Create Professional Invoices Online',
+      description: 'Create and download professional PDF invoices for free. Secure, fast, and no signup required. Perfect for freelancers and small businesses.',
+      keywords: 'free invoice generator, online invoice maker, pdf invoice, billing software',
+      url: window.location.href
+    };
+
+    let newPath = '/';
+
+    if (INVOICE_TYPES[activeRoute]) {
+      const typeConfig = INVOICE_TYPES[activeRoute];
+      meta.title = typeConfig.metaTitle;
+      meta.description = typeConfig.metaDesc;
+      meta.keywords = typeConfig.keywords;
+      newPath = typeConfig.path;
+      document.title = typeConfig.metaTitle;
+      setInvoice(prev => ({
+         ...prev,
+         documentTitle: typeConfig.subCategories?.[0]?.toUpperCase() || 'INVOICE'
+      }));
+    } else if (['privacy', 'terms', 'about', 'contact'].includes(activeRoute)) {
+       const titles = {
+         privacy: 'Privacy Policy - InvoicePro',
+         terms: 'Terms of Service - InvoicePro',
+         about: 'About Us - InvoicePro',
+         contact: 'Contact Us - InvoicePro'
+       };
+       meta.title = titles[activeRoute];
+       newPath = `/${activeRoute}`;
+       document.title = titles[activeRoute];
+    } else {
+       document.title = meta.title;
+    }
+
+    // FIX 2: Correct Canonical URL (Logic only, no UI change)
+    // Remove query params and trailing slash for SEO consistency
+    const cleanPath = newPath === '/' ? '' : newPath.replace(/\/$/, '');
+    const canonicalUrl = `${window.location.origin}${cleanPath}`;
+    meta.url = canonicalUrl;
+
+    // Normalize URL BEFORE setting meta (SEO fix)
+    if (window.location.pathname !== newPath) {
+      try {
+        window.history.replaceState({}, '', newPath);
+      } catch (e) {
+        // Ignored
+      }
+    }
+
+    // Inject canonical + meta AFTER URL is clean
+    updateHead(meta);
+
+    if (activeRoute === 'gst') {
+      setInvoice(prev => ({
+        ...prev,
+        enableTax: true,
+        taxRate: prev.taxRate || 18 
+      }));
+    }
+    
+    window.scrollTo(0, 0);
+  }, [activeRoute]);
+
+  const handleRouteChange = (routeId) => {
+    setActiveRoute(routeId);
+    setMobileMenu(false);
+  };
+
   useEffect(() => {
     loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
     loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
@@ -428,30 +613,6 @@ export default function App() {
       }
     } catch (e) {}
   }, [invoice]);
-
-  useEffect(() => {
-    if (activeRoute === 'home') {
-      document.title = 'Free Invoice Generator - Create Professional Invoices Online';
-    } else {
-      const currentTitle = INVOICE_TYPES[activeRoute]?.title || 'Invoice Generator';
-      document.title = `${currentTitle} | InvoicePro`;
-      
-      if (INVOICE_TYPES[activeRoute]?.subCategories?.length > 0) {
-        setInvoice(prev => ({
-           ...prev,
-           documentTitle: INVOICE_TYPES[activeRoute].subCategories[0].toUpperCase()
-        }));
-      }
-      if (activeRoute === 'gst') {
-        setInvoice(prev => ({
-          ...prev,
-          enableTax: true,
-          taxRate: prev.taxRate || 18 
-        }));
-      }
-    }
-    window.scrollTo(0, 0);
-  }, [activeRoute]);
 
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
@@ -566,7 +727,7 @@ export default function App() {
               width: 210mm !important;
               height: 297mm !important;
               padding: 10mm !important;
-              overflow: hidden !important; /* Force Single Page */
+              overflow: hidden !important;
               page-break-inside: avoid !important;
               transform-origin: top center;
             }
@@ -633,7 +794,7 @@ export default function App() {
     setLoadingPdf(true);
     const element = previewRef.current;
     
-    // Store original values
+    // Remove shadow for clean capture and ensure fixed dimensions
     const originalShadow = element.style.boxShadow;
     const originalHeight = element.style.height;
     const originalMaxHeight = element.style.maxHeight;
@@ -642,14 +803,11 @@ export default function App() {
     const originalTransformOrigin = element.style.transformOrigin;
     const originalMarginBottom = element.style.marginBottom; 
 
-    // 1. Un-restrict height to measure content & Reset Styles for Capture
     element.style.boxShadow = 'none';
     element.style.height = '297mm'; 
     element.style.overflow = 'hidden'; 
     element.style.marginBottom = '0';
     
-    // 2. Measure for scaling
-    // A4 Aspect Ratio = 1.414. element width is fixed 210mm.
     const targetRatioHeight = element.offsetWidth * 1.4141; 
     
     let scale = 1;
@@ -657,13 +815,12 @@ export default function App() {
        scale = targetRatioHeight / element.scrollHeight;
     }
 
-    // 3. Apply scaling transform
     element.style.transform = `scale(${scale})`;
     element.style.transformOrigin = 'top left'; 
 
     try {
       const canvas = await window.html2canvas(element, {
-        scale: 3, 
+        scale: 3, // High quality
         useCORS: true, 
         logging: false,
         backgroundColor: '#ffffff',
@@ -713,7 +870,6 @@ export default function App() {
                 preview.style.position = 'relative';
              }
              
-             // Fix Logo Rendering in PDF
              const logoImg = preview.querySelector('img[alt="Logo"]');
              if (logoImg) {
                logoImg.style.maxHeight = '60px';
@@ -721,8 +877,7 @@ export default function App() {
                logoImg.style.objectFit = 'contain';
                logoImg.style.objectPosition = 'left';
              }
-             
-             // Footer Branding Logic
+
              const footerBrand = preview.querySelector('.invoice-footer-brand');
              if (footerBrand) {
                  if (logo || invoice.sender.name) {
@@ -738,6 +893,7 @@ export default function App() {
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
       
+      // Single Page Logic
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = 210;
       const pdfHeight = 297;
@@ -860,7 +1016,7 @@ export default function App() {
            <div className="container mx-auto px-4 h-16 flex items-center justify-between">
               <div 
                 className="flex items-center gap-2 cursor-pointer group" 
-                onClick={() => setActiveRoute('home')}
+                onClick={() => handleRouteChange('home')}
               >
                 <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
                   <Zap size={20} fill="currentColor" />
@@ -874,7 +1030,7 @@ export default function App() {
                  >
                    {darkMode ? <Sun size={18} /> : <Moon size={18} />}
                  </button>
-                 <button onClick={() => setActiveRoute('home')} className="px-4 py-2 text-sm font-medium hover:text-indigo-600">Back</button>
+                 <button onClick={() => handleRouteChange('home')} className="px-4 py-2 text-sm font-medium hover:text-indigo-600">Back</button>
               </div>
            </div>
         </nav>
@@ -882,10 +1038,10 @@ export default function App() {
         <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-20 pt-16 pb-8">
            <div className="container mx-auto px-4 text-center">
              <div className="flex justify-center gap-6 text-sm text-slate-500 dark:text-slate-400 mb-8">
-               <button onClick={() => setActiveRoute('privacy')} className="hover:text-indigo-600">Privacy Policy</button>
-               <button onClick={() => setActiveRoute('terms')} className="hover:text-indigo-600">Terms of Service</button>
-               <button onClick={() => setActiveRoute('about')} className="hover:text-indigo-600">About Us</button>
-               <button onClick={() => setActiveRoute('contact')} className="hover:text-indigo-600">Contact</button>
+               <button onClick={() => handleRouteChange('privacy')} className="hover:text-indigo-600">Privacy Policy</button>
+               <button onClick={() => handleRouteChange('terms')} className="hover:text-indigo-600">Terms of Service</button>
+               <button onClick={() => handleRouteChange('about')} className="hover:text-indigo-600">About Us</button>
+               <button onClick={() => handleRouteChange('contact')} className="hover:text-indigo-600">Contact</button>
              </div>
              <p className="text-xs text-slate-400">&copy; {new Date().getFullYear()} InvoicePro. All rights reserved.</p>
            </div>
@@ -1207,8 +1363,8 @@ export default function App() {
                   <h3 className="font-bold text-slate-700 dark:text-slate-300 mb-3">Line Items</h3>
                   <div className="space-y-3">
                     {invoice.items.map((item) => (
-                      <div key={item.id} className="flex flex-wrap sm:flex-nowrap gap-2 items-start p-2 border border-slate-100 dark:border-slate-700 rounded bg-white dark:bg-slate-900 shadow-sm">
-                        <div className="w-full sm:w-auto flex-grow space-y-2">
+                      <div key={item.id} className="flex gap-2 items-start p-2 border border-slate-100 dark:border-slate-700 rounded bg-white dark:bg-slate-900 shadow-sm">
+                        <div className="flex-grow space-y-2">
                           <input 
                             placeholder={getDescriptionPlaceholder()}
                             className="input font-medium" 
@@ -1231,7 +1387,7 @@ export default function App() {
                             />
                           )}
                         </div>
-                        <div className="w-[28%] sm:w-20">
+                        <div className="w-20">
                           <input 
                              type="number" 
                              placeholder="Qty" 
@@ -1241,7 +1397,7 @@ export default function App() {
                              onChange={(e) => updateItem(item.id, 'quantity', e.target.value)}
                            />
                         </div>
-                        <div className="w-[28%] sm:w-24">
+                        <div className="w-24">
                           <input 
                              type="number" 
                              placeholder="Unit Price" 
@@ -1252,8 +1408,8 @@ export default function App() {
                            />
                         </div>
                         {/* Read-Only Amount Display - STATIC DIV */}
-                        <div className="w-[28%] sm:w-24 flex items-center justify-end px-2 h-10 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 overflow-hidden">
-                             <span className="font-bold text-slate-700 dark:text-slate-300 text-xs sm:text-sm truncate">
+                        <div className="w-24 flex items-center justify-end px-2 h-10 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 overflow-hidden">
+                             <span className="font-bold text-slate-700 dark:text-slate-300 text-sm truncate">
                                 {formatCurrency(calculateLineItem(item.quantity, item.price))}
                              </span>
                         </div>
@@ -1401,8 +1557,8 @@ export default function App() {
                         value={invoice.payment?.status || 'pending'} 
                         onChange={handlePaymentStatusChange}
                       >
-                        <option value="pending">Pending</option>
-                        <option value="paid">Paid</option>
+                        <option value="pending">Pending (Unpaid)</option>
+                        <option value="paid">Paid (Fully)</option>
                         <option value="partial">Partial</option>
                       </select>
                     </div>
@@ -1851,36 +2007,6 @@ export default function App() {
 
       {/* STYLES */}
       <style>{`
-        /* Responsive Invoice Preview Scaling */
-        @media screen and (max-width: 1200px) {
-          #invoice-preview {
-            transform: scale(0.9);
-            transform-origin: top center;
-          }
-        }
-        @media screen and (max-width: 992px) {
-          #invoice-preview {
-            transform: scale(0.8);
-            margin-bottom: -60mm; /* Reduce whitespace */
-          }
-        }
-        @media screen and (max-width: 768px) {
-          #invoice-preview {
-            transform: scale(0.6);
-            margin-bottom: -110mm;
-          }
-        }
-        @media screen and (max-width: 480px) {
-          #invoice-preview {
-            transform: scale(0.45);
-            margin-bottom: -160mm;
-          }
-        }
-
-        #invoice-preview {
-          transition: transform 0.3s ease, margin-bottom 0.3s ease;
-        }
-
         @media print {
           body * {
             visibility: hidden;
@@ -1901,8 +2027,7 @@ export default function App() {
             overflow: hidden !important;
             page-break-inside: avoid !important;
             z-index: 9999;
-            transform: none !important; /* Force reset in print */
-            margin-bottom: 0 !important;
+            transform-origin: top center;
           }
           
           /* Ensure logo scales properly in print */
