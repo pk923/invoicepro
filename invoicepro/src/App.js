@@ -198,6 +198,7 @@ const DEFAULT_INVOICE = {
     paidDate: '',
     amount: 0 
   },
+  // Ensure default items have EMPTY strings for qty/price
   items: [
     { id: 1, name: '', description: '', quantity: '', price: '', hsn: '' }
   ],
@@ -257,7 +258,6 @@ const AdUnit = ({ type, label }) => {
     }
   }, []);
 
-  // Hide sidebar ads on screens smaller than 1024px (lg breakpoint)
   const visibilityClass = type === 'sidebar' ? 'hidden lg:flex' : 'flex';
 
   return (
@@ -287,6 +287,8 @@ const FeatureCard = ({ icon, title, desc }) => (
     <p className="text-slate-600 dark:text-slate-400 text-sm">{desc}</p>
   </div>
 );
+
+// --- LEGAL & CONTENT PAGES ---
 
 const LegalLayout = ({ title, children }) => (
   <div className="container mx-auto px-4 py-12 max-w-4xl min-h-[60vh] animate-in fade-in duration-500">
@@ -495,7 +497,11 @@ export default function App() {
         status: newStatus,
         amount: newStatus === 'pending' ? 0 : prev.payment.amount,
         referenceId: newStatus === 'pending' ? '' : prev.payment.referenceId,
-        paidDate: newStatus === 'pending' ? '' : (prev.payment.paidDate || new Date().toISOString().split('T')[0])
+        paidDate: newStatus === 'paid' 
+          ? (prev.payment.paidDate || new Date().toISOString().split('T')[0]) 
+          : newStatus === 'partial' 
+            ? (prev.payment.paidDate || '') 
+            : ''
       }
     }));
   };
@@ -560,11 +566,12 @@ export default function App() {
               width: 210mm !important;
               height: 297mm !important;
               padding: 10mm !important;
-              overflow: hidden !important;
+              overflow: hidden !important; /* Force Single Page */
               page-break-inside: avoid !important;
               transform-origin: top center;
             }
             
+            /* Logo Fix for Print */
             img[alt="Logo"] {
               max-height: 60px !important;
               width: auto !important;
@@ -572,6 +579,7 @@ export default function App() {
               object-position: left !important;
             }
 
+             /* Ensure single page */
             @page {
               size: A4;
               margin: 0;
@@ -583,6 +591,9 @@ export default function App() {
                  overflow: hidden;
               }
               .invoice-footer-brand {
+                 display: none !important;
+              }
+              nav, .no-print, button, footer, .ad-unit {
                  display: none !important;
               }
             }
@@ -622,28 +633,44 @@ export default function App() {
     setLoadingPdf(true);
     const element = previewRef.current;
     
-    // Remove shadow for clean capture and ensure fixed dimensions
+    // Store original values
     const originalShadow = element.style.boxShadow;
     const originalHeight = element.style.height;
     const originalMaxHeight = element.style.maxHeight;
     const originalOverflow = element.style.overflow;
     const originalTransform = element.style.transform;
     const originalTransformOrigin = element.style.transformOrigin;
+    const originalMarginBottom = element.style.marginBottom; 
 
+    // 1. Un-restrict height to measure content & Reset Styles for Capture
     element.style.boxShadow = 'none';
     element.style.height = '297mm'; 
     element.style.overflow = 'hidden'; 
+    element.style.marginBottom = '0';
+    
+    // 2. Measure for scaling
+    // A4 Aspect Ratio = 1.414. element width is fixed 210mm.
+    const targetRatioHeight = element.offsetWidth * 1.4141; 
+    
+    let scale = 1;
+    if (element.scrollHeight > targetRatioHeight) {
+       scale = targetRatioHeight / element.scrollHeight;
+    }
+
+    // 3. Apply scaling transform
+    element.style.transform = `scale(${scale})`;
+    element.style.transformOrigin = 'top left'; 
 
     try {
       const canvas = await window.html2canvas(element, {
-        scale: 3, // High quality
+        scale: 3, 
         useCORS: true, 
         logging: false,
         backgroundColor: '#ffffff',
         onclone: (clonedDoc) => {
            const preview = clonedDoc.getElementById('invoice-preview');
            if (preview) {
-             // Watermark Logic
+             preview.style.marginBottom = '0';
              const watermark = clonedDoc.createElement('div');
              watermark.style.position = 'absolute';
              watermark.style.top = '50%';
@@ -665,6 +692,7 @@ export default function App() {
                 img.style.maxWidth = '60%';
                 img.style.maxHeight = '100px';
                 img.style.objectFit = 'contain';
+                
                 img.style.display = 'block';
                 img.style.margin = '0 auto';
                 img.style.filter = 'grayscale(100%)';
@@ -685,6 +713,7 @@ export default function App() {
                 preview.style.position = 'relative';
              }
              
+             // Fix Logo Rendering in PDF
              const logoImg = preview.querySelector('img[alt="Logo"]');
              if (logoImg) {
                logoImg.style.maxHeight = '60px';
@@ -692,7 +721,8 @@ export default function App() {
                logoImg.style.objectFit = 'contain';
                logoImg.style.objectPosition = 'left';
              }
-
+             
+             // Footer Branding Logic
              const footerBrand = preview.querySelector('.invoice-footer-brand');
              if (footerBrand) {
                  if (logo || invoice.sender.name) {
@@ -708,7 +738,6 @@ export default function App() {
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
       
-      // Single Page Logic
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = 210;
       const pdfHeight = 297;
@@ -734,6 +763,7 @@ export default function App() {
       element.style.overflow = originalOverflow;
       element.style.transform = originalTransform;
       element.style.transformOrigin = originalTransformOrigin;
+      element.style.marginBottom = originalMarginBottom;
       setLoadingPdf(false);
     }
   };
@@ -1061,7 +1091,7 @@ export default function App() {
                    </select>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-2 gap-4 mb-6">
                   <div>
                     <label className="label">Invoice No</label>
                     <input className="input" value={invoice.invoiceNo} onChange={(e) => updateRoot('invoiceNo', e.target.value)} />
@@ -1102,7 +1132,7 @@ export default function App() {
                 {config?.id === 'transport' && (
                   <div className="mb-6 bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-100 dark:border-orange-800">
                     <h3 className="text-xs font-bold uppercase text-orange-600 mb-2 flex items-center gap-2"><Truck size={14}/> Transport Details</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[10px] uppercase text-gray-500 font-bold mb-1 block">{getLabel('Vehicle No.')}</label>
                         <input className="input" value={invoice.transport.vehicleNo} onChange={(e) => updateNested('transport', 'vehicleNo', e.target.value)} />
@@ -1120,7 +1150,7 @@ export default function App() {
                 {config?.id === 'salon' && (
                   <div className="mb-6 bg-pink-50 dark:bg-pink-900/20 p-4 rounded-lg border border-pink-100 dark:border-pink-800">
                     <h3 className="text-xs font-bold uppercase text-pink-600 mb-2 flex items-center gap-2"><Scissors size={14}/> Service Details</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[10px] uppercase text-gray-500 font-bold mb-1 block">{getLabel('Stylist Name')}</label>
                         <input className="input" value={invoice.salon.stylist} onChange={(e) => updateNested('salon', 'stylist', e.target.value)} />
@@ -1363,7 +1393,7 @@ export default function App() {
                   </div>
                   <p className="text-xs text-slate-500 mb-4">This information acts as payment proof for this invoice.</p>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="label">Payment Status</label>
                       <select 
@@ -1406,7 +1436,7 @@ export default function App() {
                      </div>
                   )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="label">Transaction ID / Ref No</label>
                       <input 
@@ -1498,7 +1528,6 @@ export default function App() {
                   id="invoice-preview"
                   ref={previewRef}
                   className="bg-white text-slate-900 w-full p-[10mm] md:p-[15mm] text-sm leading-normal relative shadow-sm"
-                  // STRICT A4 STYLE: fixed size, overflow hidden
                   style={{ width: '210mm', minHeight: '297mm', maxHeight: '297mm', overflow: 'hidden' }} 
                 >
                   {/* HEADER */}
@@ -1822,6 +1851,36 @@ export default function App() {
 
       {/* STYLES */}
       <style>{`
+        /* Responsive Invoice Preview Scaling */
+        @media screen and (max-width: 1200px) {
+          #invoice-preview {
+            transform: scale(0.9);
+            transform-origin: top center;
+          }
+        }
+        @media screen and (max-width: 992px) {
+          #invoice-preview {
+            transform: scale(0.8);
+            margin-bottom: -60mm; /* Reduce whitespace */
+          }
+        }
+        @media screen and (max-width: 768px) {
+          #invoice-preview {
+            transform: scale(0.6);
+            margin-bottom: -110mm;
+          }
+        }
+        @media screen and (max-width: 480px) {
+          #invoice-preview {
+            transform: scale(0.45);
+            margin-bottom: -160mm;
+          }
+        }
+
+        #invoice-preview {
+          transition: transform 0.3s ease, margin-bottom 0.3s ease;
+        }
+
         @media print {
           body * {
             visibility: hidden;
@@ -1842,7 +1901,8 @@ export default function App() {
             overflow: hidden !important;
             page-break-inside: avoid !important;
             z-index: 9999;
-            transform-origin: top center;
+            transform: none !important; /* Force reset in print */
+            margin-bottom: 0 !important;
           }
           
           /* Ensure logo scales properly in print */
