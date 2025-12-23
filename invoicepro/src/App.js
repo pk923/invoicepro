@@ -854,7 +854,21 @@ export default function App() {
           nextNo = `INV-${String(num).padStart(3, '0')}`;
         }
       }
-      setInvoice(prev => ({ ...prev, invoiceNo: nextNo }));
+
+      // Auto-detect currency based on locale
+      let detectedCurrency = 'USD';
+      try {
+        const userLocale = Intl.DateTimeFormat().resolvedOptions().locale;
+        // Use startsWith to handle extended locale strings like 'en-IN-u-nu-latn'
+        const matchedCurrency = CURRENCIES.find(c => userLocale.startsWith(c.locale));
+        if (matchedCurrency) {
+          detectedCurrency = matchedCurrency.code;
+        }
+      } catch (e) {
+        // Fallback to USD implies no action needed as detectedCurrency init is 'USD'
+      }
+
+      setInvoice(prev => ({ ...prev, invoiceNo: nextNo, currency: detectedCurrency }));
     }
 
     const savedHistory = localStorage.getItem('invoiceHistory');
@@ -2341,7 +2355,11 @@ export default function App() {
 
                   {/* Company Footer (replaces SaaS watermark) */}
                   <div className="absolute bottom-4 left-0 w-full text-center">
-                    <p className="text-[10px] text-slate-300 uppercase tracking-widest invoice-footer-brand">{invoice.sender.name || 'Created with InvoicePro'}</p>
+                    {invoice.sender.name && (
+                      <p className="text-[10px] text-slate-300 uppercase tracking-widest invoice-footer-brand">
+                        {invoice.sender.name}
+                      </p>
+                    )}
                   </div>
 
                 </div>
