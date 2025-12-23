@@ -1683,7 +1683,7 @@ export default function App() {
                 <div 
                   id="invoice-preview"
                   ref={previewRef}
-                  className="bg-white text-slate-900 w-full p-[10mm] md:p-[15mm] text-sm leading-normal relative shadow-sm"
+                  className="bg-white text-slate-900 w-full p-[10mm] md:p-[15mm] text-sm leading-normal relative shadow-sm invoice-preview-scaled invoice-preview"
                   style={{ width: '210mm', minHeight: '297mm', maxHeight: '297mm', overflow: 'hidden' }} 
                 >
                   {/* HEADER */}
@@ -2007,6 +2007,43 @@ export default function App() {
 
       {/* STYLES */}
       <style>{`
+        /* Responsive Invoice Preview Scaling */
+        .invoice-preview-scaled {
+          transform-origin: top center;
+          transition: transform 0.3s ease, margin-bottom 0.3s ease;
+        }
+
+        @media screen and (max-width: 1200px) {
+          .invoice-preview-scaled {
+            transform: scale(0.9);
+            margin-bottom: -30mm;
+          }
+        }
+        @media screen and (max-width: 992px) {
+          .invoice-preview-scaled {
+            transform: scale(0.8);
+            margin-bottom: -60mm;
+          }
+        }
+        @media screen and (max-width: 768px) {
+          .invoice-preview-scaled {
+            transform: scale(0.65);
+            margin-bottom: -105mm;
+          }
+        }
+        @media screen and (max-width: 550px) {
+          .invoice-preview-scaled {
+            transform: scale(0.5);
+            margin-bottom: -149mm;
+          }
+        }
+        @media screen and (max-width: 420px) {
+          .invoice-preview-scaled {
+            transform: scale(0.4);
+            margin-bottom: -178mm;
+          }
+        }
+
         @media print {
           body * {
             visibility: hidden;
@@ -2027,7 +2064,8 @@ export default function App() {
             overflow: hidden !important;
             page-break-inside: avoid !important;
             z-index: 9999;
-            transform-origin: top center;
+            transform: none !important;
+            margin-bottom: 0 !important;
           }
           
           /* Ensure logo scales properly in print */
@@ -2086,6 +2124,21 @@ export default function App() {
         }
         .dark .label {
           color: #94a3b8;
+        }
+        
+        /* MOBILE INVOICE PREVIEW FIX */
+        @media (max-width: 768px) {
+          .invoice-preview {
+            transform: scale(1.12);
+            transform-origin: top center;
+          }
+        }
+
+        /* MOBILE BUTTON TOUCH FRIENDLY FIX */
+        @media (max-width: 768px) {
+          button {
+            min-height: 48px;
+          }
         }
       `}</style>
     </div>
