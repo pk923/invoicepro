@@ -3,7 +3,8 @@ import {
   Printer, Download, Plus, Trash2, Settings, Moon, Sun, 
   ChevronDown, FileText, Truck, Briefcase, 
   Globe, Save, RefreshCw, Menu, X, ArrowRight, CheckCircle,
-  CreditCard, Layout, ShieldCheck, Zap, Scissors, Wallet, PenTool
+  CreditCard, Layout, ShieldCheck, Zap, Scissors, Wallet, PenTool,
+  History, RotateCcw
 } from 'lucide-react';
 
 // --- Pure Utility Functions ---
@@ -711,6 +712,7 @@ export default function App() {
   const [loadingPdf, setLoadingPdf] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
+  const [history, setHistory] = useState([]);
   
   const previewRef = useRef(null);
   const config = activeRoute !== 'home' ? INVOICE_TYPES[activeRoute] : null;
@@ -854,6 +856,15 @@ export default function App() {
       }
       setInvoice(prev => ({ ...prev, invoiceNo: nextNo }));
     }
+
+    const savedHistory = localStorage.getItem('invoiceHistory');
+    if (savedHistory) {
+      try {
+        setHistory(JSON.parse(savedHistory));
+      } catch (e) {
+        console.error("Failed to load history", e);
+      }
+    }
     
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setDarkMode(true);
@@ -887,6 +898,48 @@ export default function App() {
       const reader = new FileReader();
       reader.onload = (x) => updateNested('sender', 'signature', x.target.result);
       reader.readAsDataURL(file);
+    }
+  };
+
+  const saveToHistory = () => {
+    // Re-calculate total locally to ensure accurate snapshot
+    const sub = round(invoice.items.reduce((acc, item) => acc + calculateLineItem(item.quantity, item.price), 0));
+    const discVal = safeFloat(invoice.discountValue);
+    const discAmt = invoice.discountType === 'percent' ? round((sub * discVal) / 100) : round(discVal);
+    const taxable = round(sub - Math.min(discAmt, sub));
+    const taxVal = invoice.enableTax ? safeFloat(invoice.taxRate) : 0;
+    const taxAmt = round((taxable * taxVal) / 100);
+    const shippingVal = safeFloat(invoice.shipping);
+    const totalCalc = Math.max(0, round(taxable + taxAmt + shippingVal));
+
+    const newEntry = {
+      id: Date.now(),
+      invoiceNo: invoice.invoiceNo,
+      clientName: invoice.receiver.name || 'Unnamed Client',
+      date: invoice.date,
+      totalAmount: totalCalc,
+      fullJson: invoice,
+      logo: logo // Capture logo state too
+    };
+
+    const updated = [newEntry, ...history].slice(0, 20);
+    setHistory(updated);
+    localStorage.setItem('invoiceHistory', JSON.stringify(updated));
+  };
+
+  const deleteHistoryItem = (id) => {
+    if (window.confirm('Delete this invoice from history?')) {
+      const updated = history.filter(h => h.id !== id);
+      setHistory(updated);
+      localStorage.setItem('invoiceHistory', JSON.stringify(updated));
+    }
+  };
+
+  const restoreInvoice = (entry) => {
+    if (window.confirm('Load this invoice? Current unsaved changes will be lost.')) {
+      setInvoice(entry.fullJson);
+      setLogo(entry.logo || null);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -955,6 +1008,7 @@ export default function App() {
   };
 
   const handlePrint = () => {
+    saveToHistory();
     const printContent = previewRef.current;
     if (!printContent) return;
 
@@ -1045,6 +1099,7 @@ export default function App() {
 
   const generatePDF = async () => {
     validateInvoice(); 
+    saveToHistory();
     if (!window.html2canvas || !window.jspdf) {
       alert("Generating engine is warming up... please click again in 2 seconds.");
       return;
@@ -1216,6 +1271,20 @@ export default function App() {
       }).format(amount);
     } catch (e) {
       return `${currencyConfig?.symbol || '$'}${amount.toFixed(2)}`;
+    }
+  };
+
+  // Helper for history display
+  const formatHistoryCurrency = (amount, currencyCode) => {
+    const currencyConfig = CURRENCIES.find(c => c.code === currencyCode);
+    try {
+      return new Intl.NumberFormat(currencyConfig?.locale || 'en-US', {
+        style: 'currency',
+        currency: currencyCode,
+        minimumFractionDigits: 2
+      }).format(amount);
+    } catch (e) {
+      return `${amount}`;
     }
   };
   
@@ -1904,6 +1973,59 @@ export default function App() {
                   </button>
                 </div>
 
+              </div>
+
+              {/* INVOICE HISTORY SECTION */}
+              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+                <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-900/50">
+                  <div className="flex items-center gap-2">
+                    <History className="text-indigo-600" size={18} />
+                    <h3 className="font-bold text-slate-700 dark:text-slate-300">Invoice History</h3>
+                  </div>
+                  <span className="text-xs text-slate-400 bg-white dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">Last 20</span>
+                </div>
+                
+                {history.length === 0 ? (
+                  <div className="p-8 text-center text-slate-400 text-sm">
+                    <p>No invoices created yet.</p>
+                    <p className="text-xs mt-1">Download or Print to save automatically.</p>
+                  </div>
+                ) : (
+                  <div className="max-h-64 overflow-y-auto">
+                    {history.map((item) => (
+                      <div key={item.id} className="p-4 border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors flex items-center justify-between group">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-slate-700 dark:text-slate-200 text-sm">{item.invoiceNo || 'No ID'}</span>
+                            <span className="text-xs text-slate-400">• {item.date}</span>
+                          </div>
+                          <p className="text-sm text-slate-500 dark:text-slate-400 truncate w-32 md:w-48">{item.clientName}</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="font-bold text-slate-700 dark:text-slate-300 text-sm">
+                            {formatHistoryCurrency(item.totalAmount, item.fullJson.currency)}
+                          </span>
+                          <div className="flex gap-1">
+                            <button 
+                              onClick={() => restoreInvoice(item)}
+                              className="p-1.5 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded transition-colors"
+                              title="Restore"
+                            >
+                              <RotateCcw size={16} />
+                            </button>
+                            <button 
+                              onClick={() => deleteHistoryItem(item.id)}
+                              className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors"
+                              title="Delete"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
              
               <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 shadow-sm prose dark:prose-invert max-w-none">
