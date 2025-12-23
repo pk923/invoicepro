@@ -444,15 +444,262 @@ const AboutUs = () => (
 
 const ContactUs = () => (
   <LegalLayout title="Contact Us">
-    <p className="mb-4">Have questions, suggestions, or need support? We'd love to hear from you.</p>
-    
+    <p className="mb-4">
+      We’re here to help. If you have questions about invoice generation, GST compliance,
+      or face any issues while using InvoicePro, feel free to reach out.
+    </p>
+
+    <ul className="list-disc pl-5 mb-6 space-y-2">
+      <li>Technical issues or bugs in the invoice generator</li>
+      <li>Questions related to GST invoices or billing formats</li>
+      <li>Feature requests or improvement suggestions</li>
+      <li>Legal, privacy, or AdSense-related inquiries</li>
+    </ul>
+
     <div className="bg-slate-50 dark:bg-slate-700/50 p-6 rounded-xl border border-slate-200 dark:border-slate-700 inline-block pr-12">
       <h3 className="font-bold text-lg mb-2">Email Support</h3>
-      <p className="text-slate-600 dark:text-slate-400 mb-4">For general inquiries and technical support:</p>
-      <a href="mailto:support@invoicepro.com" className="text-indigo-600 font-semibold hover:underline">support@invoicepro.com</a>
+      <p className="text-slate-600 dark:text-slate-400 mb-4">
+        For support and business-related queries:
+      </p>
+      <a
+        href="mailto:support@invoicepro.com"
+        className="text-indigo-600 font-semibold hover:underline"
+      >
+        support@invoicepro.com
+      </a>
     </div>
 
-    <p className="mt-8 text-sm text-slate-500">We usually respond within 24-48 business hours.</p>
+    <p className="mt-8 text-sm text-slate-500">
+      We usually respond within 24–48 business hours.
+    </p>
+
+    <p className="mt-6 text-xs text-slate-400 italic">
+      InvoicePro is a self-service online tool and does not provide accounting or legal advice.
+    </p>
+  </LegalLayout>
+);
+
+const HowToCreateInvoice = () => (
+  <LegalLayout title="How to Create a Professional Invoice Online: The Ultimate Free Guide">
+    <p className="text-sm text-slate-500 italic mt-2 mb-6">
+      This guide is written to help freelancers & small businesses understand invoicing legally and practically.
+    </p>
+    <section className="mb-8">
+      <p className="mb-4">
+        In the fast-paced world of business, getting paid on time is critical. Whether you are a <strong>freelancer</strong>, a <strong>small business owner</strong>, or a service provider, the bridge between your hard work and your payment is a <strong>professional invoice</strong>.
+      </p>
+      <p className="mb-4">
+        Many professionals still rely on outdated methods like handwritten bills, Word documents, or complex Excel spreadsheets. These methods are prone to errors, look unprofessional, and often delay payments. In this comprehensive guide, we will explore <strong>how to create an invoice online</strong> using a <strong>free invoice generator</strong>, understand the nuances of <strong>GST invoices in India</strong>, and learn best practices to ensure your cash flow remains healthy.
+      </p>
+      <p>
+        By the end of this guide, you will know exactly how to generate compliant, professional, and beautiful invoices in seconds—without signing up for expensive software.
+      </p>
+    </section>
+
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">1. What is an Invoice?</h2>
+      <p className="mb-4">
+        An <strong>invoice</strong> is more than just a request for payment. It is a formal commercial document issued by a seller (you) to a buyer (your client) relating to a sale transaction. It indicates the products, quantities, and agreed prices for products or services the seller had provided the buyer.
+      </p>
+      <p className="mb-4">
+        Legally, an invoice serves as a record of the sale. If you ever face a dispute regarding a payment or scope of work, your invoice serves as primary evidence of the transaction. For businesses registered under tax laws (like GST in India or VAT in Europe), an invoice is a mandatory document for filing taxes and claiming input tax credits.
+      </p>
+    </section>
+
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">2. Why Professional Invoices Matter</h2>
+      <p className="mb-4">
+        You might wonder, "Can't I just send a WhatsApp message asking for money?" While possible for casual debts, it is disastrous for business. Here is why a <strong>professional invoice format</strong> is non-negotiable:
+      </p>
+      <ul className="list-disc pl-5 space-y-2 mb-4">
+        <li><strong>Builds Trust & Authority:</strong> A well-formatted invoice with your logo and clear details signals that you are a legitimate, established professional.</li>
+        <li><strong>Ensures Faster Payments:</strong> Clear payment terms, due dates, and bank details eliminate back-and-forth emails, removing friction from the payment process.</li>
+        <li><strong>Legal Protection:</strong> In case of non-payment, a formal invoice acts as a legal contract of the debt owed to you.</li>
+        <li><strong>Tax Compliance:</strong> For GST/VAT purposes, governments require specific formats. A compliant invoice saves you from penalties during audits.</li>
+      </ul>
+    </section>
+
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">3. Types of Invoices You Need to Know</h2>
+      <p className="mb-4">Depending on your industry and location, the format of your bill might change. Our <strong>online invoice maker</strong> supports various specialized formats:</p>
+      
+      <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mt-4 mb-2">Standard Invoice</h3>
+      <p className="mb-2">The most common format used by retail shops, online sellers, and general businesses. It lists items, prices, taxes, and a total.</p>
+
+      <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mt-4 mb-2">GST Invoice (India)</h3>
+      <p className="mb-2">Crucial for Indian businesses. A <strong>GST invoice</strong> must break down taxes into CGST (Central Goods and Services Tax) and SGST (State Goods and Services Tax) for intra-state sales, or IGST (Integrated Goods and Services Tax) for inter-state sales. It also requires the GSTIN of both supplier and buyer, along with HSN/SAC codes.</p>
+
+      <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mt-4 mb-2">Freelance Invoice</h3>
+      <p className="mb-2">Designed for consultants, writers, designers, and developers. A <strong>freelance invoice</strong> often focuses on hourly rates or project milestones and includes specific payment instructions for international or domestic transfers.</p>
+
+      <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mt-4 mb-2">Transport Invoice</h3>
+      <p className="mb-2">Logistics companies need to document vehicle numbers, driver names, origin, and destination. A standard bill won't suffice here; you need a specialized <strong>transport invoice template</strong>.</p>
+    </section>
+
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">4. Step-by-Step: How to Create an Invoice Online</h2>
+      <p className="mb-4">Using <strong>InvoicePro</strong>, creating a bill takes less than 2 minutes. Follow this guide to generate your first <strong>PDF invoice</strong>:</p>
+
+      <ol className="list-decimal pl-5 space-y-4 mb-4">
+        <li>
+          <strong>Select Your Template:</strong> Choose between Standard, GST, Freelance, or Transport depending on your need.
+        </li>
+        <li>
+          <strong>Add Your Business Branding:</strong> Click on "Logo" to upload your company logo. This watermark instantly makes your document look premium. Enter your business name, address, and contact info.
+        </li>
+        <li>
+          <strong>Enter Client Details:</strong> Fill in the "Bill To" section. If you are making a <strong>GST invoice</strong>, ensure you enter the client's GSTIN correctly to allow them to claim input credit.
+        </li>
+        <li>
+          <strong>Add Line Items:</strong> List your products or services.
+          <ul className="list-disc pl-5 mt-2 text-sm text-slate-600 dark:text-slate-400">
+             <li><strong>Item Name:</strong> Keep it short (e.g., "Web Design").</li>
+             <li><strong>Description:</strong> Add details (e.g., "Homepage + 5 inner pages").</li>
+             <li><strong>Qty & Rate:</strong> The <strong>invoice generator</strong> will auto-calculate the amount.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Configure Taxes & Discounts:</strong> Enable tax if applicable. For Indian users, the tool automatically splits taxes into CGST/SGST or IGST based on your settings. Add a discount if you are running a promotion.
+        </li>
+        <li>
+          <strong>Add Payment Details:</strong> Never leave the client guessing. Add your Bank Account Number, IFSC Code, or UPI ID in the "Payment Instructions" box.
+        </li>
+        <li>
+          <strong>Sign & Download:</strong> Upload your digital signature for a legally valid look. Click "Download PDF" to get a high-quality A4 invoice instantly.
+        </li>
+      </ol>
+    </section>
+
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">5. GST Invoicing Explained (For Indian Businesses)</h2>
+      <p className="mb-4">
+        The Goods and Services Tax (GST) system in India requires strict adherence to invoicing rules. A valid <strong>GST invoice format</strong> must contain:
+      </p>
+      <ul className="list-disc pl-5 space-y-2 mb-4">
+        <li><strong>GSTIN:</strong> The 15-digit ID of the supplier and the recipient (if registered).</li>
+        <li><strong>HSN / SAC Code:</strong> Harmonized System of Nomenclature (goods) or Service Accounting Code (services).</li>
+        <li><strong>Tax Breakup:</strong>
+          <ul className="list-disc pl-5 mt-2">
+            <li><strong>Intra-state (Same State):</strong> Tax is split equally between CGST (Central) and SGST (State).</li>
+            <li><strong>Inter-state (Different States):</strong> Tax is charged as a single component called IGST (Integrated).</li>
+          </ul>
+        </li>
+        <li><strong>Invoice Number & Date:</strong> A unique, sequential number for accounting reference.</li>
+      </ul>
+      <p>
+        Our <strong>GST invoice generator</strong> handles this logic automatically. You just enable "Inter-state" if applicable, and the math is done for you.
+      </p>
+    </section>
+
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">6. Common Invoicing Mistakes to Avoid</h2>
+      <p className="mb-4">Even experienced business owners make mistakes. Avoid these common pitfalls by using an <strong>online invoice maker</strong> instead of manual Word docs:</p>
+      <ul className="list-disc pl-5 space-y-2 mb-4">
+        <li><strong>Calculation Errors:</strong> Manual math often leads to wrong totals, causing embarrassment and payment delays. Automated tools prevent this.</li>
+        <li><strong>Missing Due Date:</strong> If you don't say when you want to be paid, clients will delay. Always set a clear "Due Date".</li>
+        <li><strong>Vague Descriptions:</strong> "Consulting Services" is too vague. Use "Consulting for Q3 Marketing Strategy" to avoid disputes.</li>
+        <li><strong>Forgot Payment Info:</strong> The client is ready to pay but doesn't know where. Always double-check your bank details on the final PDF.</li>
+      </ul>
+    </section>
+
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">7. Why Use an Online Invoice Generator vs Excel?</h2>
+      <p className="mb-4">
+        For decades, Excel was the go-to. But in 2024, using Excel for invoicing is inefficient. Here is why you should switch to a specialized <strong>invoice template online</strong> tool:
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="p-4 bg-slate-50 dark:bg-slate-700/30 rounded-lg border border-slate-200 dark:border-slate-700">
+           <h4 className="font-bold mb-2">Excel / Word</h4>
+           <ul className="text-sm space-y-1 text-slate-600 dark:text-slate-400">
+             <li>❌ Formatting breaks easily</li>
+             <li>❌ Manual math errors</li>
+             <li>❌ Difficult to manage on mobile</li>
+             <li>❌ Looks generic and outdated</li>
+           </ul>
+        </div>
+        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
+           <h4 className="font-bold mb-2 text-indigo-700 dark:text-indigo-300">InvoicePro Generator</h4>
+           <ul className="text-sm space-y-1 text-slate-600 dark:text-slate-400">
+             <li>✅ Perfect A4 PDF layout every time</li>
+             <li>✅ Automated calculations</li>
+             <li>✅ Mobile-friendly and fast</li>
+             <li>✅ Professional, agency-grade look</li>
+           </ul>
+        </div>
+      </div>
+    </section>
+
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">8. Privacy & Security: Is it Safe?</h2>
+      <p className="mb-4">
+        Most online invoice generators require you to sign up, creating a risk of your client data being stored on their servers. 
+      </p>
+      <p className="mb-4">
+        <strong>InvoicePro is different.</strong> We use a <strong>Local-First Architecture</strong>. This means:
+      </p>
+      <ul className="list-disc pl-5 space-y-2 mb-4">
+        <li><strong>No Server Storage:</strong> Your client list, sales figures, and bank details <strong>never</strong> leave your browser.</li>
+        <li><strong>No Signup Required:</strong> You don't need to create an account or share your email to use the tool.</li>
+        <li><strong>100% Free:</strong> Generate unlimited invoices without paywalls or watermarks (on business invoices).</li>
+      </ul>
+    </section>
+
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">Frequently Asked Questions (FAQs)</h2>
+      
+      <div className="space-y-4">
+        <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+          <summary className="font-bold cursor-pointer list-none flex justify-between items-center">
+            Is this invoice generator truly free?
+            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+          </summary>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">Yes, InvoicePro is 100% free. You can generate unlimited invoices, download PDFs, and print them without paying a cent.</p>
+        </details>
+
+        <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+          <summary className="font-bold cursor-pointer list-none flex justify-between items-center">
+            Can I create a GST invoice for India?
+            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+          </summary>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">Absolutely. Select the "GST Invoice" option from the menu. It supports CGST, SGST, IGST, HSN codes, and GSTIN fields automatically.</p>
+        </details>
+
+        <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+          <summary className="font-bold cursor-pointer list-none flex justify-between items-center">
+            Does the invoice have a watermark?
+            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+          </summary>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">If you add your own Business Name or Logo, the "Created with InvoicePro" branding is automatically removed from the footer, giving you a completely white-label experience.</p>
+        </details>
+
+        <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+          <summary className="font-bold cursor-pointer list-none flex justify-between items-center">
+            Can I save my invoice data?
+            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+          </summary>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">Your data is automatically saved in your browser's local storage. If you close the tab and come back, your details will still be there (unless you clear your browser cache).</p>
+        </details>
+         
+        <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+          <summary className="font-bold cursor-pointer list-none flex justify-between items-center">
+            Is my data private?
+            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+          </summary>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">Yes. We do not store any data on our servers. Everything happens locally on your device.</p>
+        </details>
+      </div>
+    </section>
+
+    <section className="mt-12 p-8 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl text-center border border-indigo-100 dark:border-indigo-800">
+      <h2 className="text-2xl font-bold mb-4">Ready to Create Your Invoice?</h2>
+      <p className="mb-6 text-slate-600 dark:text-slate-300">Join thousands of freelancers and businesses who trust InvoicePro for their billing needs. No signup required.</p>
+      <button 
+        onClick={() => window.scrollTo(0,0)} 
+        className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-lg transition-transform hover:scale-105"
+      >
+        Create Invoice Now
+      </button>
+    </section>
   </LegalLayout>
 );
 
@@ -474,7 +721,8 @@ export default function App() {
     const path = window.location.pathname;
     let foundRoute = 'home';
     
-    if (['/privacy', '/terms', '/about', '/contact'].includes(path)) {
+    // Add 'how-to-create-invoice' to the route check
+    if (['/privacy', '/terms', '/about', '/contact', '/how-to-create-invoice'].includes(path)) {
       foundRoute = path.substring(1); 
     } else {
       Object.values(INVOICE_TYPES).forEach(type => {
@@ -500,6 +748,7 @@ export default function App() {
     let newPath = '/';
 
     if (INVOICE_TYPES[activeRoute]) {
+      // ... [Existing Invoice Type SEO Logic] ...
       const typeConfig = INVOICE_TYPES[activeRoute];
       meta.title = typeConfig.metaTitle;
       meta.description = typeConfig.metaDesc;
@@ -510,22 +759,29 @@ export default function App() {
          ...prev,
          documentTitle: typeConfig.subCategories?.[0]?.toUpperCase() || 'INVOICE'
       }));
-    } else if (['privacy', 'terms', 'about', 'contact'].includes(activeRoute)) {
+    } else if (['privacy', 'terms', 'about', 'contact', 'how-to-create-invoice'].includes(activeRoute)) {
+       // ... [Extended Static Page SEO Logic] ...
        const titles = {
          privacy: 'Privacy Policy - InvoicePro',
          terms: 'Terms of Service - InvoicePro',
          about: 'About Us - InvoicePro',
-         contact: 'Contact Us - InvoicePro'
+         contact: 'Contact Us - InvoicePro',
+         'how-to-create-invoice': 'How to Create a Professional Invoice Online | Free Guide'
        };
+       const descs = {
+         'how-to-create-invoice': 'Learn how to create professional invoices online step by step. Free invoice guide for freelancers, small businesses, GST users, and service providers.'
+       };
+
        meta.title = titles[activeRoute];
+       if (descs[activeRoute]) meta.description = descs[activeRoute];
+        
        newPath = `/${activeRoute}`;
        document.title = titles[activeRoute];
     } else {
        document.title = meta.title;
     }
 
-    // FIX 2: Correct Canonical URL (Logic only, no UI change)
-    // Remove query params and trailing slash for SEO consistency
+    // FIX 2: Correct Canonical URL
     const cleanPath = newPath === '/' ? '' : newPath.replace(/\/$/, '');
     const canonicalUrl = `${window.location.origin}${cleanPath}`;
     meta.url = canonicalUrl;
@@ -557,6 +813,8 @@ export default function App() {
     setActiveRoute(routeId);
     setMobileMenu(false);
   };
+  
+  // ... [Keep existing effects for script loading, persistence, handlers, etc.] ...
 
   useEffect(() => {
     loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
@@ -740,7 +998,7 @@ export default function App() {
               object-position: left !important;
             }
 
-             /* Ensure single page */
+            /* Ensure single page */
             @page {
               size: A4;
               margin: 0;
@@ -839,7 +1097,7 @@ export default function App() {
              watermark.style.textAlign = 'center';
              watermark.style.width = '100%';
              watermark.style.overflow = 'hidden';
-             
+              
              if (logo) {
                 const img = clonedDoc.createElement('img');
                 img.src = logo;
@@ -849,7 +1107,7 @@ export default function App() {
                 img.style.maxWidth = '60%';
                 img.style.maxHeight = '100px';
                 img.style.objectFit = 'contain';
-                
+               
                 img.style.display = 'block';
                 img.style.margin = '0 auto';
                 img.style.filter = 'grayscale(100%)';
@@ -864,12 +1122,12 @@ export default function App() {
                 text.style.whiteSpace = 'nowrap';
                 watermark.appendChild(text);
              }
-             
+              
              if (watermark.hasChildNodes()) {
                 preview.insertBefore(watermark, preview.firstChild);
                 preview.style.position = 'relative';
              }
-             
+              
              const logoImg = preview.querySelector('img[alt="Logo"]');
              if (logoImg) {
                logoImg.style.maxHeight = '60px';
@@ -926,7 +1184,6 @@ export default function App() {
 
   // --- CALCULATION ENGINE ---
   const subtotal = round(invoice.items.reduce((acc, item) => acc + calculateLineItem(item.quantity, item.price), 0));
-
   const calculateDiscount = () => {
     const val = safeFloat(invoice.discountValue);
     if (val < 0) return 0;
@@ -935,15 +1192,12 @@ export default function App() {
     }
     return round(val);
   };
-  
   const discountAmount = Math.min(calculateDiscount(), subtotal);
   const taxableAmount = round(subtotal - discountAmount);
   const taxRateVal = invoice.enableTax ? safeFloat(invoice.taxRate) : 0;
   const taxAmount = round((taxableAmount * taxRateVal) / 100);
   const shippingVal = safeFloat(invoice.shipping);
   const total = Math.max(0, round(taxableAmount + taxAmount + shippingVal));
-
-  // --- PAYMENT LOGIC ---
   let paidAmount = 0;
   if (invoice.payment.status === 'paid') {
     paidAmount = total;
@@ -1002,27 +1256,28 @@ export default function App() {
     return 'bg-slate-100 text-slate-600 border-slate-200';
   };
 
-  // --- RENDER ---
-  if (['privacy', 'terms', 'about', 'contact'].includes(activeRoute)) {
+  if (['privacy', 'terms', 'about', 'contact', 'how-to-create-invoice'].includes(activeRoute)) {
     let PageContent = null;
     if (activeRoute === 'privacy') PageContent = PrivacyPolicy;
     if (activeRoute === 'terms') PageContent = TermsOfService;
     if (activeRoute === 'about') PageContent = AboutUs;
     if (activeRoute === 'contact') PageContent = ContactUs;
+    if (activeRoute === 'how-to-create-invoice') PageContent = HowToCreateInvoice;
 
     return (
       <div className={`min-h-screen font-sans transition-colors duration-300 ${darkMode ? 'dark bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
         <nav className="sticky top-0 z-40 w-full backdrop-blur-lg bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800">
            <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-              <div 
-                className="flex items-center gap-2 cursor-pointer group" 
-                onClick={() => handleRouteChange('home')}
+              <a 
+                href="/"
+                className="flex items-center gap-2 cursor-pointer group no-underline" 
+                onClick={(e) => { e.preventDefault(); handleRouteChange('home'); }}
               >
                 <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
                   <Zap size={20} fill="currentColor" />
                 </div>
-                <span className="font-bold text-xl tracking-tight">Invoice<span className="text-indigo-600">Pro</span></span>
-              </div>
+                <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Invoice<span className="text-indigo-600">Pro</span></span>
+              </a>
               <div className="flex gap-3">
                  <button 
                    onClick={() => setDarkMode(!darkMode)}
@@ -1037,11 +1292,12 @@ export default function App() {
         {PageContent && <PageContent />}
         <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-20 pt-16 pb-8">
            <div className="container mx-auto px-4 text-center">
-             <div className="flex justify-center gap-6 text-sm text-slate-500 dark:text-slate-400 mb-8">
+             <div className="flex justify-center gap-6 text-sm text-slate-500 dark:text-slate-400 mb-8 flex-wrap">
                <button onClick={() => handleRouteChange('privacy')} className="hover:text-indigo-600">Privacy Policy</button>
                <button onClick={() => handleRouteChange('terms')} className="hover:text-indigo-600">Terms of Service</button>
                <button onClick={() => handleRouteChange('about')} className="hover:text-indigo-600">About Us</button>
                <button onClick={() => handleRouteChange('contact')} className="hover:text-indigo-600">Contact</button>
+               <button onClick={() => handleRouteChange('how-to-create-invoice')} className="hover:text-indigo-600 font-semibold text-indigo-500">Invoice Guide</button>
              </div>
              <p className="text-xs text-slate-400">&copy; {new Date().getFullYear()} InvoicePro. All rights reserved.</p>
            </div>
@@ -1050,7 +1306,10 @@ export default function App() {
     );
   }
 
+  // ... [Keep existing Main UI Render logic] ...
   return (
+    // ... [Existing Layout] ...
+    // ... [Existing Footer in Main UI] ...
     <div className={`min-h-screen font-sans transition-colors duration-300 ${darkMode ? 'dark bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
       
       {/* --- NAVBAR --- */}
@@ -1058,7 +1317,7 @@ export default function App() {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div 
             className="flex items-center gap-2 cursor-pointer group" 
-            onClick={() => setActiveRoute('home')}
+            onClick={() => handleRouteChange('home')}
           >
             <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
               <Zap size={20} fill="currentColor" />
@@ -1070,7 +1329,7 @@ export default function App() {
              {Object.values(INVOICE_TYPES).map(type => (
                <button 
                  key={type.id}
-                 onClick={() => setActiveRoute(type.id)}
+                 onClick={() => handleRouteChange(type.id)}
                  className={`hover:text-indigo-600 transition-colors ${activeRoute === type.id ? 'text-indigo-600 font-bold' : ''}`}
                >
                  {type.title.split(' ')[0]}
@@ -1104,7 +1363,7 @@ export default function App() {
                >
                  {type.title}
                </button>
-             ))}
+            ))}
           </div>
         )}
       </nav>
@@ -1129,16 +1388,25 @@ export default function App() {
              
              <div className="flex flex-wrap justify-center gap-4 mb-16">
                <button 
-                 onClick={() => setActiveRoute('standard')}
+                 onClick={() => handleRouteChange('standard')}
                  className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold shadow-lg shadow-indigo-600/30 transition-all transform hover:scale-105 flex items-center gap-2"
                >
                  Create First Invoice <ArrowRight size={18} />
                </button>
                <button 
-                 onClick={() => setActiveRoute('gst')}
+                 onClick={() => handleRouteChange('gst')}
                  className="px-8 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-full font-bold hover:shadow-lg transition-all flex items-center gap-2"
                >
                  GST Invoice <CreditCard size={18} className="text-emerald-500" />
+               </button>
+             </div>
+
+             <div className="mt-6 flex justify-center">
+               <button
+                 onClick={() => handleRouteChange('how-to-create-invoice')}
+                 className="flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+               >
+                 📘 Learn how to create professional invoices (Free Guide)
                </button>
              </div>
 
@@ -1146,7 +1414,7 @@ export default function App() {
                {Object.values(INVOICE_TYPES).map(type => (
                  <div 
                    key={type.id}
-                   onClick={() => setActiveRoute(type.id)}
+                   onClick={() => handleRouteChange(type.id)}
                    className="group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 shadow-sm hover:shadow-xl transition-all cursor-pointer relative overflow-hidden"
                  >
                    <div className={`absolute top-0 right-0 p-4 opacity-10 group-hover:scale-150 transition-transform duration-500 ${type.color.split(' ')[0]}`}>
@@ -1162,7 +1430,7 @@ export default function App() {
              </div>
           </section>
 
-          <AdUnit type="banner" label="Homepage Leaderboard" />
+          {/* <AdUnit type="banner" label="Homepage Leaderboard" /> */}
 
           <section className="py-20 bg-slate-50 dark:bg-slate-800/50">
             <div className="container mx-auto px-4">
@@ -1203,26 +1471,26 @@ export default function App() {
         <div className="container mx-auto px-4 py-8 animate-in slide-in-from-bottom-4 duration-500">
           
           <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
-             <div>
-               <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-3">
-                 <span className={`p-2 rounded-lg ${config?.color.split(' ')[1]}`}>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-3">
+                <span className={`p-2 rounded-lg ${config?.color.split(' ')[1]}`}>
                     {config?.icon}
-                 </span>
-                 {config?.title}
-               </h1>
-               <p className="text-slate-500 dark:text-slate-400 mt-1">{config?.description}</p>
-             </div>
-             <div className="flex gap-3">
-               <button 
-                 onClick={() => setActiveRoute('home')}
-                 className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
-               >
-                 &larr; Back to Home
-               </button>
-             </div>
+                </span>
+                {config?.title}
+              </h1>
+              <p className="text-slate-500 dark:text-slate-400 mt-1">{config?.description}</p>
+            </div>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => handleRouteChange('home')}
+                className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
+              >
+                &larr; Back to Home
+              </button>
+            </div>
           </div>
 
-          <AdUnit type="banner" label="Top Banner Ad" />
+          {/* <AdUnit type="banner" label="Top Banner Ad" /> */}
 
           <div className="flex flex-col xl:flex-row gap-8 items-start">
             
@@ -1302,7 +1570,7 @@ export default function App() {
                     </div>
                   </div>
                 )}
-                
+                 
                 {config?.id === 'salon' && (
                   <div className="mb-6 bg-pink-50 dark:bg-pink-900/20 p-4 rounded-lg border border-pink-100 dark:border-pink-800">
                     <h3 className="text-xs font-bold uppercase text-pink-600 mb-2 flex items-center gap-2"><Scissors size={14}/> Service Details</h3>
@@ -1377,7 +1645,7 @@ export default function App() {
                              className="input text-xs text-slate-600 resize-none"
                              value={item.description || ''}
                              onChange={(e) => updateItem(item.id, 'description', e.target.value)}
-                          />
+                           />
                           {config?.fields.includes('hsn') && (
                             <input 
                               placeholder="HSN/SAC Code (Optional)" 
@@ -1530,7 +1798,7 @@ export default function App() {
                      className="input mb-4" 
                      value={invoice.notes}
                      onChange={(e) => updateRoot('notes', e.target.value)}
-                  />
+                   />
 
                   <label className="label">Payment Instructions</label>
                   <textarea 
@@ -1539,7 +1807,7 @@ export default function App() {
                      className="input" 
                      value={invoice.terms}
                      onChange={(e) => updateRoot('terms', e.target.value)}
-                  />
+                   />
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
@@ -1548,7 +1816,7 @@ export default function App() {
                     <h2 className="font-bold text-lg">Payment Details / Proof</h2>
                   </div>
                   <p className="text-xs text-slate-500 mb-4">This information acts as payment proof for this invoice.</p>
-                  
+                 
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="label">Payment Status</label>
@@ -1557,8 +1825,8 @@ export default function App() {
                         value={invoice.payment?.status || 'pending'} 
                         onChange={handlePaymentStatusChange}
                       >
-                        <option value="pending">Pending (Unpaid)</option>
-                        <option value="paid">Paid (Fully)</option>
+                        <option value="pending">Pending</option>
+                        <option value="paid">Paid</option>
                         <option value="partial">Partial</option>
                       </select>
                     </div>
@@ -1578,7 +1846,7 @@ export default function App() {
                       </select>
                     </div>
                   </div>
-                  
+                 
                   {invoice.payment?.status === 'partial' && (
                      <div className="mb-4">
                         <label className="label">Amount Paid</label>
@@ -1614,7 +1882,7 @@ export default function App() {
                       />
                     </div>
                   </div>
-                  
+                 
                   {invoice.payment?.status === 'pending' && (
                     <p className="text-[10px] text-slate-400 italic">Payment not received yet. Details disabled.</p>
                   )}
@@ -1637,10 +1905,10 @@ export default function App() {
                 </div>
 
               </div>
-              
+             
               <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 shadow-sm prose dark:prose-invert max-w-none">
                 {config?.seoContent}
-                
+               
                 <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
                   <h3 className="font-bold mb-4">Frequently Asked Questions</h3>
                   <details className="group mb-4">
@@ -1661,7 +1929,7 @@ export default function App() {
             </div>
 
             <div className="w-full xl:w-7/12 flex flex-col gap-6 sticky top-24">
-              
+             
               <div className="hidden xl:flex gap-4">
                 <button 
                    onClick={generatePDF} 
@@ -1679,12 +1947,12 @@ export default function App() {
               </div>
 
               <div className="overflow-x-auto rounded-lg shadow-2xl bg-slate-500/10 p-4 md:p-8 flex justify-center">
-                
+               
                 <div 
                   id="invoice-preview"
                   ref={previewRef}
                   className="bg-white text-slate-900 w-full p-[10mm] md:p-[15mm] text-sm leading-normal relative shadow-sm invoice-preview-scaled invoice-preview"
-                  style={{ width: '210mm', minHeight: '297mm', maxHeight: '297mm', overflow: 'hidden' }} 
+                  style={{ width: '210mm', minHeight: '297mm', overflow: 'visible' }} 
                 >
                   {/* HEADER */}
                   <div className="flex justify-between items-center mb-8 pb-8 border-b border-slate-100">
@@ -1739,7 +2007,7 @@ export default function App() {
                            <p className="text-slate-400 italic text-sm">Client details not provided</p>
                         )}
                      </div>
-                     
+                      
                      <div className="w-1/2 bg-slate-50 rounded-xl p-6">
                         {config?.id === 'transport' ? (
                           <>
@@ -1772,7 +2040,7 @@ export default function App() {
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Payment Status</span>
                             <div className="text-sm font-bold">
                                <span className={`px-2 py-1 rounded border uppercase ${invoice.payment.status === 'paid' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : invoice.payment.status === 'partial' ? 'bg-amber-100 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                                  {invoice.payment.status}
+                                   {invoice.payment.status}
                                </span>
                             </div>
                           </div>
@@ -1816,7 +2084,7 @@ export default function App() {
                            <span>Subtotal</span>
                            <span className="font-medium text-slate-700">{formatCurrency(subtotal)}</span>
                         </div>
-                        
+                       
                         {discountAmount > 0 && (
                           <div className="flex justify-between text-sm text-emerald-600 mb-3 px-4">
                              <span>Discount</span>
@@ -1861,7 +2129,7 @@ export default function App() {
                              <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total</span>
                              <span className="text-xl font-bold text-slate-900">{formatCurrency(total)}</span>
                            </div>
-                           
+                            
                            {paidAmount > 0 && (
                              <div className="flex justify-between items-center mb-3 text-emerald-600 border-b border-emerald-100 pb-2">
                                <span className="text-xs font-bold uppercase tracking-wider">Paid ({invoice.payment.paidDate || 'No Date'})</span>
@@ -1956,8 +2224,8 @@ export default function App() {
 
                 </div>
               </div>
-              
-              <AdUnit type="sidebar" label="Sidebar Skyscraper Ad" />
+            
+              {/* <AdUnit type="sidebar" label="Sidebar Skyscraper Ad" /> */}
 
             </div>
           </div>
@@ -1991,12 +2259,13 @@ export default function App() {
                  <li><button onClick={() => setActiveRoute('privacy')} className="hover:text-indigo-600">Privacy Policy</button></li>
                  <li><button onClick={() => setActiveRoute('terms')} className="hover:text-indigo-600">Terms of Service</button></li>
                  <li><button onClick={() => setActiveRoute('about')} className="hover:text-indigo-600">About Us</button></li>
+                 <li><button onClick={() => setActiveRoute('how-to-create-invoice')} className="hover:text-indigo-600 font-semibold text-indigo-500">Invoice Guide</button></li>
                </ul>
              </div>
              <div>
                <h4 className="font-bold mb-4 text-slate-900 dark:text-white">Contact</h4>
                <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">support@invoicepro.com</p>
-               <p className="text-sm text-slate-500 dark:text-slate-400">San Francisco, CA</p>
+               <p className="text-sm text-slate-500 dark:text-slate-400">Online Service | Global</p>
              </div>
            </div>
            <div className="border-t border-slate-100 dark:border-slate-800 pt-8 text-center text-sm text-slate-400">
@@ -2044,6 +2313,21 @@ export default function App() {
           }
         }
 
+        /* MOBILE INVOICE PREVIEW FIX */
+        @media (max-width: 768px) {
+          .invoice-preview {
+            transform: scale(1.12);
+            transform-origin: top center;
+          }
+        }
+
+        /* MOBILE BUTTON TOUCH FRIENDLY FIX */
+        @media (max-width: 768px) {
+          button {
+            min-height: 48px;
+          }
+        }
+
         @media print {
           body * {
             visibility: hidden;
@@ -2064,7 +2348,7 @@ export default function App() {
             overflow: hidden !important;
             page-break-inside: avoid !important;
             z-index: 9999;
-            transform: none !important;
+            transform-origin: top left;
             margin-bottom: 0 !important;
           }
           
@@ -2078,6 +2362,11 @@ export default function App() {
 
           /* Hide non-print elements */
           nav, .no-print, button, footer, .ad-unit {
+             display: none !important;
+          }
+
+          /* Footer Branding Logic for Print */
+          .invoice-footer-brand {
              display: none !important;
           }
         }
@@ -2124,21 +2413,6 @@ export default function App() {
         }
         .dark .label {
           color: #94a3b8;
-        }
-        
-        /* MOBILE INVOICE PREVIEW FIX */
-        @media (max-width: 768px) {
-          .invoice-preview {
-            transform: scale(1.12);
-            transform-origin: top center;
-          }
-        }
-
-        /* MOBILE BUTTON TOUCH FRIENDLY FIX */
-        @media (max-width: 768px) {
-          button {
-            min-height: 48px;
-          }
         }
       `}</style>
     </div>
