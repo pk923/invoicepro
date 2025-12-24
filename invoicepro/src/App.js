@@ -338,42 +338,6 @@ const updateHead = (meta) => {
   schemaScript.textContent = JSON.stringify(schemaData);
 };
 
-
-const AdUnit = ({ type, label }) => {
-  const adRef = useRef(null);
-
-  useEffect(() => {
-    try {
-      if (window.adsbygoogle && adRef.current) {
-        if (adRef.current.innerHTML === "") {
-           (window.adsbygoogle = window.adsbygoogle || []).push({});
-        }
-      }
-    } catch (e) {
-      // console.error("AdSense Error:", e);
-    }
-  }, []);
-
-  const visibilityClass = type === 'sidebar' ? 'hidden lg:flex' : 'flex';
-
-  return (
-    <div className={`w-full bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700 ${visibilityClass} flex-col items-center justify-center text-slate-400 text-sm font-semibold rounded-lg overflow-hidden transition-all duration-300 ${type === 'sidebar' ? 'h-[600px] sticky top-24' : 'h-[120px] my-8'} no-print relative`}>
-      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        <p className="uppercase tracking-widest text-xs mb-2">Advertisement</p>
-        <p className="text-xs opacity-75 font-normal">{label}</p>
-      </div>
-      <ins className="adsbygoogle"
-           style={{ display: 'block', width: '100%', height: '100%' }}
-           data-ad-client="ca-pub-2676342226418259"
-           data-ad-slot={type === 'sidebar' ? "1234567891" : "1234567890"}
-           data-ad-format="auto"
-           data-full-width-responsive="true"
-           ref={adRef}
-      />
-    </div>
-  );
-};
-
 const FeatureCard = ({ icon, title, desc }) => (
   <div className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
     <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center text-indigo-600 mb-4">
@@ -410,7 +374,7 @@ const PrivacyPolicy = () => (
     <p className="mb-4">We use local storage cookies solely to remember your preferences (such as Light/Dark mode and your last used invoice number) to improve your user experience.</p>
 
     <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">3. Third-Party Services</h3>
-    <p className="mb-4">We use Google AdSense to serve advertisements. Google may use cookies to serve ads based on your prior visits to our website or other websites.</p>
+    <p className="mb-4">We currently do not display any third-party advertisements on this website.</p>
   </LegalLayout>
 );
 
@@ -454,7 +418,7 @@ const ContactUs = () => (
       <li>Technical issues or bugs in the invoice generator</li>
       <li>Questions related to GST invoices or billing formats</li>
       <li>Feature requests or improvement suggestions</li>
-      <li>Legal, privacy, or AdSense-related inquiries</li>
+      <li>Legal or privacy inquiries</li>
     </ul>
 
     <div className="bg-slate-50 dark:bg-slate-700/50 p-6 rounded-xl border border-slate-200 dark:border-slate-700 inline-block pr-12">
