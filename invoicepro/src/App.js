@@ -42,34 +42,6 @@ const loadScript = (src) => {
   });
 };
 
-// --- ADS COMPONENT ---
-const Ads = () => {
-  useEffect(() => {
-    // prevent duplicate load
-    if (document.getElementById("egcpm-ad-script")) return;
-
-    const script = document.createElement("script");
-    script.id = "egcpm-ad-script";
-    script.src =
-      "https://pl28330167.effectivegatecpm.com/66c012a1833046421187ce1b10f6f8c1/invoke.js";
-    script.async = true;
-    script.setAttribute("data-cfasync", "false");
-    document.body.appendChild(script);
-  }, []);
-
-  return (
-    <div
-      id="container-66c012a1833046421187ce1b10f6f8c1"
-      style={{
-        minHeight: "250px",
-        width: "100%",
-        textAlign: "center",
-        margin: "20px 0"
-      }}
-    />
-  );
-};
-
 // --- CONFIGURATION & CONTENT ---
 
 const INVOICE_TYPES = {
