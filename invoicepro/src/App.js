@@ -42,56 +42,83 @@ const loadScript = (src) => {
   });
 };
 
+// --- ADS COMPONENT ---
+const Ads = () => {
+  useEffect(() => {
+    // prevent duplicate load
+    if (document.getElementById("egcpm-ad-script")) return;
+
+    const script = document.createElement("script");
+    script.id = "egcpm-ad-script";
+    script.src =
+      "https://pl28330167.effectivegatecpm.com/66c012a1833046421187ce1b10f6f8c1/invoke.js";
+    script.async = true;
+    script.setAttribute("data-cfasync", "false");
+    document.body.appendChild(script);
+  }, []);
+
+  return (
+    <div
+      id="container-66c012a1833046421187ce1b10f6f8c1"
+      style={{
+        minHeight: "250px",
+        width: "100%",
+        textAlign: "center",
+        margin: "20px 0"
+      }}
+    />
+  );
+};
+
 // --- CONFIGURATION & CONTENT ---
 
 const INVOICE_TYPES = {
   standard: {
     id: 'standard',
     path: '/standard-invoice-generator',
-    title: 'Standard Invoice Generator',
-    metaTitle: 'Free Standard Invoice Generator | Create Professional Invoices Online',
-    metaDesc: 'Create standard business invoices instantly. Free online invoice generator for small businesses, contractors, and freelancers. Download PDF with no signup.',
-    keywords: 'standard invoice, free invoice generator, online invoice maker, simple bill generator',
+    title: 'Standard Invoice',
+    metaTitle: 'Standard Invoice Generator | Professional & Free',
+    metaDesc: 'Create standard business invoices instantly. No signup required. Secure, fast, and professional PDF generation.',
+    keywords: 'standard invoice, free invoice generator, online invoice maker',
     icon: <FileText className="w-6 h-6" />,
     color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/30',
-    description: 'The classic invoice format suitable for any business need.',
+    description: 'Universal format for general business needs.',
     fields: ['tax', 'discount', 'shipping'],
-    subCategories: ['Standard Invoice', 'Simple Invoice', 'Sales Invoice', 'Service Invoice', 'Retail Invoice'],
+    subCategories: ['Standard Invoice', 'Sales Invoice', 'Service Invoice', 'General Bill'],
     seoContent: (
       <>
-        <h2 className="text-2xl font-bold mb-4">The Standard Invoice Generator for Everyone</h2>
-        <p className="mb-4">Our Standard Invoice Generator is the most versatile tool for creating professional bills instantly. Whether you run a small shop, an online store, or provide general services, this template covers all the essentials.</p>
+        <h2 className="text-2xl font-bold mb-4">Universal Invoicing Standard</h2>
+        <p className="mb-4">The definitive tool for general business billing. Versatile, compliant, and designed for clarity.</p>
         <h3 className="text-xl font-bold mb-2">Key Features</h3>
         <ul className="list-disc pl-5 mb-4 space-y-2">
-          <li><strong>Universal Format:</strong> Accepted globally for most business transactions.</li>
-          <li><strong>Flexible Tax Rates:</strong> Adjustable tax percentages to match your local laws.</li>
-          <li><strong>Professional Design:</strong> Clean, crisp layout that looks great printed or emailed.</li>
+          <li><strong>Global Acceptance:</strong> Format recognized worldwide.</li>
+          <li><strong>Tax Flexibility:</strong> Adjust rates to local jurisdictions.</li>
+          <li><strong>Print Ready:</strong> High-contrast layout for clear printing.</li>
         </ul>
-        <p>Start billing your clients professionally today without signing up or paying for expensive software.</p>
       </>
     )
   },
   gst: {
     id: 'gst',
     path: '/gst-invoice-generator',
-    title: 'GST Invoice Generator',
-    metaTitle: 'GST Invoice Generator India | Free GST Bill Maker Online',
-    metaDesc: 'Generate GST-compliant invoices with CGST, SGST, & IGST calculations automatically. Best free GST billing software for Indian businesses.',
-    keywords: 'gst invoice generator, gst bill maker, india gst invoice, online tax invoice',
+    title: 'GST Invoice',
+    metaTitle: 'GST Invoice Generator | India Compliant',
+    metaDesc: 'Generate GST-compliant invoices with automatic CGST, SGST, & IGST calculations. The best free tool for Indian businesses.',
+    keywords: 'gst invoice, gst bill maker, india tax invoice',
     icon: <CreditCard className="w-6 h-6" />,
     color: 'text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30',
-    description: 'Compliant GST format with CGST, SGST, and IGST breakdowns.',
+    description: 'Compliant format with automatic GST breakdown.',
     fields: ['gstin', 'hsn', 'taxBreakdown'],
-    subCategories: ['GST Invoice', 'Tax Invoice', 'Non-GST Invoice', 'VAT Invoice', 'Proforma Invoice'],
+    subCategories: ['GST Invoice', 'Tax Invoice', 'Bill of Supply', 'Export Invoice'],
     seoContent: (
       <>
-        <h2 className="text-2xl font-bold mb-4">India's Best Free GST Invoice Maker</h2>
-        <p className="mb-4">Strict adherence to GST norms is mandatory for Indian businesses. Our tool takes the complexity out of GST invoicing by automatically calculating and displaying the correct tax components.</p>
-        <h3 className="text-xl font-bold mb-2">Why use our GST Tool?</h3>
+        <h2 className="text-2xl font-bold mb-4">GST Compliance Made Simple</h2>
+        <p className="mb-4">Automated tax splitting for Indian businesses. We handle the calculations; you focus on the business.</p>
+        <h3 className="text-xl font-bold mb-2">GST Features</h3>
         <ul className="list-disc pl-5 mb-4 space-y-2">
-          <li><strong>Automatic Tax Split:</strong> Toggle between Inter-state (IGST) and Intra-state (CGST + SGST).</li>
-          <li><strong>HSN/SAC Codes:</strong> Dedicated columns for mandatory HSN codes.</li>
-          <li><strong>GSTIN Fields:</strong> Prominent display of Supplier and Buyer GSTINs.</li>
+          <li><strong>Smart Tax Split:</strong> Auto-calculates CGST/SGST or IGST.</li>
+          <li><strong>Regulatory Fields:</strong> Dedicated slots for HSN and GSTIN.</li>
+          <li><strong>Input Credit:</strong> Formatted for easy ITC claims.</li>
         </ul>
       </>
     )
@@ -99,24 +126,24 @@ const INVOICE_TYPES = {
   freelance: {
     id: 'freelance',
     path: '/freelance-invoice-generator',
-    title: 'Freelance Invoice Maker',
-    metaTitle: 'Freelance Invoice Maker | Free Billing Tool for Consultants',
-    metaDesc: 'Create professional freelance invoices in seconds. Ideal for developers, designers, writers, and consultants. Download PDF invoices for free.',
-    keywords: 'freelance invoice, invoice for freelancers, consulting invoice, contractor bill maker',
+    title: 'Freelance Invoice',
+    metaTitle: 'Freelance Invoice Maker | For Consultants & Creatives',
+    metaDesc: 'Designed for freelancers. Create clean, professional invoices for hourly or project-based work.',
+    keywords: 'freelance invoice, contractor bill, consulting invoice',
     icon: <Briefcase className="w-6 h-6" />,
     color: 'text-purple-600 bg-purple-100 dark:bg-purple-900/30',
-    description: 'Clean, simple invoices designed for freelancers and contractors.',
+    description: 'Streamlined format for contractors and creatives.',
     fields: ['discount', 'hourly'],
-    subCategories: ['Freelance Invoice', 'Consulting Invoice', 'Web Design Invoice', 'Digital Marketing Invoice', 'Contractor Invoice'],
+    subCategories: ['Freelance Invoice', 'Consulting Bill', 'Design Invoice', 'Contractor Bill'],
     seoContent: (
       <>
-        <h2 className="text-2xl font-bold mb-4">Professional Invoices for Freelancers</h2>
-        <p className="mb-4">Get paid faster with invoices that look as professional as your work. Designed specifically for developers, writers, designers, and consultants.</p>
-        <h3 className="text-xl font-bold mb-2">Freelancer Friendly Features</h3>
+        <h2 className="text-2xl font-bold mb-4">Built for the Gig Economy</h2>
+        <p className="mb-4">Get paid faster with polished, minimal invoices that highlight your value, not the paperwork.</p>
+        <h3 className="text-xl font-bold mb-2">Freelance Essentials</h3>
         <ul className="list-disc pl-5 mb-4 space-y-2">
-          <li><strong>Hourly or Fixed:</strong> Easily switch between hourly rates or project fees.</li>
-          <li><strong>Bank Details:</strong> Dedicated section to add your UPI, Bank Transfer, or PayPal details.</li>
-          <li><strong>Minimalist Design:</strong> Focuses on the work delivered without clutter.</li>
+          <li><strong>Flexible Billing:</strong> Hourly rates or fixed project fees.</li>
+          <li><strong>Payment Clarity:</strong> Prominent bank and UPI details.</li>
+          <li><strong>Minimalist Aesthetic:</strong> Clean design that looks professional.</li>
         </ul>
       </>
     )
@@ -124,24 +151,24 @@ const INVOICE_TYPES = {
   transport: {
     id: 'transport',
     path: '/transport-invoice-generator',
-    title: 'Transport & Logistics Invoice',
-    metaTitle: 'Transport Invoice Generator | Logistics Bill Format',
-    metaDesc: 'Generate transport and logistics invoices with vehicle number, driver details, and route information. Free tool for transporters and fleet owners.',
-    keywords: 'transport invoice, logistics bill, lorry receipt, fleet invoice generator',
+    title: 'Logistics Invoice',
+    metaTitle: 'Transport & Logistics Invoice Generator',
+    metaDesc: 'Specialized invoicing for transport. Include vehicle numbers, drivers, and route details.',
+    keywords: 'transport invoice, logistics bill, fleet invoice',
     icon: <Truck className="w-6 h-6" />,
     color: 'text-orange-600 bg-orange-100 dark:bg-orange-900/30',
-    description: 'Logistics bill format with Vehicle No, Route, and Driver details.',
+    description: 'Logistics format with vehicle and route tracking.',
     fields: ['vehicle', 'route', 'driver'],
-    subCategories: ['Transport Invoice', 'Commercial Invoice', 'Export Invoice', 'Import Invoice', 'Customs Invoice'],
+    subCategories: ['Transport Bill', 'Lorry Receipt', 'Freight Invoice', 'Logistics Bill'],
     seoContent: (
       <>
-        <h2 className="text-2xl font-bold mb-4">Transport Bill & Lorry Receipt Generator</h2>
-        <p className="mb-4">Logistics and transport businesses have unique invoicing needs. Our template includes all the specific fields required for transport compliance.</p>
+        <h2 className="text-2xl font-bold mb-4">Logistics Documentation</h2>
+        <p className="mb-4">Specialized fields for the transport sector. capture every detail from fleet to freight.</p>
         <h3 className="text-xl font-bold mb-2">Transport Specifics</h3>
         <ul className="list-disc pl-5 mb-4 space-y-2">
-          <li><strong>Vehicle Tracking:</strong> Input Vehicle Number and Driver Name directly on the bill.</li>
-          <li><strong>Route Info:</strong> Clearly specify 'From' and 'To' locations.</li>
-          <li><strong>Freight Charges:</strong> Breakdown of freight, loading/unloading, and other charges.</li>
+          <li><strong>Fleet Tracking:</strong> Record Vehicle No. and Driver Name.</li>
+          <li><strong>Route Definition:</strong> Clear Origin and Destination fields.</li>
+          <li><strong>Compliance:</strong> Standardized format for checkpoints.</li>
         </ul>
       </>
     )
@@ -149,24 +176,24 @@ const INVOICE_TYPES = {
   salon: {
     id: 'salon',
     path: '/salon-invoice-generator',
-    title: 'Salon & Spa Invoice',
-    metaTitle: 'Salon & Spa Invoice Generator | Beauty Parlour Bill Maker',
-    metaDesc: 'Create elegant receipts for salons, spas, and beauty clinics. Manage appointments and stylist details. Free PDF download.',
-    keywords: 'salon invoice, spa bill, beauty parlour receipt, stylist invoice',
+    title: 'Salon Invoice',
+    metaTitle: 'Salon & Spa Invoice Generator',
+    metaDesc: 'Elegant receipts for beauty and wellness. Track stylists, appointments, and tips.',
+    keywords: 'salon invoice, spa receipt, beauty bill',
     icon: <Scissors className="w-6 h-6" />,
     color: 'text-pink-600 bg-pink-100 dark:bg-pink-900/30',
-    description: 'Elegant receipts for beauty salons, spas, and stylists.',
+    description: 'Elegant receipts for beauty and wellness services.',
     fields: ['stylist', 'appointment', 'tip'],
-    subCategories: ['Salon Invoice', 'Hotel Invoice', 'Medical Invoice', 'Repair Invoice'],
+    subCategories: ['Salon Receipt', 'Spa Invoice', 'Wellness Bill', 'Service Receipt'],
     seoContent: (
       <>
-        <h2 className="text-2xl font-bold mb-4">Free Salon & Spa Billing Software</h2>
-        <p className="mb-4">Elevate your client experience with beautiful digital receipts. Perfect for hair salons, nail studios, and wellness centers.</p>
+        <h2 className="text-2xl font-bold mb-4">Beauty & Wellness Billing</h2>
+        <p className="mb-4">Refined receipts for high-end service businesses. Manage appointments and staff attribution with ease.</p>
         <h3 className="text-xl font-bold mb-2">Salon Features</h3>
         <ul className="list-disc pl-5 mb-4 space-y-2">
-          <li><strong>Stylist Attribution:</strong> Track which staff member performed the service.</li>
-          <li><strong>Appointment Details:</strong> Record the date and time of service.</li>
-          <li><strong>Tip/Gratuity:</strong> Optional field to record tips received.</li>
+          <li><strong>Staff Attribution:</strong> Credit services to specific stylists.</li>
+          <li><strong>Service Tracking:</strong> Record appointment dates and times.</li>
+          <li><strong>Client Experience:</strong> Professional, branded receipts.</li>
         </ul>
       </>
     )
@@ -221,8 +248,8 @@ const DEFAULT_INVOICE = {
   items: [
     { id: 1, name: '', description: '', quantity: '', price: '', hsn: '' }
   ],
-  notes: 'Thank you for your shopping!',
-  terms: 'Pay via UPI / Bank Transfer / Cheque\nUPI ID: \nBank: \nAccount No: '
+  notes: 'Thank you for your business!',
+  terms: 'Payment Due upon receipt.\nBank: \nAccount: '
 };
 
 const CURRENCIES = [
@@ -239,26 +266,26 @@ const APP_FEATURES = [
   {
     id: 'templates',
     icon: <Layout />,
-    title: 'Beautiful Templates',
-    description: 'Clean, modern, and professional designs that impress clients.'
+    title: 'Agency-Grade Design',
+    description: 'Polished layouts that elevate your professional brand instantly.'
   },
   {
     id: 'security',
     icon: <ShieldCheck />,
-    title: '100% Secure',
-    description: 'Data stays in your browser. No servers, no tracking, complete privacy.'
+    title: 'Local-First Privacy',
+    description: 'Data lives on your device. Zero server storage. 100% secure.'
   },
   {
     id: 'speed',
     icon: <Zap />,
-    title: 'Instant PDF',
-    description: 'Generate high-quality A4 PDFs in milliseconds.'
+    title: 'Instant Export',
+    description: 'Generate high-resolution A4 PDFs in under 100ms.'
   },
   {
     id: 'global',
     icon: <Globe />,
-    title: 'Global Currencies',
-    description: 'Support for USD, EUR, INR, GBP and many more.'
+    title: 'Multi-Currency',
+    description: 'Built for global business. Support for USD, EUR, INR, and more.'
   }
 ];
 
@@ -367,67 +394,323 @@ const LegalLayout = ({ title, children }) => (
 const PrivacyPolicy = () => (
   <LegalLayout title="Privacy Policy">
     <p className="mb-4">Last updated: {new Date().getFullYear()}</p>
-    <p className="mb-4">At InvoicePro, we take your privacy seriously. This Privacy Policy explains how we handle your data.</p>
+    <p className="mb-4">InvoicePro adheres to a strict "Local-First" data policy.</p>
     
-    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">1. Data Collection & Storage</h3>
-    <p className="mb-4">We respect your data privacy. <strong>We do not store any of your invoice data on our servers.</strong></p>
-    <p className="mb-4">All data entered into the invoice generator (including client details, amounts, and business information) is stored locally on your device using your browser's Local Storage technology. This means your data never leaves your computer.</p>
+    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">1. Data Sovereignty</h3>
+    <p className="mb-4">We do not operate a backend database for invoice data. <strong>Your financial data never leaves your browser.</strong></p>
+    <p className="mb-4">All inputs (client details, amounts, tax info) are stored exclusively in your device's Local Storage. We have zero visibility into your business operations.</p>
 
-    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">2. Cookies</h3>
-    <p className="mb-4">We use local storage cookies solely to remember your preferences (such as Light/Dark mode and your last used invoice number) to improve your user experience.</p>
+    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">2. Cookies & Storage</h3>
+    <p className="mb-4">We use local storage strictly for functional purposes: preserving your preferences (dark mode, last used invoice number) to enhance your workflow.</p>
 
-    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">3. Third-Party Services</h3>
-    <p className="mb-4">We currently do not display any third-party advertisements on this website.</p>
+    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">3. External Services</h3>
+    <p className="mb-4">We do not share data with third-party advertisers or data brokers.</p>
   </LegalLayout>
 );
 
 const TermsOfService = () => (
   <LegalLayout title="Terms of Service">
-    <p className="mb-4">By accessing and using InvoicePro, you accept and agree to be bound by the terms and provision of this agreement.</p>
+    <div className="mb-8 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
+      <p className="mb-3 text-sm">
+        <strong>Primary Keywords:</strong> terms of service invoice generator, invoice software terms, invoicing platform terms, billing software terms of service.
+      </p>
+      <p className="mb-3 text-sm">
+        <strong>Secondary Keywords:</strong> invoice generator usage terms, online invoicing terms, invoice software conditions, billing tool terms and conditions.
+      </p>
+      <p className="text-sm">
+        <strong>Long-Tail Keywords:</strong> invoice generator legal terms, invoice software usage policy, billing software legal agreement, invoice platform user responsibilities.
+      </p>
+    </div>
 
-    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">1. Use of Service</h3>
-    <p className="mb-4">InvoicePro is a free tool provided for freelancers and small businesses. You agree to use this service only for lawful purposes.</p>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">1. Introduction and Acceptance of Terms</h2>
+    <p className="mb-4">
+      Welcome to InvoicePro. By accessing, browsing, or using our website and <strong>free invoice generator</strong> services (collectively, the "Service"), you acknowledge that you have read, understood, and agree to be bound by these Terms of Service ("Terms").
+    </p>
+    <p className="mb-4">
+      These Terms constitute a legally binding agreement between you ("User", "you", or "your") and InvoicePro ("Company", "we", "us", or "our"). If you do not agree to these Terms, you must strictly stop using the Service immediately.
+    </p>
 
-    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">2. Disclaimer of Warranties</h3>
-    <p className="mb-4">The service is provided on an "as is" and "as available" basis. We make no warranties regarding the accuracy of calculations for tax purposes. Please consult an accountant for official financial advice.</p>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">2. Eligibility to Use the Service</h2>
+    <p className="mb-4">
+      By using our <strong>invoice software</strong>, you represent and warrant that:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li>You are at least 18 years of age or the age of legal majority in your jurisdiction.</li>
+      <li>You have the legal authority to enter into these Terms on behalf of yourself or any business entity you represent.</li>
+      <li>You are not prohibited by any applicable law from accessing or using this <strong>invoicing platform</strong>.</li>
+    </ul>
 
-    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">3. Limitation of Liability</h3>
-    <p className="mb-4">In no event shall InvoicePro be liable for any direct, indirect, incidental, or consequential damages arising out of the use of our service.</p>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">3. Description of the Service</h2>
+    <p className="mb-4">
+      InvoicePro provides a web-based <strong>online invoice generator</strong> that allows users to create, edit, and download professional invoices in PDF format. The Service includes various templates such as Standard, GST, Freelance, and Logistics invoices.
+    </p>
+    <p className="mb-4">
+      The Service is provided on a "Local-First" architecture basis. This means that the data you enter (including client details, pricing, and tax information) is processed locally within your web browser and is not stored on our centralized servers.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">4. User Responsibilities and Obligations</h2>
+    <p className="mb-4">
+      As a user of our <strong>billing software</strong>, you agree to:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li>Provide accurate and truthful information on your invoices.</li>
+      <li>Use the Service only for lawful business purposes.</li>
+      <li>Ensure that you have the necessary rights to use any logos, images, or business names you upload to the invoice generator.</li>
+      <li>Take full responsibility for the backup of your invoice data (since we do not store it for you).</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">5. Acceptable and Prohibited Use</h2>
+    <p className="mb-4">
+      You agree NOT to use the Service to:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li>Generate fraudulent, misleading, or illegal financial documents.</li>
+      <li>Violate any applicable local, state, national, or international law or regulation.</li>
+      <li>Infringe upon the intellectual property rights of others.</li>
+      <li>Attempt to reverse engineer, decompile, or hack any portion of the InvoicePro website.</li>
+      <li>Upload any malicious code, viruses, or harmful data.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">6. Invoice Accuracy Disclaimer</h2>
+    <p className="mb-4">
+      While our <strong>invoice calculator</strong> is designed to provide accurate mathematical totals based on your inputs, it is a tool, not an accountant.
+    </p>
+    <p className="mb-4">
+      You acknowledge that you are solely responsible for verifying the accuracy of:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li>Tax rates (GST, VAT, Sales Tax) applied to your invoices.</li>
+      <li>Mathematical totals, discounts, and shipping charges.</li>
+      <li>Client details and business information.</li>
+    </ul>
+    <p className="mb-4">
+      InvoicePro is not liable for any financial loss or legal disputes arising from calculation errors, incorrect tax applications, or typos in your generated documents.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">7. Tax, GST, and Legal Compliance</h2>
+    <p className="mb-4">
+      Compliance with tax laws is the sole responsibility of the user. Our <strong>invoice software terms</strong> state clearly that we provide the format, but you provide the compliance.
+    </p>
+    <p className="mb-4">
+      Specifically for users in India using our GST features: You are responsible for ensuring your GSTIN, HSN codes, and tax slabs (CGST/SGST/IGST) are correct according to current government regulations. InvoicePro does not validate your tax inputs against government databases.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">8. No Professional or Legal Advice</h2>
+    <p className="mb-4">
+      The content and tools provided by InvoicePro are for informational and utility purposes only. Nothing on this website constitutes legal, accounting, or tax advice. You should consult with a qualified professional for advice regarding your specific business circumstances.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">9. Data Handling and Local-First Usage</h2>
+    <p className="mb-4">
+      We prioritize your privacy through a "Local-First" approach. By using this service, you understand and agree that:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>No Cloud Storage:</strong> We do not store your invoice history, client lists, or revenue data on our servers.</li>
+      <li><strong>Browser Storage:</strong> Your data is stored in your browser's "Local Storage". If you clear your browser cache, switch devices, or use incognito mode, your data may be lost.</li>
+      <li><strong>User Responsibility:</strong> It is your responsibility to download and save PDF copies of your invoices for your records.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">10. Intellectual Property Rights</h2>
+    <p className="mb-4">
+      <strong>Our IP:</strong> The InvoicePro website, code, design, logos, and software architecture are the exclusive property of InvoicePro and are protected by copyright and intellectual property laws.
+    </p>
+    <p className="mb-4">
+      <strong>Your IP:</strong> You retain all rights to the data you enter and the specific content of the invoices you generate. We claim no ownership over your business data.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">11. Service Availability and Modifications</h2>
+    <p className="mb-4">
+      We strive to keep the Service up and running 24/7. However, we do not guarantee that the Service will be uninterrupted, secure, or error-free.
+    </p>
+    <p className="mb-4">
+      We reserve the right to modify, suspend, or discontinue any part of the <strong>billing tool</strong> at any time, with or without notice. We are not liable to you or any third party for any modification, suspension, or discontinuance of the Service.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">12. Limitation of Liability</h2>
+    <p className="mb-4">
+      TO THE FULLEST EXTENT PERMITTED BY LAW, INVOICEPRO SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES, RESULTING FROM:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li>YOUR USE OR INABILITY TO USE THE SERVICE;</li>
+      <li>ANY ERRORS OR INACCURACIES IN THE INVOICES GENERATED;</li>
+      <li>ANY UNAUTHORIZED ACCESS TO OR USE OF OUR SERVERS (IF APPLICABLE) AND/OR ANY PERSONAL INFORMATION STORED THEREIN.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">13. Disclaimer of Warranties</h2>
+    <p className="mb-4">
+      THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS. INVOICEPRO EXPRESSLY DISCLAIMS ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">14. Indemnification</h2>
+    <p className="mb-4">
+      You agree to defend, indemnify, and hold harmless InvoicePro and its affiliates, officers, employees, and agents from and against any claims, liabilities, damages, losses, and expenses, including reasonable legal fees, arising out of or in any way connected with your access to or use of the Service or your violation of these Terms.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">15. Governing Law and Jurisdiction</h2>
+    <p className="mb-4">
+      These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions. Any disputes arising out of or relating to these Terms or the Service shall be subject to the exclusive jurisdiction of the courts located in India.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">16. Changes to Terms of Service</h2>
+    <p className="mb-4">
+      We reserve the right to update or modify these Terms at any time. If we make material changes, we will notify you by posting the new Terms on this page and updating the "Last updated" date at the top. Your continued use of the Service after any such changes constitutes your acceptance of the new Terms.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">17. Contact Information</h2>
+    <p className="mb-4">
+      If you have any questions about these <strong>invoice software usage policies</strong> or Terms, please contact us at:
+    </p>
+    <p className="font-semibold text-indigo-600">support@invoicepro.com</p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Final Legal Summary</h2>
+    <p className="mb-4">
+      By using InvoicePro, you agree to do so responsibly. We provide a powerful, free tool to help you run your business, but the final responsibility for the accuracy and legality of the documents you create lies with you. We value your trust and are committed to providing a secure, private, and efficient service.
+    </p>
   </LegalLayout>
 );
 
 const AboutUs = () => (
-  <LegalLayout title="About Us">
-    <p className="mb-4">InvoicePro was built with a simple mission: <strong>To make professional invoicing free and accessible to everyone.</strong></p>
-    <p className="mb-4">We understand that freelancers, consultants, and small business owners often struggle with complex accounting software. That's why we created a tool that is:</p>
-    <ul className="list-disc pl-5 mb-6 space-y-2">
-      <li>Fast and easy to use</li>
-      <li>Privacy-focused (No server storage)</li>
-      <li>Professional and compliant</li>
-      <li>Completely free</li>
+  <LegalLayout title="About InvoicePro: Our Mission & Philosophy">
+    <div className="mb-8 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
+      <p className="mb-3 text-sm">
+        <strong>Primary Keywords:</strong> about invoicepro, free invoice generator company, online invoicing platform, invoice software provider, invoicing solution.
+      </p>
+      <p className="mb-3 text-sm">
+        <strong>Secondary Keywords:</strong> professional invoicing tool, billing software for small business, freelancer invoicing platform, gst invoice software india, secure invoice generator.
+      </p>
+      <p className="text-sm">
+        <strong>Long-Tail Keywords:</strong> who built invoicepro, why use invoicepro, invoicepro for freelancers and businesses, secure online invoice generator, local first invoicing software, privacy focused invoice tool.
+      </p>
+    </div>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Who We Are</h2>
+    <p className="mb-4">
+      InvoicePro is a dedicated team of developers, designers, and financial technology enthusiasts. We are not a giant, faceless corporation harvesting your data. We are a boutique software studio passionate about building <strong>elegant, privacy-first tools</strong> for the modern web.
+    </p>
+    <p className="mb-4">
+      Our team understands the hustle of the freelancer, the pressure of the small business owner, and the compliance headaches of the consultant. We built InvoicePro because we needed it ourselves—a fast, reliable <strong>online invoicing platform</strong> that doesn't require a monthly subscription or a credit card to generate a simple PDF.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Why InvoicePro Was Created</h2>
+    <p className="mb-4">
+      The internet is flooded with invoicing tools, but most of them share the same flaws:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li>They force you to sign up before you can see the product.</li>
+      <li>They lock essential features (like PDF download) behind a paywall.</li>
+      <li>They watermark your professional documents, making you look cheap.</li>
+      <li>They store your sensitive financial data on servers you can't control.</li>
     </ul>
-    <p className="mb-4">Our team is dedicated to maintaining this tool and ensuring it remains the best free invoice generator on the web.</p>
+    <p className="mb-4">
+      We believed there had to be a better way. We envisioned a <strong>free invoice generator company</strong> that prioritized user experience over aggressive monetization. InvoicePro was born from the idea that basic business tools should be accessible, high-quality, and respectful of user privacy.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Our Mission & Vision</h2>
+    <p className="mb-4">
+      <strong>Our Mission:</strong> To democratize access to professional financial tools. We want to ensure that a graphic designer in Mumbai, a plumber in London, and a consultant in New York all have access to the same high-quality <strong>invoicing solution</strong> as a Fortune 500 company.
+    </p>
+    <p className="mb-4">
+      <strong>Our Vision:</strong> To become the world's most trusted, privacy-centric <strong>invoice software provider</strong>. We see a future where "Local-First" software becomes the standard, putting data ownership back in the hands of the user.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Who InvoicePro Is Built For</h2>
+    <p className="mb-4">
+      While our tool is powerful enough for large enterprises, our heart lies with the independent economy. InvoicePro is specifically engineered for:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Freelancers & Gig Workers:</strong> Who need a <strong>freelancer invoicing platform</strong> that is quick and easy.</li>
+      <li><strong>Small Business Owners (SMEs):</strong> Who need robust <strong>billing software for small business</strong> without the overhead of an ERP.</li>
+      <li><strong>Contractors & Tradespeople:</strong> Who need to generate invoices on-site from a mobile device.</li>
+      <li><strong>Startups:</strong> Who need to look professional from Day 1 without burning cash on software subscriptions.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Our Core Principles</h2>
+    <p className="mb-4">
+      Every feature we build and every line of code we write is guided by four unshakeable principles:
+    </p>
+
+    <h3 className="text-xl font-bold mt-6 mb-3">1. Radical Simplicity</h3>
+    <p className="mb-4">
+      Invoicing shouldn't require a manual. If you can't create an invoice in under 60 seconds on your first try, we have failed. We strip away the clutter, leaving only what is essential for a legally valid, professional document.
+    </p>
+
+    <h3 className="text-xl font-bold mt-6 mb-3">2. Uncompromising Privacy (Local-First)</h3>
+    <p className="mb-4">
+      This is our biggest differentiator. We utilize a <strong>Local-First architecture</strong>. This means the code runs in your browser, but the database lives in your device's memory. We do not see your clients, your revenue, or your bank details. You are the only owner of your data.
+    </p>
+
+    <h3 className="text-xl font-bold mt-6 mb-3">3. Financial Accuracy</h3>
+    <p className="mb-4">
+      When money is involved, "close enough" is not good enough. Our calculation engine handles complex decimals, multi-layered taxes (like GST), and discounts with mathematical precision to ensuring your totals are always penny-perfect.
+    </p>
+
+    <h3 className="text-xl font-bold mt-6 mb-3">4. Universal Accessibility</h3>
+    <p className="mb-4">
+      We are committed to keeping the core <strong>invoice generator free</strong>. We believe that financial barriers should not prevent anyone from running a business professionally.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Security & Data Privacy Philosophy</h2>
+    <p className="mb-4">
+      In an era of constant data breaches, we took a radical approach: <strong>We store nothing.</strong>
+    </p>
+    <p className="mb-4">
+      Most cloud invoicing platforms are honeypots for hackers because they centralize financial data. By decentralizing data storage to your device (via Local Storage technology), we eliminate the risk of a central server hack compromising your business.
+    </p>
+    <p className="mb-4">
+      This creates a <strong>secure invoice generator</strong> environment where you can work with peace of mind, knowing that your trade secrets and client lists are physically located on your machine, not in our cloud.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Global & India-Focused Capabilities</h2>
+    <p className="mb-4">
+      We understand that invoicing rules change across borders. That is why InvoicePro isn't just a generic template; it is a smart, adaptable tool.
+    </p>
+    <p className="mb-4">
+      For our substantial user base in India, we have built a specialized <strong>GST invoice software India</strong> mode. It understands the nuances of CGST, SGST, and IGST, automatically applying the correct tax logic based on your inputs. It handles HSN codes and GSTIN formatting out of the box.
+    </p>
+    <p className="mb-4">
+      Globally, we support every major currency and allow for flexible tax labeling (VAT, Sales Tax, Consumption Tax), making us a truly international <strong>professional invoicing tool</strong>.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Trust & Transparency</h2>
+    <p className="mb-4">
+      Building trust online is hard. We try to earn it by being transparent about what we do and, more importantly, what we don't do.
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li>We do <strong>not</strong> sell your data.</li>
+      <li>We do <strong>not</strong> inject hidden watermarks on paid-looking documents.</li>
+      <li>We do <strong>not</strong> lock your historical data behind a ransom paywall.</li>
+    </ul>
+    <p className="mb-4">
+      We operate on a sustainability model that relies on non-intrusive advertising and optional premium features in the future, never by exploiting user data.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Final Brand Summary</h2>
+    <p className="mb-4">
+      InvoicePro is more than a website; it is a commitment to the independent workforce. We are here to support your journey from your first gig to your thousandth client.
+    </p>
+    <p className="mb-4">
+      Thank you for trusting us with your business. We promise to keep building, improving, and simplifying, so you can spend less time on paperwork and more time doing what you love.
+    </p>
+
   </LegalLayout>
 );
 
 const ContactUs = () => (
   <LegalLayout title="Contact Us">
     <p className="mb-4">
-      We’re here to help. If you have questions about invoice generation, GST compliance,
-      or face any issues while using InvoicePro, feel free to reach out.
+      Need assistance? We're here to help you get the most out of InvoicePro.
     </p>
 
     <ul className="list-disc pl-5 mb-6 space-y-2">
-      <li>Technical issues or bugs in the invoice generator</li>
-      <li>Questions related to GST invoices or billing formats</li>
-      <li>Feature requests or improvement suggestions</li>
-      <li>Legal or privacy inquiries</li>
+      <li>Technical support & bug reports</li>
+      <li>Feature requests</li>
+      <li>Compliance & Format inquiries</li>
     </ul>
 
     <div className="bg-slate-50 dark:bg-slate-700/50 p-6 rounded-xl border border-slate-200 dark:border-slate-700 inline-block pr-12">
-      <h3 className="font-bold text-lg mb-2">Email Support</h3>
+      <h3 className="font-bold text-lg mb-2">Support Channel</h3>
       <p className="text-slate-600 dark:text-slate-400 mb-4">
-        For support and business-related queries:
+        Direct all inquiries to:
       </p>
       <a
         href="mailto:support@invoicepro.com"
@@ -438,237 +721,243 @@ const ContactUs = () => (
     </div>
 
     <p className="mt-8 text-sm text-slate-500">
-      We usually respond within 24–48 business hours.
+      Response time: 24–48 hours.
     </p>
-
-    <p className="mt-6 text-xs text-slate-400 italic">
-      InvoicePro is a self-service online tool and does not provide accounting or legal advice.
-    </p>
-
   </LegalLayout>
 );
 
 const HowToCreateInvoice = () => (
-  <LegalLayout title="How to Create a Professional Invoice Online: The Ultimate Free Guide">
-    <p className="text-sm text-slate-500 italic mt-2 mb-6">
-      This guide is written to help freelancers & small businesses understand invoicing legally and practically.
+  <LegalLayout title="The Ultimate Invoice Guide: How to Create Professional Invoices">
+    
+    <div className="mb-8 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
+      <p className="mb-3 text-sm">
+        <strong>Primary Keywords:</strong> invoice guide, how to create an invoice, professional invoice, invoice format, invoice generator, online invoice maker, invoice pdf, business invoice, billing guide, free invoice creator.
+      </p>
+      <p className="mb-3 text-sm">
+        <strong>Secondary Keywords:</strong> gst invoice format, freight bill, freelance invoice template, tax invoice, proforma invoice, commercial invoice, salon receipt, invoice calculation, payment proof, billing software.
+      </p>
+      <p className="text-sm">
+        <strong>Long-Tail Keywords:</strong> how to make an invoice for free, requirements for a valid tax invoice, difference between invoice and receipt, best free invoice app for freelancers, download invoice pdf without watermark, gst invoice rules india, transport invoice format for logistics, how to calculate tax on invoice.
+      </p>
+    </div>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Introduction</h2>
+    <p className="mb-4">
+      In the world of business, the invoice is more than just a piece of paper; it is the heartbeat of your cash flow. Whether you are a freelance designer, a small retail shop owner, or a logistics fleet manager, understanding <strong>how to create an invoice</strong> correctly is the single most important administrative skill you can master.
     </p>
-    <section className="mb-8">
-      <p className="mb-4">
-        In the fast-paced world of business, getting paid on time is critical. Whether you are a <strong>freelancer</strong>, a <strong>small business owner</strong>, or a service provider, the bridge between your hard work and your payment is a <strong>professional invoice</strong>.
-      </p>
-      <p className="mb-4">
-        Many professionals still rely on outdated methods like handwritten bills, Word documents, or complex Excel spreadsheets. These methods are prone to errors, look unprofessional, and often delay payments. In this comprehensive guide, we will explore <strong>how to create an invoice online</strong> using a <strong>free invoice generator</strong>, understand the nuances of <strong>GST invoices in India</strong>, and learn best practices to ensure your cash flow remains healthy.
-      </p>
-      <p>
-        By the end of this guide, you will know exactly how to generate compliant, professional, and beautiful invoices in seconds—without signing up for expensive software.
-      </p>
-    </section>
+    <p className="mb-4">
+      A professional invoice does three things: it demands payment legally, it builds trust with your client, and it keeps you compliant with tax authorities. This comprehensive <strong>invoice guide</strong> will walk you through everything you need to know about invoicing in 2025, from basic structures to complex GST calculations and industry-specific formats.
+    </p>
 
-    <section className="mb-8">
-      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">1. What is an Invoice?</h2>
-      <p className="mb-4">
-        An <strong>invoice</strong> is more than just a request for payment. It is a formal commercial document issued by a seller (you) to a buyer (your client) relating to a sale transaction. It indicates the products, quantities, and agreed prices for products or services the seller had provided the buyer.
-      </p>
-      <p className="mb-4">
-        Legally, an invoice serves as a record of the sale. If you ever face a dispute regarding a payment or scope of work, your invoice serves as primary evidence of the transaction. For businesses registered under tax laws (like GST in India or VAT in Europe), an invoice is a mandatory document for filing taxes and claiming input tax credits.
-      </p>
-    </section>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">What is an Invoice?</h2>
+    <p className="mb-4">
+      An invoice is a commercial document issued by a seller to a buyer relating to a sale transaction. It indicates the products, quantities, and agreed prices for products or services the seller has provided the buyer.
+    </p>
+    <p className="mb-4">
+      Unlike a receipt, which acknowledges payment, an invoice is a <strong>request for payment</strong>. It establishes an obligation on the part of the buyer to pay the seller according to the payment terms specified.
+    </p>
 
-    <section className="mb-8">
-      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">2. Why Professional Invoices Matter</h2>
-      <p className="mb-4">
-        You might wonder, "Can't I just send a WhatsApp message asking for money?" While possible for casual debts, it is disastrous for business. Here is why a <strong>professional invoice format</strong> is non-negotiable:
-      </p>
-      <ul className="list-disc pl-5 space-y-2 mb-4">
-        <li><strong>Builds Trust & Authority:</strong> A well-formatted invoice with your logo and clear details signals that you are a legitimate, established professional.</li>
-        <li><strong>Ensures Faster Payments:</strong> Clear payment terms, due dates, and bank details eliminate back-and-forth emails, removing friction from the payment process.</li>
-        <li><strong>Legal Protection:</strong> In case of non-payment, a formal invoice acts as a legal contract of the debt owed to you.</li>
-        <li><strong>Tax Compliance:</strong> For GST/VAT purposes, governments require specific formats. A compliant invoice saves you from penalties during audits.</li>
-      </ul>
-    </section>
+    <h3 className="text-xl font-bold mt-8 mb-4">Why Invoicing Is Important for Businesses</h3>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Legal Protection:</strong> An invoice serves as a legal record of the sale. In case of a dispute or non-payment, a signed invoice is your primary evidence in court.</li>
+      <li><strong>Tax Compliance:</strong> For businesses registered under tax laws (like GST in India, VAT in UK/EU, or Sales Tax in US), issuing a compliant tax invoice is mandatory for filing returns and claiming input tax credits.</li>
+      <li><strong>Professionalism:</strong> Sending a clean, branded <strong>PDF invoice</strong> signals that you run a legitimate business, increasing the likelihood of timely payment.</li>
+      <li><strong>Inventory Tracking:</strong> For product businesses, invoices help track what stock has left the warehouse.</li>
+    </ul>
 
-    <section className="mb-8">
-      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">3. Types of Invoices You Need to Know</h2>
-      <p className="mb-4">Depending on your industry and location, the format of your bill might change. Our <strong>online invoice maker</strong> supports various specialized formats:</p>
-      
-      <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mt-4 mb-2">Standard Invoice</h3>
-      <p className="mb-2">The most common format used by retail shops, online sellers, and general businesses. It lists items, prices, taxes, and a total.</p>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Basic Structure of a Professional Invoice</h2>
+    <p className="mb-4">
+      Regardless of your industry, every professional <strong>invoice format</strong> must contain certain non-negotiable elements to be considered valid.
+    </p>
+    <ol className="list-decimal pl-6 mb-6 space-y-4">
+      <li><strong>Header:</strong> Must clearly say "INVOICE" or "TAX INVOICE".</li>
+      <li><strong>Invoice Number:</strong> A unique, sequential number (e.g., INV-001) is critical for tracking. Never duplicate invoice numbers.</li>
+      <li><strong>Dates:</strong>
+        <ul className="list-disc pl-6 mt-2 mb-2">
+          <li><strong>Issue Date:</strong> When the invoice was created.</li>
+          <li><strong>Due Date:</strong> The deadline for payment.</li>
+        </ul>
+      </li>
+      <li><strong>Seller Information:</strong> Your business name, address, email, phone number, and logo.</li>
+      <li><strong>Buyer Information:</strong> The client’s name, address, and contact details ("Bill To").</li>
+      <li><strong>Line Items:</strong> A detailed list of goods sold or services rendered, including description, unit price, and quantity.</li>
+      <li><strong>Financial Breakdown:</strong> Subtotal, Taxes (with rates), Discounts, Shipping Charges, and the <strong>Grand Total</strong>.</li>
+      <li><strong>Payment Terms:</strong> Instructions on how to pay (Bank Account, UPI, PayPal link) and terms (e.g., "Net 30").</li>
+    </ol>
 
-      <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mt-4 mb-2">GST Invoice (India)</h3>
-      <p className="mb-2">Crucial for Indian businesses. A <strong>GST invoice</strong> must break down taxes into CGST (Central Goods and Services Tax) and SGST (State Goods and Services Tax) for intra-state sales, or IGST (Integrated Goods and Services Tax) for inter-state sales. It also requires the GSTIN of both supplier and buyer, along with HSN/SAC codes.</p>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Standard Invoice Explained</h2>
+    <p className="mb-4">
+      A <strong>standard invoice</strong> is the most common format used by 90% of businesses. It is versatile and fits most non-specialized use cases such as retail sales, general contracting, and simple service agreements.
+    </p>
+    <p className="mb-4">
+      It focuses on the "what" and "how much". It typically includes a straightforward table of items, a tax line, and a total. If you are unsure which format to use, the Standard Invoice is usually the safest bet.
+    </p>
 
-      <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mt-4 mb-2">Freelance Invoice</h3>
-      <p className="mb-2">Designed for consultants, writers, designers, and developers. A <strong>freelance invoice</strong> often focuses on hourly rates or project milestones and includes specific payment instructions for international or domestic transfers.</p>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">GST Invoice Guide (India-focused)</h2>
+    <p className="mb-4">
+      For Indian businesses, the <strong>Goods and Services Tax (GST)</strong> regime mandates very specific invoicing rules. Failing to adhere to these can result in penalties and the inability for your clients to claim Input Tax Credit (ITC).
+    </p>
 
-      <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mt-4 mb-2">Transport Invoice</h3>
-      <p className="mb-2">Logistics companies need to document vehicle numbers, driver names, origin, and destination. A standard bill won't suffice here; you need a specialized <strong>transport invoice template</strong>.</p>
-    </section>
+    <h3 className="text-xl font-bold mt-8 mb-4">Understanding the Components</h3>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>GSTIN:</strong> You must display your 15-digit GST Identification Number prominently. If your client is registered, you must also include their GSTIN.</li>
+      <li><strong>HSN / SAC Codes:</strong>
+        <ul className="list-disc pl-6 mt-2 mb-2">
+          <li><strong>HSN (Harmonized System of Nomenclature):</strong> For goods.</li>
+          <li><strong>SAC (Services Accounting Code):</strong> For services.</li>
+        </ul>
+        These codes tell the tax department exactly what you are selling.
+      </li>
+      <li><strong>Tax Breakup (Critical):</strong>
+        <ul className="list-disc pl-6 mt-2 mb-2">
+          <li><strong>Intra-state (Same State):</strong> If you (Maharashtra) sell to a client in (Maharashtra), you must charge <strong>CGST + SGST</strong>. (e.g., 18% becomes 9% CGST + 9% SGST).</li>
+          <li><strong>Inter-state (Different State):</strong> If you (Maharashtra) sell to a client in (Delhi), you must charge <strong>IGST</strong>. (e.g., 18% IGST).</li>
+        </ul>
+      </li>
+    </ul>
+    <p className="mb-4">
+      Our <strong>GST Invoice Generator</strong> handles this logic automatically. You simply toggle "Inter-state" and the system calculates the correct tax split.
+    </p>
 
-    <section className="mb-8">
-      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">4. Step-by-Step: How to Create an Invoice Online</h2>
-      <p className="mb-4">Using <strong>InvoicePro</strong>, creating a bill takes less than 2 minutes. Follow this guide to generate your first <strong>PDF invoice</strong>:</p>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Freelance & Consulting Invoice Guide</h2>
+    <p className="mb-4">
+      Freelancers face unique challenges. You are often selling "time" or "intellectual property" rather than physical goods. A <strong>freelance invoice</strong> needs to reflect this.
+    </p>
+    <p className="mb-4">
+      <strong>Key Elements for Freelancers:</strong>
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Hourly vs. Fixed Project:</strong> Clearly state if the line item is "10 Hours of Coding" (Hourly) or "Website Redesign Project" (Fixed).</li>
+      <li><strong>Payment Milestones:</strong> If this is part of a larger project, label it clearly (e.g., "Milestone 1 of 3: Initial Draft").</li>
+      <li><strong>Bank Details:</strong> Freelancers often get paid via direct bank transfer or UPI. Ensure your Account Number, IFSC, and SWIFT code (for international clients) are bold and error-free.</li>
+    </ul>
 
-      <ol className="list-decimal pl-5 space-y-4 mb-4">
-        <li>
-          <strong>Select Your Template:</strong> Choose between Standard, GST, Freelance, or Transport depending on your need.
-        </li>
-        <li>
-          <strong>Add Your Business Branding:</strong> Click on "Logo" to upload your company logo. This watermark instantly makes your document look premium. Enter your business name, address, and contact info.
-        </li>
-        <li>
-          <strong>Enter Client Details:</strong> Fill in the "Bill To" section. If you are making a <strong>GST invoice</strong>, ensure you enter the client's GSTIN correctly to allow them to claim input credit.
-        </li>
-        <li>
-          <strong>Add Line Items:</strong> List your products or services.
-          <ul className="list-disc pl-5 mt-2 text-sm text-slate-600 dark:text-slate-400">
-             <li><strong>Item Name:</strong> Keep it short (e.g., "Web Design").</li>
-             <li><strong>Description:</strong> Add details (e.g., "Homepage + 5 inner pages").</li>
-             <li><strong>Qty & Rate:</strong> The <strong>invoice generator</strong> will auto-calculate the amount.</li>
-          </ul>
-        </li>
-        <li>
-          <strong>Configure Taxes & Discounts:</strong> Enable tax if applicable. For Indian users, the tool automatically splits taxes into CGST/SGST or IGST based on your settings. Add a discount if you are running a promotion.
-        </li>
-        <li>
-          <strong>Add Payment Details:</strong> Never leave the client guessing. Add your Bank Account Number, IFSC Code, or UPI ID in the "Payment Instructions" box.
-        </li>
-        <li>
-          <strong>Sign & Download:</strong> Upload your digital signature for a legally valid look. Click "Download PDF" to get a high-quality A4 invoice instantly.
-        </li>
-      </ol>
-    </section>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Transport / Logistics Invoice Explained</h2>
+    <p className="mb-4">
+      The logistics industry operates on detailed documentation. A standard invoice is often insufficient for transport fleet owners or trucking companies. A <strong>Transport Invoice</strong> (often acting as a Freight Bill or Lorry Receipt) requires tracking specific metadata.
+    </p>
+    <p className="mb-4">
+      <strong>Essential Logistics Fields:</strong>
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Vehicle Number:</strong> The registration number of the truck/lorry used.</li>
+      <li><strong>Driver Name:</strong> Who transported the goods?</li>
+      <li><strong>Origin & Destination:</strong> Where did the shipment start and end?</li>
+      <li><strong>Distance / Weight:</strong> Billing is often calculated based on KMs traveled or Metric Tonnes transported.</li>
+    </ul>
 
-    <section className="mb-8">
-      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">5. GST Invoicing Explained (For Indian Businesses)</h2>
-      <p className="mb-4">
-        The Goods and Services Tax (GST) system in India requires strict adherence to invoicing rules. A valid <strong>GST invoice format</strong> must contain:
-      </p>
-      <ul className="list-disc pl-5 space-y-2 mb-4">
-        <li><strong>GSTIN:</strong> The 15-digit ID of the supplier and the recipient (if registered).</li>
-        <li><strong>HSN / SAC Code:</strong> Harmonized System of Nomenclature (goods) or Service Accounting Code (services).</li>
-        <li><strong>Tax Breakup:</strong>
-          <ul className="list-disc pl-5 mt-2">
-            <li><strong>Intra-state (Same State):</strong> Tax is split equally between CGST (Central) and SGST (State).</li>
-            <li><strong>Inter-state (Different States):</strong> Tax is charged as a single component called IGST (Integrated).</li>
-          </ul>
-        </li>
-        <li><strong>Invoice Number & Date:</strong> A unique, sequential number for accounting reference.</li>
-      </ul>
-      <p>
-        Our <strong>GST invoice generator</strong> handles this logic automatically. You just enable "Inter-state" if applicable, and the math is done for you.
-      </p>
-    </section>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Salon & Service-Based Invoice Format</h2>
+    <p className="mb-4">
+      Salons, spas, and wellness centers require a different touch. The receipt is often handed directly to the consumer immediately after service.
+    </p>
+    <p className="mb-4">
+      <strong>Key Salon Features:</strong>
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Stylist / Provider Attribution:</strong> Tracking which employee performed the service is crucial for calculating commissions.</li>
+      <li><strong>Appointment Date/Time:</strong> Validates the booking.</li>
+      <li><strong>Tip / Gratuity:</strong> A dedicated line for tips separate from the service cost.</li>
+    </ul>
 
-    <section className="mb-8">
-      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">6. Common Invoicing Mistakes to Avoid</h2>
-      <p className="mb-4">Even experienced business owners make mistakes. Avoid these common pitfalls by using an <strong>online invoice maker</strong> instead of manual Word docs:</p>
-      <ul className="list-disc pl-5 space-y-2 mb-4">
-        <li><strong>Calculation Errors:</strong> Manual math often leads to wrong totals, causing embarrassment and payment delays. Automated tools prevent this.</li>
-        <li><strong>Missing Due Date:</strong> If you don't say when you want to be paid, clients will delay. Always set a clear "Due Date".</li>
-        <li><strong>Vague Descriptions:</strong> "Consulting Services" is too vague. Use "Consulting for Q3 Marketing Strategy" to avoid disputes.</li>
-        <li><strong>Forgot Payment Info:</strong> The client is ready to pay but doesn't know where. Always double-check your bank details on the final PDF.</li>
-      </ul>
-    </section>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Invoice Calculation Logic</h2>
+    <p className="mb-4">
+      Understanding the math is crucial to avoiding embarrassing errors. Here is the standard hierarchy of calculation used by professional invoicing software:
+    </p>
+    <ol className="list-decimal pl-6 mb-6 space-y-4">
+      <li><strong>Line Item Total:</strong> <code>Quantity × Unit Price</code>.</li>
+      <li><strong>Subtotal:</strong> The sum of all Line Item Totals.</li>
+      <li><strong>Discount:</strong> Applied to the Subtotal.
+        <br/><em>Note: Discounts are usually applied BEFORE tax to reduce the tax burden on the customer.</em>
+      </li>
+      <li><strong>Taxable Value:</strong> <code>Subtotal - Discount</code>.</li>
+      <li><strong>Tax Amount:</strong> <code>Taxable Value × Tax Rate (%)</code>.</li>
+      <li><strong>Shipping / Handling:</strong> Added AFTER tax.
+        <br/><em>Note: In some jurisdictions, shipping itself is taxable. Our tool allows for flexible configuration.</em>
+      </li>
+      <li><strong>Grand Total:</strong> <code>Taxable Value + Tax Amount + Shipping</code>.</li>
+    </ol>
 
-    <section className="mb-8">
-      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">7. Why Use an Online Invoice Generator vs Excel?</h2>
-      <p className="mb-4">
-        For decades, Excel was the go-to. But in 2024, using Excel for invoicing is inefficient. Here is why you should switch to a specialized <strong>invoice template online</strong> tool:
-      </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div className="p-4 bg-slate-50 dark:bg-slate-700/30 rounded-lg border border-slate-200 dark:border-slate-700">
-           <h4 className="font-bold mb-2">Excel / Word</h4>
-           <ul className="text-sm space-y-1 text-slate-600 dark:text-slate-400">
-             <li>❌ Formatting breaks easily</li>
-             <li>❌ Manual math errors</li>
-             <li>❌ Difficult to manage on mobile</li>
-             <li>❌ Looks generic and outdated</li>
-           </ul>
-        </div>
-        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
-           <h4 className="font-bold mb-2 text-indigo-700 dark:text-indigo-300">InvoicePro Generator</h4>
-           <ul className="text-sm space-y-1 text-slate-600 dark:text-slate-400">
-             <li>✅ Perfect A4 PDF layout every time</li>
-             <li>✅ Automated calculations</li>
-             <li>✅ Mobile-friendly and fast</li>
-             <li>✅ Professional, agency-grade look</li>
-           </ul>
-        </div>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Payment Status Explained</h2>
+    <p className="mb-4">
+      Managing the lifecycle of an invoice is just as important as creating it.
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Pending:</strong> The invoice has been sent but money has not hit your account.</li>
+      <li><strong>Overdue:</strong> The Due Date has passed. You should send a reminder immediately.</li>
+      <li><strong>Partial:</strong> The client has paid a deposit or a portion of the bill. The invoice remains "Open" with a "Balance Due".</li>
+      <li><strong>Paid:</strong> The full amount has been settled. The invoice is closed.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Payment Methods & Payment Proof</h2>
+    <p className="mb-4">
+      To close an invoice cycle, you must record how it was paid. This acts as a "Proof of Payment" for your client.
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Bank Transfer (NEFT/IMPS/ACH):</strong> The standard for B2B.</li>
+      <li><strong>UPI / QR Code:</strong> Fast becoming the standard for small business and retail in tech-forward regions.</li>
+      <li><strong>Cash:</strong> Still relevant for local transport and retail. Always issue a receipt.</li>
+    </ul>
+    <p className="mb-4">
+      <strong>Pro Tip:</strong> When marking an invoice as paid, always record the <strong>Transaction ID</strong> or Reference Number. This helps reconcile accounts later.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">PDF Invoice Creation & Print Best Practices</h2>
+    <p className="mb-4">
+      Why distribute invoices as PDF?
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Immutability:</strong> A PDF cannot be easily edited by the receiver, preventing fraud.</li>
+      <li><strong>Formatting:</strong> PDFs look the same on a mobile phone, a Mac, and a Windows PC. Word docs often break.</li>
+      <li><strong>Professionalism:</strong> It is the global standard for business documents.</li>
+    </ul>
+    <p className="mb-4">
+      When printing, ensure your invoice fits on a single <strong>A4 page</strong> unless you have hundreds of line items. Our tool automatically optimizes layout for single-page printing to save paper and look neat.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Common Invoicing Mistakes</h2>
+    <p className="mb-4">
+      Avoid these pitfalls to ensure you get paid on time:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Math Errors:</strong> Using a calculator and pen often leads to simple addition mistakes. Use an <strong>online invoice generator</strong> to automate this.</li>
+      <li><strong>Sending to the Wrong Person:</strong> Always verify the email address of the accounts payable department, not just your project contact.</li>
+      <li><strong>Vague Descriptions:</strong> "Services" is bad. "Web Development for Home Page Redesign" is good. Vague invoices get disputed.</li>
+      <li><strong>No Due Date:</strong> Without a deadline, clients will prioritize other payments.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Frequently Asked Questions (FAQ)</h2>
+    
+    <div className="space-y-6">
+      <div>
+        <h3 className="font-bold text-lg text-slate-800 dark:text-slate-200">1. Is a digital invoice legally valid?</h3>
+        <p className="text-slate-600 dark:text-slate-400">Yes. Digital PDF invoices are legally recognized in almost all jurisdictions globally, provided they contain the mandatory fields (date, invoice number, tax IDs).</p>
       </div>
-    </section>
-
-    <section className="mb-8">
-      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">8. Privacy & Security: Is it Safe?</h2>
-      <p className="mb-4">
-        Most online invoice generators require you to sign up, creating a risk of your client data being stored on their servers. 
-      </p>
-      <p className="mb-4">
-        <strong>InvoicePro is different.</strong> We use a <strong>Local-First Architecture</strong>. This means:
-      </p>
-      <ul className="list-disc pl-5 space-y-2 mb-4">
-        <li><strong>No Server Storage:</strong> Your client list, sales figures, and bank details <strong>never</strong> leave your browser.</li>
-        <li><strong>No Signup Required:</strong> You don't need to create an account or share your email to use the tool.</li>
-        <li><strong>100% Free:</strong> Generate unlimited invoices without paywalls or watermarks (on business invoices).</li>
-      </ul>
-    </section>
-
-    <section className="mb-8">
-      <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">Frequently Asked Questions (FAQs)</h2>
-      
-      <div className="space-y-4">
-        <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-          <summary className="font-bold cursor-pointer list-none flex justify-between items-center">
-            Is this invoice generator truly free?
-            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-          </summary>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">Yes, InvoicePro is 100% free. You can generate unlimited invoices, download PDFs, and print them without paying a cent.</p>
-        </details>
-
-        <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-          <summary className="font-bold cursor-pointer list-none flex justify-between items-center">
-            Can I create a GST invoice for India?
-            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-          </summary>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">Absolutely. Select the "GST Invoice" option from the menu. It supports CGST, SGST, IGST, HSN codes, and GSTIN fields automatically.</p>
-        </details>
-
-        <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-          <summary className="font-bold cursor-pointer list-none flex justify-between items-center">
-            Does the invoice have a watermark?
-            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-          </summary>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">If you add your own Business Name or Logo, the "Created with InvoicePro" branding is automatically removed from the footer, giving you a completely white-label experience.</p>
-        </details>
-
-        <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-          <summary className="font-bold cursor-pointer list-none flex justify-between items-center">
-            Can I save my invoice data?
-            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-          </summary>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">Your data is automatically saved in your browser's local storage. If you close the tab and come back, your details will still be there (unless you clear your browser cache).</p>
-        </details>
-          
-        <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-          <summary className="font-bold cursor-pointer list-none flex justify-between items-center">
-            Is my data private?
-            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-          </summary>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">Yes. We do not store any data on our servers. Everything happens locally on your device.</p>
-        </details>
+      <div>
+        <h3 className="font-bold text-lg text-slate-800 dark:text-slate-200">2. What is the difference between an Invoice and a Receipt?</h3>
+        <p className="text-slate-600 dark:text-slate-400">An invoice is a request for payment sent <em>before</em> the payment is made. A receipt is proof of payment issued <em>after</em> the payment is received.</p>
       </div>
-    </section>
+      <div>
+        <h3 className="font-bold text-lg text-slate-800 dark:text-slate-200">3. Can I issue an invoice without a GST number?</h3>
+        <p className="text-slate-600 dark:text-slate-400">Yes. If your turnover is below the GST registration threshold, you can issue a "Bill of Supply" or a standard non-tax invoice. You cannot collect tax from customers if you are not registered.</p>
+      </div>
+      <div>
+        <h3 className="font-bold text-lg text-slate-800 dark:text-slate-200">4. How do I handle international invoices?</h3>
+        <p className="text-slate-600 dark:text-slate-400">For international clients, use a standard invoice format. Ensure the currency is clear (USD/EUR/GBP). You typically do not charge local tax (like GST/VAT) on exports, but you may need to provide a Letter of Undertaking (LUT) in countries like India.</p>
+      </div>
+      <div>
+        <h3 className="font-bold text-lg text-slate-800 dark:text-slate-200">5. What software should I use to make invoices?</h3>
+        <p className="text-slate-600 dark:text-slate-400">While Excel and Word are options, they are manual and error-prone. A specialized <strong>free invoice generator</strong> like InvoicePro is faster, more secure, and produces better-looking results automatically.</p>
+      </div>
+    </div>
 
-    <section className="mt-12 p-8 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl text-center border border-indigo-100 dark:border-indigo-800">
-      <h2 className="text-2xl font-bold mb-4">Ready to Create Your Invoice?</h2>
-      <p className="mb-6 text-slate-600 dark:text-slate-300">Join thousands of freelancers and businesses who trust InvoicePro for their billing needs. No signup required.</p>
-      <button 
-        onClick={() => window.scrollTo(0,0)} 
-        className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-lg transition-transform hover:scale-105"
-      >
-        Create Invoice Now
-      </button>
-    </section>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Expert Summary</h2>
+    <p className="mb-4">
+      Invoicing is the final step of your hard work. Do not let a sloppy document ruin the impression you have built. By using a structured, professional, and compliant invoice format, you ensure faster payments, better legal protection, and a stronger brand image.
+    </p>
+    <p className="mb-4">
+      Whether you need a simple bill or a complex GST-compliant tax invoice, tools like <strong>InvoicePro</strong> are designed to make this process invisible, secure, and instant. Start creating your professional invoice today and take control of your business finances.
+    </p>
+
   </LegalLayout>
 );
 
@@ -715,8 +1004,8 @@ export default function App() {
   useEffect(() => {
     let meta = {
       title: 'Free Invoice Generator | Create Professional Invoices Online',
-      description: 'Create and download professional PDF invoices for free. Secure, fast, and no signup required. Perfect for freelancers and small businesses.',
-      keywords: 'free invoice generator, online invoice maker, pdf invoice, billing software',
+      description: 'The #1 free invoice generator for freelancers and small businesses. Create secure, professional PDF invoices in seconds. No login required.',
+      keywords: 'free invoice generator, invoice maker free, online invoice maker, create invoice free, pdf invoice generator, bill maker, receipt generator, simple invoice maker',
       url: window.location.href
     };
 
@@ -738,13 +1027,15 @@ export default function App() {
        // ... [Extended Static Page SEO Logic] ...
        const titles = {
          privacy: 'Privacy Policy - InvoicePro',
-         terms: 'Terms of Service - InvoicePro',
-         about: 'About Us - InvoicePro',
+         terms: 'Terms of Service - InvoicePro | Legal User Agreement',
+         about: 'About Us - InvoicePro | Secure & Free Invoicing',
          contact: 'Contact Us - InvoicePro',
-         'how-to-create-invoice': 'How to Create a Professional Invoice Online | Free Guide'
+         'how-to-create-invoice': 'Professional Invoicing Guide | InvoicePro'
        };
        const descs = {
-         'how-to-create-invoice': 'Learn how to create professional invoices online step by step. Free invoice guide for freelancers, small businesses, GST users, and service providers.'
+         'how-to-create-invoice': 'Master the art of professional invoicing. A concise guide for freelancers and businesses.',
+         about: 'Learn about InvoicePro, the privacy-first free invoice generator. Our mission is to simplify billing for freelancers and small businesses globally.',
+         terms: 'Read the Terms of Service for InvoicePro. Understand the rules, user responsibilities, and legal agreement for using our free invoice generator.'
        };
 
        meta.title = titles[activeRoute];
@@ -804,8 +1095,8 @@ export default function App() {
         if (parsed.payment.amount === undefined) parsed.payment.amount = 0;
         if (parsed.sender && parsed.sender.signature === undefined) parsed.sender.signature = '';
         
-        if (parsed.notes === 'Thank you for your business!') {
-           parsed.notes = 'Thank you for your shopping!';
+        if (parsed.notes === 'Thank you for your shopping!') {
+           parsed.notes = 'Thank you for your business!';
         }
 
         if (parsed.items) {
@@ -1130,15 +1421,15 @@ export default function App() {
             }
             @media print {
               html, body {
-                 width: 210mm;
-                 height: 297mm;
-                 overflow: hidden;
+                  width: 210mm;
+                  height: 297mm;
+                  overflow: hidden;
               }
               .invoice-footer-brand {
-                 display: none !important;
+                  display: none !important;
               }
               nav, .no-print, button, footer, .ad-unit {
-                 display: none !important;
+                  display: none !important;
               }
             }
           </style>
@@ -1151,8 +1442,8 @@ export default function App() {
               const targetHeight = 1122; // A4 pixel height @ 96dpi
               // If content overflows, scale it down to fit on one page
               if (content.scrollHeight > targetHeight) {
-                 const scale = targetHeight / content.scrollHeight;
-                 content.style.transform = 'scale(' + scale + ')';
+                  const scale = targetHeight / content.scrollHeight;
+                  content.style.transform = 'scale(' + scale + ')';
               }
               setTimeout(function() {
                 window.print();
@@ -1375,8 +1666,8 @@ export default function App() {
     const title = invoice.documentTitle?.toLowerCase() || '';
     if (activeRoute === 'transport') {
        if (title.includes('export') || title.includes('import')) {
-          if (baseLabel === 'Vehicle No.') return 'Vessel / Flight No';
-          if (baseLabel === 'Driver Name') return 'B.L. / A.W.B. No';
+         if (baseLabel === 'Vehicle No.') return 'Vessel / Flight No';
+         if (baseLabel === 'Driver Name') return 'B.L. / A.W.B. No';
        }
     }
     if (activeRoute === 'salon') {
@@ -1420,17 +1711,17 @@ export default function App() {
       <div className={`min-h-screen font-sans transition-colors duration-300 ${darkMode ? 'dark bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
         <nav className="sticky top-0 z-40 w-full backdrop-blur-lg bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800">
            <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-              <a 
-                href="/"
-                className="flex items-center gap-2 cursor-pointer group no-underline" 
-                onClick={(e) => { e.preventDefault(); handleRouteChange('home'); }}
-              >
-                <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
-                  <Zap size={20} fill="currentColor" />
-                </div>
-                <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Invoice<span className="text-indigo-600">Pro</span></span>
-              </a>
-              <div className="flex gap-3">
+             <a 
+               href="/"
+               className="flex items-center gap-2 cursor-pointer group no-underline" 
+               onClick={(e) => { e.preventDefault(); handleRouteChange('home'); }}
+             >
+               <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+                 <Zap size={20} fill="currentColor" />
+               </div>
+               <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Invoice<span className="text-indigo-600">Pro</span></span>
+             </a>
+             <div className="flex gap-3">
                  <button 
                    onClick={() => setDarkMode(!darkMode)}
                    className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
@@ -1438,7 +1729,7 @@ export default function App() {
                    {darkMode ? <Sun size={18} /> : <Moon size={18} />}
                  </button>
                  <button onClick={() => handleRouteChange('home')} className="px-4 py-2 text-sm font-medium hover:text-indigo-600">Back</button>
-              </div>
+             </div>
            </div>
         </nav>
         {PageContent && <PageContent />}
@@ -1528,14 +1819,13 @@ export default function App() {
           <section className="py-20 text-center px-4 relative overflow-hidden">
              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-3xl -z-10" />
              <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-slate-900 dark:text-white">
-               Create Professional Invoices <br className="hidden md:block"/>
+               Invoicing Made Simple <br className="hidden md:block"/>
                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-                 Absolutely Free
+                 Completely Free
                </span>
              </h1>
              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-               The most powerful invoice generator on the web. No login required. 
-               Unlimited PDF downloads. Secure and private.
+               Generate professional PDF invoices in seconds. No account required. Zero data stored on servers.
              </p>
              
              <div className="flex flex-col items-center gap-6 mb-16">
@@ -1544,7 +1834,7 @@ export default function App() {
                    onClick={() => handleRouteChange('standard')}
                    className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold shadow-lg shadow-indigo-600/30 transition-all transform hover:scale-105 flex items-center gap-2"
                  >
-                   Create First Invoice <ArrowRight size={18} />
+                   Start Invoicing <ArrowRight size={18} />
                  </button>
                  <button 
                    onClick={() => handleRouteChange('gst')}
@@ -1558,7 +1848,7 @@ export default function App() {
                  onClick={() => handleRouteChange('how-to-create-invoice')}
                  className="flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
                >
-                 📘 Learn how to create professional invoices (Free Guide)
+                 📘 Professional Invoicing Guide
                </button>
              </div>
 
@@ -1591,8 +1881,8 @@ export default function App() {
           <section className="py-20 bg-slate-50 dark:bg-slate-800/50">
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold mb-4">Why Professionals Choose Us?</h2>
-                <p className="text-slate-500 dark:text-slate-400">Everything you need to get paid faster, without the headache.</p>
+                <h2 className="text-3xl font-bold mb-4">Why InvoicePro?</h2>
+                <p className="text-slate-500 dark:text-slate-400">Built for speed, privacy, and professionalism.</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {APP_FEATURES.map((feature) => (
@@ -1608,16 +1898,218 @@ export default function App() {
           </section>
 
           <section className="py-20 container mx-auto px-4 max-w-4xl prose dark:prose-invert">
-             <h2>The Ultimate Free Invoice Generator</h2>
-             <p>Managing finances is crucial for freelancers, small business owners, and entrepreneurs. Our tool simplifies billing by allowing you to create customized invoices in seconds. Unlike complex accounting software, our solution is lightweight, fast, and completely free.</p>
-             <h3>How to create an invoice online?</h3>
-             <ol>
-               <li>Select the invoice template that matches your business type (Standard, GST, etc).</li>
-               <li>Add your business logo and contact details.</li>
-               <li>Enter client information and list the services or products provided.</li>
-               <li>Download the PDF and email it directly to your client.</li>
+             
+             {/* --- LONG FORM SEO CONTENT START --- */}
+             
+             <h1 className="text-4xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+               The #1 Free Invoice Generator for Modern Business
+             </h1>
+
+             <p className="text-xl text-slate-600 dark:text-slate-400 text-center mb-12 leading-relaxed">
+               Create, download, and send professional PDF invoices in seconds. No signup required. No hidden fees. 
+               The secure <strong>free invoice generator</strong> trusted by freelancers and small businesses worldwide.
+             </p>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">What is a Free Invoice Generator?</h2>
+             <p>
+               A <strong>free invoice generator</strong> is an online tool that allows business owners, freelancers, and contractors to create professional billing documents without needing expensive accounting software. 
+               Unlike manual methods like Word or Excel, an <strong>online invoice maker</strong> automates the calculation of subtotals, taxes, and discounts, ensuring accuracy and compliance with professional standards.
+             </p>
+             <p>
+               InvoicePro takes this a step further by offering a "Local-First" architecture. This means when you create an invoice, the data stays on your device. We do not store your client list or financial details on our servers, ensuring enterprise-grade privacy for your small business.
+             </p>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">Why Use an Online Invoice Maker Instead of Excel?</h2>
+             <p>
+               For decades, businesses relied on spreadsheets. However, manual invoicing is prone to errors and looks unprofessional. Here is why switching to a dedicated <strong>invoice creator</strong> is crucial:
+             </p>
+             <ul className="list-disc pl-5 space-y-3 mb-6">
+               <li><strong>Automatic Math:</strong> Never send an invoice with a calculation error again. Our tool handles quantity × price, discounts, and complex tax percentages automatically.</li>
+               <li><strong>Mobile Friendly:</strong> Create invoices on the go from your smartphone. Excel templates often break on mobile screens.</li>
+               <li><strong>Professional PDFs:</strong> Generate a crisp, clean <strong>PDF invoice</strong> that looks consistent on every device. Word documents can lose formatting when opened on different computers.</li>
+               <li><strong>Speed:</strong> Save client details and auto-fill your next bill. What used to take 10 minutes now takes 10 seconds.</li>
+             </ul>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">How to Create a Professional Invoice in 3 Steps</h2>
+             <p>Using our <strong>simple invoice maker</strong> is intuitive. You don't need an account or a credit card. Just follow these steps:</p>
+             <ol className="list-decimal pl-5 space-y-4 mb-6">
+               <li>
+                 <strong>Enter Business Details:</strong> Start by adding your "From" details. Upload your company logo to make the document look official. Add your business address and contact info.
+               </li>
+               <li>
+                 <strong>Add Client & Line Items:</strong> Fill in the "Bill To" section with your client's information. Then, add your services or products as line items. Enter the quantity and rate; the <strong>invoice calculator</strong> does the rest.
+               </li>
+               <li>
+                 <strong>Download PDF:</strong> Review the total, add any payment instructions (like bank details or UPI ID), and hit "Download PDF". You now have a file ready to email to your client.
+               </li>
              </ol>
-             <p>We support various invoice types including compliant GST invoices for Indian businesses, simple freelance bills, and detailed transport receipts.</p>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">The Essential Elements of a Valid Invoice</h2>
+             <p>
+               To ensure your <strong>bill format</strong> is legally valid and looks professional, it must contain specific components. Our <strong>invoice templates</strong> include all of these by default:
+             </p>
+             <ul className="list-disc pl-5 space-y-3 mb-6">
+               <li><strong>Header:</strong> Clearly marked with the word "INVOICE" (or Tax Invoice/Bill of Supply).</li>
+               <li><strong>Unique Invoice Number:</strong> A sequential ID (e.g., INV-001) for tracking and accounting.</li>
+               <li><strong>Date of Issue & Due Date:</strong> Establishes when the payment is expected.</li>
+               <li><strong>Seller & Buyer Info:</strong> Names, addresses, and tax IDs (GSTIN/VAT) if applicable.</li>
+               <li><strong>Itemized List:</strong> Clear description of goods sold or services rendered.</li>
+               <li><strong>Financial Breakdown:</strong> Subtotal, Tax Amount, Discounts, and Grand Total.</li>
+               <li><strong>Payment Terms:</strong> Instructions on how to pay (Bank transfer, PayPal, Stripe, etc.).</li>
+             </ul>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">Understanding Invoice Data Privacy & Security</h2>
+             <p>
+               Most <strong>free invoicing software</strong> requires you to create an account, storing your sensitive financial data on their servers. This creates a risk of data breaches or data mining.
+             </p>
+             <p>
+               <strong>InvoicePro is different.</strong> We utilize <strong>Local Storage technology</strong>. When you type your client's name or your price list, that data is saved directly to your browser's internal memory on your specific device. It is never transmitted to our cloud databases.
+             </p>
+             <p>
+               This makes InvoicePro the most secure <strong>receipt generator</strong> for privacy-conscious freelancers. You get the convenience of cloud software with the privacy of an offline Excel file.
+             </p>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">Who Needs a Free Invoice Creator?</h2>
+             <p>Our versatile tool is designed for a wide range of professionals:</p>
+             <ul className="list-disc pl-5 space-y-3 mb-6">
+               <li><strong>Freelancers:</strong> Web designers, writers, and developers who need a quick <strong>freelance invoice</strong> to get paid at the end of a project.</li>
+               <li><strong>Contractors:</strong> Tradespeople like plumbers, electricians, and carpenters who need to issue a <strong>service receipt</strong> on the spot.</li>
+               <li><strong>Small Business Owners:</strong> Retailers and service providers needing a robust <strong>GST invoice generator</strong> without monthly subscription fees.</li>
+               <li><strong>Consultants:</strong> Professionals billing for hourly work who need a clean, corporate <strong>consulting invoice</strong>.</li>
+             </ul>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">Benefits of Professional PDF Invoices</h2>
+             <p>
+               Why is PDF the gold standard? A <strong>PDF invoice</strong> is non-editable by the receiver, ensuring the integrity of the amount and terms you set. It creates a digital paper trail that is universally accepted by accounting departments and tax authorities globally.
+             </p>
+             <p>
+               Furthermore, PDF files are lightweight and preserve your formatting (fonts, logo placement) regardless of whether the client views them on a phone, tablet, or desktop computer.
+             </p>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">Common Invoicing Mistakes to Avoid</h2>
+             <p>Even seasoned business owners make mistakes that delay payment. Here is how our <strong>invoice maker</strong> helps you avoid them:</p>
+             <ul className="list-disc pl-5 space-y-3 mb-6">
+               <li><strong>Vague Descriptions:</strong> Instead of "Consulting", use "Marketing Strategy Consultation - Jan 2024". Our template encourages detailed descriptions.</li>
+               <li><strong>Missing Due Date:</strong> If you don't tell a client when to pay, they will prioritize other bills. Always set a clear Due Date.</li>
+               <li><strong>Forgotten Payment Info:</strong> A client cannot pay you if they don't know your bank details. Our dedicated "Payment Instructions" field ensures this is never missed.</li>
+               <li><strong>Incorrect Tax Calculations:</strong> Manual math is risky. Our automated engine ensures your tax and totals are pixel-perfect.</li>
+             </ul>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">Global Invoicing: Currencies and Taxes</h2>
+             <p>
+               Business is global, and so is InvoicePro. Our tool supports all major currencies including USD ($), EUR (€), GBP (£), INR (₹), and more.
+             </p>
+             <p>
+               Whether you need a <strong>VAT invoice</strong> for Europe, a <strong>GST invoice</strong> for India/Australia, or a standard sales tax invoice for the US, our flexible tax settings allow you to rename the tax label and set custom percentages to comply with local regulations.
+             </p>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">How Automation Improves Cash Flow</h2>
+             <p>
+               The faster you invoice, the faster you get paid. By reducing the friction of creating a bill, you are more likely to send invoices immediately upon job completion rather than waiting until the end of the month.
+             </p>
+             <p>
+               Using a <strong>fast invoice generator</strong> reduces administrative drag, allowing you to focus on revenue-generating work rather than paperwork. Consistent, professional billing also signals reliability to clients, often leading to faster approval cycles.
+             </p>
+
+             <h2 className="text-2xl font-bold mt-12 mb-6">Frequently Asked Questions (FAQ)</h2>
+             
+             <div className="space-y-4">
+               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
+                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
+                   Is this invoice generator truly free?
+                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+                 </summary>
+                 <p className="mt-3 text-slate-600 dark:text-slate-400">
+                   Yes. InvoicePro is 100% free to use. You can generate unlimited invoices and download unlimited PDFs. There are no watermarks on the invoices themselves (only a small footer credit which is removed if you add your own logo).
+                 </p>
+               </details>
+
+               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
+                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
+                   Do I need to sign up or create an account?
+                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+                 </summary>
+                 <p className="mt-3 text-slate-600 dark:text-slate-400">
+                   No. We do not require any login or registration. You can start creating your invoice immediately. This ensures your privacy and saves you time.
+                 </p>
+               </details>
+
+               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
+                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
+                   Is my data safe?
+                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+                 </summary>
+                 <p className="mt-3 text-slate-600 dark:text-slate-400">
+                   Absolutely. We use a "Local-First" approach. Your data (client names, prices, bank details) is stored in your browser's local storage on your own device. It is never sent to our servers or stored in a cloud database.
+                 </p>
+               </details>
+
+               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
+                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
+                   Can I generate a GST Invoice for India?
+                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+                 </summary>
+                 <p className="mt-3 text-slate-600 dark:text-slate-400">
+                   Yes. We have a dedicated "GST Invoice" mode. Simply click the GST button or switch the invoice type. It supports CGST, SGST, IGST, HSN codes, and GSTIN fields for both supplier and receiver.
+                 </p>
+               </details>
+
+               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
+                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
+                   Can I add my own logo?
+                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+                 </summary>
+                 <p className="mt-3 text-slate-600 dark:text-slate-400">
+                   Yes. You can upload your business logo (PNG, JPG, or SVG). It will appear on the top-left of the invoice PDF, making it look fully professional and branded.
+                 </p>
+               </details>
+
+               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
+                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
+                   Can I change the currency?
+                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+                 </summary>
+                 <p className="mt-3 text-slate-600 dark:text-slate-400">
+                   Yes. We support multiple currencies. You can select USD, EUR, GBP, INR, CAD, AUD, or AED from the currency dropdown in the settings panel.
+                 </p>
+               </details>
+
+               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
+                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
+                   Can I save the invoice to edit later?
+                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+                 </summary>
+                 <p className="mt-3 text-slate-600 dark:text-slate-400">
+                   Your browser will automatically remember the details of your last invoice (using Local Storage). If you close the tab and come back, your data will still be there. We also offer a "History" feature that saves your last 20 generated invoices for quick restoration.
+                 </p>
+               </details>
+
+               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
+                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
+                   Is there a mobile app?
+                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
+                 </summary>
+                 <p className="mt-3 text-slate-600 dark:text-slate-400">
+                   InvoicePro is a Progressive Web App (PWA) that works perfectly in your mobile browser. You do not need to download an app from the store; simply visit the website on your phone to create invoices on the go.
+                 </p>
+               </details>
+             </div>
+
+             <div className="mt-12 p-8 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl text-center border border-indigo-100 dark:border-indigo-800">
+               <h2 className="text-2xl font-bold mb-4">Ready to Get Paid?</h2>
+               <p className="mb-6 text-slate-600 dark:text-slate-300">
+                 Join thousands of freelancers and small businesses using InvoicePro to streamline their billing.
+               </p>
+               <button 
+                 onClick={() => window.scrollTo(0,0)} 
+                 className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-lg transition-transform hover:scale-105"
+               >
+                 Create Your Free Invoice Now
+               </button>
+             </div>
+
+             {/* --- LONG FORM SEO CONTENT END --- */}
+
           </section>
 
         </div>
@@ -1642,12 +2134,12 @@ export default function App() {
                     </span>
                     <span className="text-[0.5rem] font-bold uppercase tracking-wider">
                       {{
-                        standard: 'STANDARD',
+                        standard: 'STD',
                         gst: 'GST',
-                        freelance: 'FREELANCE',
-                        transport: 'TRANSPORT',
-                        salon: 'SALON'
-                      }[config?.id] || 'STANDARD'}
+                        freelance: 'GIG',
+                        transport: 'LOG',
+                        salon: 'SPA'
+                      }[config?.id] || 'STD'}
                     </span>
                   </div>
                 </span>
@@ -1674,11 +2166,11 @@ export default function App() {
               <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
                 <div className="flex items-center gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-700">
                   <Settings className="text-indigo-600" size={20} />
-                  <h2 className="font-bold text-lg">Invoice Settings</h2>
+                  <h2 className="font-bold text-lg">Configuration</h2>
                 </div>
 
                 <div className="mb-4">
-                   <label className="label">Document Type</label>
+                   <label className="label">Document Header</label>
                    <select 
                      className="input font-semibold text-indigo-600"
                      value={invoice.documentTitle}
@@ -1979,7 +2471,7 @@ export default function App() {
                     </div>
                   </div>
 
-                  <label className="label">Notes (Optional)</label>
+                  <label className="label">Notes / Terms</label>
                   <textarea 
                       rows="2" 
                       placeholder="e.g. Thank you for your business!"
@@ -2037,14 +2529,14 @@ export default function App() {
                   
                   {invoice.payment?.status === 'partial' && (
                       <div className="mb-4">
-                         <label className="label">Amount Paid</label>
-                         <input 
-                            type="number"
-                            className="input"
-                            value={invoice.payment?.amount || ''}
-                            onChange={(e) => updateNested('payment', 'amount', e.target.value)}
-                         />
-                         <p className="text-[10px] text-slate-400 mt-1">Remaining balance will be calculated automatically.</p>
+                          <label className="label">Amount Paid</label>
+                          <input 
+                             type="number"
+                             className="input"
+                             value={invoice.payment?.amount || ''}
+                             onChange={(e) => updateNested('payment', 'amount', e.target.value)}
+                          />
+                          <p className="text-[10px] text-slate-400 mt-1">Remaining balance will be calculated automatically.</p>
                       </div>
                   )}
 
@@ -2162,18 +2654,18 @@ export default function App() {
                 {config?.seoContent}
                 
                 <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
-                  <h3 className="font-bold mb-4">Frequently Asked Questions</h3>
+                  <h3 className="font-bold mb-4">FAQ</h3>
                   <details className="group mb-4">
                     <summary className="font-semibold cursor-pointer list-none flex justify-between">
                       Can I save this invoice? <ChevronDown className="group-open:rotate-180 transition-transform"/>
                     </summary>
-                    <p className="mt-2 text-sm text-slate-500">Yes, your data is automatically saved to your browser's local storage so you can come back later.</p>
+                    <p className="mt-2 text-sm text-slate-500">Yes. Data is auto-saved to your browser's local storage.</p>
                   </details>
                   <details className="group mb-4">
                       <summary className="font-semibold cursor-pointer list-none flex justify-between">
                         Is the PDF really free? <ChevronDown className="group-open:rotate-180 transition-transform"/>
                       </summary>
-                      <p className="mt-2 text-sm text-slate-500">Yes, generate unlimited PDFs for free. No watermarks on the professional layout.</p>
+                      <p className="mt-2 text-sm text-slate-500">Yes. Generate unlimited, watermark-free PDFs.</p>
                   </details>
                 </div>
               </div>
@@ -2195,9 +2687,9 @@ export default function App() {
                 </div>
                 <div className="flex gap-4 w-full">
                   <button 
-                     onClick={generatePDF} 
-                     disabled={loadingPdf}
-                     className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold shadow-lg shadow-indigo-600/20 flex justify-center items-center gap-2 transition-all transform hover:scale-[1.01]"
+                      onClick={generatePDF} 
+                      disabled={loadingPdf}
+                      className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold shadow-lg shadow-indigo-600/20 flex justify-center items-center gap-2 transition-all transform hover:scale-[1.01]"
                   >
                     {loadingPdf ? <RefreshCw className="animate-spin" /> : <Download size={20} />} Download PDF
                   </button>
@@ -2272,9 +2764,9 @@ export default function App() {
                                    <p className="font-semibold text-slate-700 text-sm mt-3 pt-3 border-t border-slate-200">GSTIN: {invoice.receiver.gstin}</p>
                                  )}
                               </>
-                           ) : (
+                            ) : (
                               <p className="text-slate-400 italic text-sm">Client details not provided</p>
-                           )}
+                            )}
                         </div>
                         
                         <div className="w-1/2 bg-slate-50 rounded-xl p-6">
@@ -2292,7 +2784,7 @@ export default function App() {
                                   <span className="font-bold text-slate-700 text-right">{invoice.transport.destination || '-'}</span>
                                 </div>
                              </>
-                           ) : config?.id === 'salon' ? (
+                            ) : config?.id === 'salon' ? (
                              <>
                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Service Details</span>
                                 <div className="grid grid-cols-2 gap-y-3 text-sm">
@@ -2304,16 +2796,16 @@ export default function App() {
                                   </span>
                                 </div>
                              </>
-                           ) : (
+                            ) : (
                              <div className="h-full flex flex-col justify-between">
                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Payment Status</span>
                                <div className="text-sm font-bold">
                                   <span className={`px-2 py-1 rounded border uppercase ${invoice.payment.status === 'paid' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : invoice.payment.status === 'partial' ? 'bg-amber-100 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                                       {invoice.payment.status}
+                                           {invoice.payment.status}
                                   </span>
                                </div>
                              </div>
-                           )}
+                            )}
                         </div>
                     </div>
 
@@ -2417,40 +2909,40 @@ export default function App() {
                     {/* Payment Details / Proof - Visible only if NOT pending */}
                     {invoice.payment?.status !== 'pending' && (
                       <div className="bg-slate-50 rounded-xl p-6 mb-8 border border-slate-100">
-                         <h4 className="font-bold text-xs text-slate-400 uppercase tracking-widest mb-4">Payment Details / Proof</h4>
-                         <div className="grid grid-cols-2 gap-4 text-sm">
-                            <div className="flex justify-between">
-                              <span className="text-slate-500">Status:</span>
-                              <span className="font-bold uppercase text-slate-800">{invoice.payment.status}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-slate-500">Method:</span>
-                              <span className="font-medium text-slate-900">{invoice.payment.method}</span>
-                            </div>
-                            {invoice.payment.paidDate && (
-                              <div className="flex justify-between">
-                                <span className="text-slate-500">Date:</span>
-                                <span className="font-medium text-slate-900">{invoice.payment.paidDate}</span>
-                              </div>
-                            )}
-                            {invoice.payment.referenceId && (
-                              <div className="flex justify-between">
-                                <span className="text-slate-500">Txn ID:</span>
-                                <span className="font-medium text-slate-900">{invoice.payment.referenceId}</span>
-                              </div>
-                            )}
-                             <div className="flex justify-between pt-2 border-t border-slate-200 mt-2 col-span-2">
-                                <span className="text-slate-500 font-medium">Amount Paid:</span>
-                                <span className="font-bold text-slate-900">{formatCurrency(paidAmount)}</span>
+                          <h4 className="font-bold text-xs text-slate-400 uppercase tracking-widest mb-4">Payment Details / Proof</h4>
+                          <div className="grid grid-cols-2 gap-4 text-sm">
+                             <div className="flex justify-between">
+                               <span className="text-slate-500">Status:</span>
+                               <span className="font-bold uppercase text-slate-800">{invoice.payment.status}</span>
                              </div>
-                         </div>
-                         {invoice.payment.status === 'paid' && (
-                            <div className="mt-4 pt-4 border-t border-slate-200 text-center">
-                              <span className="text-emerald-600 font-bold text-sm flex items-center justify-center gap-2">
-                                <CheckCircle size={16} /> Payment Received
-                              </span>
-                            </div>
-                         )}
+                             <div className="flex justify-between">
+                               <span className="text-slate-500">Method:</span>
+                               <span className="font-medium text-slate-900">{invoice.payment.method}</span>
+                             </div>
+                             {invoice.payment.paidDate && (
+                               <div className="flex justify-between">
+                                 <span className="text-slate-500">Date:</span>
+                                 <span className="font-medium text-slate-900">{invoice.payment.paidDate}</span>
+                               </div>
+                             )}
+                             {invoice.payment.referenceId && (
+                               <div className="flex justify-between">
+                                 <span className="text-slate-500">Txn ID:</span>
+                                 <span className="font-medium text-slate-900">{invoice.payment.referenceId}</span>
+                               </div>
+                             )}
+                              <div className="flex justify-between pt-2 border-t border-slate-200 mt-2 col-span-2">
+                                 <span className="text-slate-500 font-medium">Amount Paid:</span>
+                                 <span className="font-bold text-slate-900">{formatCurrency(paidAmount)}</span>
+                              </div>
+                          </div>
+                          {invoice.payment.status === 'paid' && (
+                             <div className="mt-4 pt-4 border-t border-slate-200 text-center">
+                               <span className="text-emerald-600 font-bold text-sm flex items-center justify-center gap-2">
+                                 <CheckCircle size={16} /> Payment Received
+                               </span>
+                             </div>
+                          )}
                       </div>
                     )}
 
@@ -2631,16 +3123,17 @@ export default function App() {
           .invoice-logo {
             max-width: 140px !important;
             max-height: 50px !important;
+            object-fit: contain !important;
           }
 
           /* Hide non-print elements */
           nav, .no-print, button, footer, .ad-unit {
-             display: none !important;
+              display: none !important;
           }
 
           /* Footer Branding Logic for Print */
           .invoice-footer-brand {
-             display: none !important;
+              display: none !important;
           }
         }
 
