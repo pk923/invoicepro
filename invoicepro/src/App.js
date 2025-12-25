@@ -34,10 +34,20 @@ const loadScript = (src) => {
     const script = document.createElement('script');
     script.src = src;
     script.onload = resolve;
-    script.onerror = reject;
+    script.onerror = (e) => {
+      console.warn(`Failed to load script: ${src}`, e);
+      reject(e);
+    };
     document.head.appendChild(script);
   });
 };
+
+// --- ADS COMPONENT ---
+const Ads = () => (
+  <div className="w-full max-w-[728px] mx-auto bg-slate-100 dark:bg-slate-800 border border-dashed border-slate-300 dark:border-slate-700 rounded-lg flex items-center justify-center h-[90px] text-slate-400 text-sm">
+    <span className="font-medium uppercase tracking-wider">Advertisement Space</span>
+  </div>
+);
 
 // --- CONFIGURATION & CONTENT ---
 
@@ -441,6 +451,7 @@ const ContactUs = () => (
     <p className="mt-6 text-xs text-slate-400 italic">
       InvoicePro is a self-service online tool and does not provide accounting or legal advice.
     </p>
+
   </LegalLayout>
 );
 
@@ -1578,7 +1589,11 @@ export default function App() {
              </div>
           </section>
 
-          {/* <AdUnit type="banner" label="Homepage Leaderboard" /> */}
+          {/* 🔥 ADS START */}
+          <div className="my-10 flex justify-center">
+            <Ads />
+          </div>
+          {/* 🔥 ADS END */}
 
           <section className="py-20 bg-slate-50 dark:bg-slate-800/50">
             <div className="container mx-auto px-4">
