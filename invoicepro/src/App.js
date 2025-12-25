@@ -979,6 +979,52 @@ export default function App() {
   const tableHeaderRef = useRef(null);   // ✅ NEW REF
   const config = activeRoute !== 'home' ? INVOICE_TYPES[activeRoute] : null;
 
+  // --- STANDARD INVOICE SUB-CONFIG LOGIC ---
+  const stdConfig = React.useMemo(() => {
+    if (activeRoute !== 'standard') return null;
+    const type = invoice.documentTitle?.toUpperCase();
+    
+    if (type === 'SALES INVOICE') {
+      return {
+        invoiceNoLabel: "Invoice No",
+        itemPlaceholder: "Product Name",
+        qtyLabel: "Quantity",
+        showDueDate: true,
+        showDiscount: true,
+        showShipping: true
+      };
+    }
+    if (type === 'SERVICE INVOICE') {
+      return {
+        invoiceNoLabel: "Invoice No",
+        itemPlaceholder: "Service Description",
+        qtyLabel: "Hours / Sessions",
+        showDueDate: true,
+        showDiscount: true,
+        showShipping: false
+      };
+    }
+    if (type === 'GENERAL BILL') {
+      return {
+        invoiceNoLabel: "Bill No",
+        itemPlaceholder: "Item Name",
+        qtyLabel: "Qty",
+        showDueDate: false,
+        showDiscount: false,
+        showShipping: false
+      };
+    }
+    // Default Standard
+    return {
+      invoiceNoLabel: "Invoice No",
+      itemPlaceholder: "Item / Service Name",
+      qtyLabel: "Qty",
+      showDueDate: true,
+      showDiscount: true,
+      showShipping: true
+    };
+  }, [activeRoute, invoice.documentTitle]);
+
   // --- ROUTING & SEO LOGIC ---
   
   useEffect(() => {
@@ -1368,6 +1414,33 @@ export default function App() {
     if (invoice.items.length === 0) errors.items = true;
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
+  };
+
+  const resetInvoice = () => {
+    if (window.confirm('Start a new invoice? Current details will be cleared.')) {
+      const lastNo = localStorage.getItem('lastInvoiceNo');
+      let nextNo = 'INV-001';
+      if (lastNo) {
+        const parts = lastNo.split('-');
+        if (parts.length === 2 && !isNaN(parts[1])) {
+          const num = parseInt(parts[1], 10) + 1;
+          nextNo = `INV-${String(num).padStart(3, '0')}`;
+        }
+      }
+
+      setInvoice(prev => ({
+        ...DEFAULT_INVOICE,
+        invoiceNo: nextNo,
+        currency: prev.currency,
+        sender: prev.sender,
+        documentTitle: prev.documentTitle,
+        taxRate: prev.taxRate,
+        enableTax: prev.enableTax,
+        items: [{ id: Date.now(), name: '', description: '', quantity: '', price: '', hsn: '' }]
+      }));
+      setValidationErrors({});
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const handlePrint = () => {
@@ -2149,6 +2222,12 @@ export default function App() {
             </div>
             <div className="flex gap-3">
               <button 
+                onClick={resetInvoice}
+                className="px-3 py-2 text-sm font-medium text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors flex items-center gap-1"
+              >
+                <Plus size={16} /> New
+              </button>
+              <button 
                 onClick={() => handleRouteChange('home')}
                 className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
               >
@@ -2184,7 +2263,7 @@ export default function App() {
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div>
-                    <label className="label">Invoice No</label>
+                    <label className="label">{stdConfig ? stdConfig.invoiceNoLabel : 'Invoice No'}</label>
                     <input className="input" value={invoice.invoiceNo} onChange={(e) => updateRoot('invoiceNo', e.target.value)} />
                   </div>
                   <div>
@@ -2197,10 +2276,12 @@ export default function App() {
                     <label className="label">Date</label>
                     <input type="date" className="input" value={invoice.date} onChange={(e) => updateRoot('date', e.target.value)} />
                   </div>
-                  <div>
-                    <label className="label">Due Date</label>
-                    <input type="date" className="input" value={invoice.dueDate} onChange={(e) => updateRoot('dueDate', e.target.value)} />
-                  </div>
+                  {(!stdConfig || stdConfig.showDueDate) && (
+                    <div>
+                      <label className="label">Due Date</label>
+                      <input type="date" className="input" value={invoice.dueDate} onChange={(e) => updateRoot('dueDate', e.target.value)} />
+                    </div>
+                  )}
                 </div>
 
                 {config?.id === 'gst' && (
@@ -2284,7 +2365,13 @@ export default function App() {
                         <input placeholder="Email" className="input" value={invoice.sender.email} onChange={e => updateNested('sender', 'email', e.target.value)} />
                         <textarea placeholder="Address" rows="2" className="input" value={invoice.sender.address} onChange={e => updateNested('sender', 'address', e.target.value)} />
                         {config?.fields.includes('gstin') && (
-                           <input placeholder="Your GSTIN" className="input border-emerald-200 focus:border-emerald-500" value={invoice.sender.gstin} onChange={e => updateNested('sender', 'gstin', e.target.value)} />
+                           <input 
+                             placeholder="GST Number (GSTIN)" 
+                             className={`input border-emerald-200 focus:border-emerald-500 ${validationErrors.senderGstin ? 'border-red-500 ring-1 ring-red-500' : ''}`}
+                             value={invoice.sender.gstin} 
+                             onChange={e => updateNested('sender', 'gstin', e.target.value.toUpperCase())} 
+                             maxLength={15}
+                           />
                         )}
                       </div>
                    </div>
@@ -2314,7 +2401,7 @@ export default function App() {
                       <div key={item.id} className="flex gap-2 items-start p-2 border border-slate-100 dark:border-slate-700 rounded bg-white dark:bg-slate-900 shadow-sm">
                         <div className="flex-grow space-y-2">
                           <input 
-                            placeholder={getDescriptionPlaceholder()}
+                            placeholder={stdConfig ? stdConfig.itemPlaceholder : getDescriptionPlaceholder()}
                             className="input font-medium" 
                             value={item.name} 
                             onChange={(e) => updateItem(item.id, 'name', e.target.value)}
@@ -2401,42 +2488,50 @@ export default function App() {
                   <p className="text-[10px] text-slate-400 mb-4 text-right">Tax is applied on subtotal after discount</p>
 
                   {/* DISCOUNT INPUT */}
-                  <div className="flex justify-between items-center mb-1">
-                    <div className="flex items-center gap-1 border rounded p-1 bg-white dark:bg-slate-900">
-                      <button 
-                        onClick={() => updateRoot('discountType', 'percent')}
-                        className={`px-2 py-1 text-xs rounded ${invoice.discountType === 'percent' ? 'bg-indigo-100 text-indigo-700 font-bold' : 'text-slate-500'}`}
-                      >%</button>
-                      <button 
-                        onClick={() => updateRoot('discountType', 'flat')}
-                        className={`px-2 py-1 text-xs rounded ${invoice.discountType === 'flat' ? 'bg-indigo-100 text-indigo-700 font-bold' : 'text-slate-500'}`}
-                      >Flat</button>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <label className="text-sm font-medium">Discount</label>
-                      <input 
-                          type="number" 
-                          value={invoice.discountValue} 
-                          onChange={(e) => updateRoot('discountValue', e.target.value)}
-                          className="input w-24 text-right" 
-                      />
-                    </div>
-                  </div>
-                  <div className="flex justify-end mb-4">
-                    <p className="text-[10px] text-slate-400">Discount is applied before tax</p>
-                  </div>
+                  {(!stdConfig || stdConfig.showDiscount) && (
+                    <>
+                      <div className="flex justify-between items-center mb-1">
+                        <div className="flex items-center gap-1 border rounded p-1 bg-white dark:bg-slate-900">
+                          <button 
+                            onClick={() => updateRoot('discountType', 'percent')}
+                            className={`px-2 py-1 text-xs rounded ${invoice.discountType === 'percent' ? 'bg-indigo-100 text-indigo-700 font-bold' : 'text-slate-500'}`}
+                          >%</button>
+                          <button 
+                            onClick={() => updateRoot('discountType', 'flat')}
+                            className={`px-2 py-1 text-xs rounded ${invoice.discountType === 'flat' ? 'bg-indigo-100 text-indigo-700 font-bold' : 'text-slate-500'}`}
+                          >Flat</button>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm font-medium">Discount</label>
+                          <input 
+                              type="number" 
+                              value={invoice.discountValue} 
+                              onChange={(e) => updateRoot('discountValue', e.target.value)}
+                              className="input w-24 text-right" 
+                          />
+                        </div>
+                      </div>
+                      <div className="flex justify-end mb-4">
+                        <p className="text-[10px] text-slate-400">Discount is applied before tax</p>
+                      </div>
+                    </>
+                  )}
 
                   {/* SHIPPING INPUT */}
-                  <div className="flex justify-end items-center mb-1 gap-2">
-                    <label className="text-sm font-medium">Shipping / Extra</label>
-                    <input 
-                        type="number" 
-                        value={invoice.shipping} 
-                        onChange={(e) => updateRoot('shipping', e.target.value)}
-                        className="input w-24 text-right" 
-                    />
-                  </div>
-                  <p className="text-[10px] text-slate-400 mb-6 text-right">Shipping / extra charges are added after tax</p>
+                  {(!stdConfig || stdConfig.showShipping) && (
+                    <>
+                      <div className="flex justify-end items-center mb-1 gap-2">
+                        <label className="text-sm font-medium">Shipping / Extra</label>
+                        <input 
+                            type="number" 
+                            value={invoice.shipping} 
+                            onChange={(e) => updateRoot('shipping', e.target.value)}
+                            className="input w-24 text-right" 
+                        />
+                      </div>
+                      <p className="text-[10px] text-slate-400 mb-6 text-right">Shipping / extra charges are added after tax</p>
+                    </>
+                  )}
 
                   <div className="text-[10px] text-slate-400 text-center mb-4 italic px-2 border-b border-slate-100 pb-2">
                     {`${formatCurrency(subtotal)} - ${formatCurrency(discountAmount)} discount + ${formatCurrency(taxAmount)} tax + ${formatCurrency(shippingVal)} shipping = ${formatCurrency(total)}`}
@@ -2734,17 +2829,19 @@ export default function App() {
                         <h1 className="text-3xl font-bold text-slate-900 uppercase tracking-tight mb-4">{invoice.documentTitle || 'INVOICE'}</h1>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-end gap-6">
-                            <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Invoice No</span>
+                            <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">{stdConfig ? stdConfig.invoiceNoLabel : 'Invoice No'}</span>
                             <span className="font-bold text-slate-700">{invoice.invoiceNo}</span>
                           </div>
                           <div className="flex justify-end gap-6">
                             <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Date</span>
                             <span className="font-bold text-slate-700">{invoice.date}</span>
                           </div>
-                          <div className="flex justify-end gap-6">
-                            <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Due Date</span>
-                            <span className="font-bold text-slate-700">{invoice.dueDate}</span>
-                          </div>
+                          {(!stdConfig || stdConfig.showDueDate) && (
+                            <div className="flex justify-end gap-6">
+                              <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Due Date</span>
+                              <span className="font-bold text-slate-700">{invoice.dueDate}</span>
+                            </div>
+                          )}
                         </div>
                       </div>
                   </div>
@@ -2816,7 +2913,7 @@ export default function App() {
                           <tr>
                             <th className="text-left pb-4 pl-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-1/2">Description</th>
                             {config?.id === 'gst' && <th className="text-center pb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">HSN</th>}
-                            <th className="text-center pb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Qty</th>
+                            <th className="text-center pb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{stdConfig ? stdConfig.qtyLabel : 'Qty'}</th>
                             <th className="text-right pb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Rate</th>
                             <th className="text-right pb-4 pr-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Amount</th>
                           </tr>
@@ -2846,7 +2943,7 @@ export default function App() {
                               <span className="font-medium text-slate-700">{formatCurrency(subtotal)}</span>
                            </div>
                            
-                           {discountAmount > 0 && (
+                           {discountAmount > 0 && (!stdConfig || stdConfig.showDiscount) && (
                              <div className="flex justify-between text-sm text-emerald-600 mb-3 px-4">
                                 <span>Discount</span>
                                 <span className="font-medium">-{formatCurrency(discountAmount)}</span>
@@ -2878,7 +2975,7 @@ export default function App() {
                              </div>
                            )}
 
-                           {shippingVal > 0 && (
+                           {shippingVal > 0 && (!stdConfig || stdConfig.showShipping) && (
                              <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
                                 <span>Shipping</span>
                                 <span className="font-medium text-slate-700">{formatCurrency(shippingVal)}</span>
