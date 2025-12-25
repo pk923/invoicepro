@@ -43,11 +43,32 @@ const loadScript = (src) => {
 };
 
 // --- ADS COMPONENT ---
-const Ads = () => (
-  <div className="w-full max-w-[728px] mx-auto bg-slate-100 dark:bg-slate-800 border border-dashed border-slate-300 dark:border-slate-700 rounded-lg flex items-center justify-center h-[90px] text-slate-400 text-sm">
-    <span className="font-medium uppercase tracking-wider">Advertisement Space</span>
-  </div>
-);
+const Ads = () => {
+  useEffect(() => {
+    // prevent duplicate load
+    if (document.getElementById("egcpm-ad-script")) return;
+
+    const script = document.createElement("script");
+    script.id = "egcpm-ad-script";
+    script.src =
+      "https://pl28330167.effectivegatecpm.com/66c012a1833046421187ce1b10f6f8c1/invoke.js";
+    script.async = true;
+    script.setAttribute("data-cfasync", "false");
+    document.body.appendChild(script);
+  }, []);
+
+  return (
+    <div
+      id="container-66c012a1833046421187ce1b10f6f8c1"
+      style={{
+        minHeight: "250px",
+        width: "100%",
+        textAlign: "center",
+        margin: "20px 0"
+      }}
+    />
+  );
+};
 
 // --- CONFIGURATION & CONTENT ---
 
