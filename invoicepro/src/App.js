@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Printer, Download, Plus, Trash2, Settings, Moon, Sun, 
-  ChevronDown, FileText, Truck, Briefcase, 
+import {
+  ArrowLeft, Printer, Download, Plus, Trash2, Settings, Moon, Sun,
+  ChevronDown, FileText, Truck, Briefcase,
   Globe, Save, RefreshCw, Menu, X, ArrowRight, CheckCircle,
   CreditCard, Layout, ShieldCheck, Zap, Scissors, Wallet, PenTool,
   History, RotateCcw
@@ -20,8 +21,8 @@ const safeFloat = (val) => {
 };
 
 const calculateLineItem = (qty, price) => {
-  const q = Math.max(0, safeFloat(qty)); 
-  const p = Math.max(0, safeFloat(price)); 
+  const q = Math.max(0, safeFloat(qty));
+  const p = Math.max(0, safeFloat(price));
   return round(q * p);
 };
 
@@ -202,16 +203,18 @@ const INVOICE_TYPES = {
 
 const DEFAULT_INVOICE = {
   documentTitle: 'INVOICE',
-  invoiceNo: '', 
+  invoiceNo: '',
   date: new Date().toISOString().split('T')[0],
   dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
   currency: 'USD',
   taxRate: 18,
+  taxRate: 18,
   enableTax: true,
-  discountType: 'percent', 
+  taxMode: 'tax',
+  discountType: 'percent',
   discountValue: 0,
   shipping: 0,
-  isInterstate: false, 
+  isInterstate: false,
   sender: {
     name: '',
     address: '',
@@ -242,7 +245,7 @@ const DEFAULT_INVOICE = {
     method: 'UPI',
     referenceId: '',
     paidDate: '',
-    amount: 0 
+    amount: 0
   },
   // Ensure default items have EMPTY strings for qty/price
   items: [
@@ -267,25 +270,128 @@ const APP_FEATURES = [
     id: 'templates',
     icon: <Layout />,
     title: 'Agency-Grade Design',
-    description: 'Polished layouts that elevate your professional brand instantly.'
+    description: 'Create professional invoices that build client trust. Our sleek, modern layouts ensure your brand looks established and credible.',
+    popupContent: (
+      <>
+        <p className="mb-4">
+          In the business world, perception is reality. A messy, poorly formatted bill can make even the most professional freelancer look like an amateur. That is why our <strong>professional invoice generator</strong> focuses heavily on aesthetics and readability.
+        </p>
+        <p className="mb-4">
+          Our "Agency-Grade" design system is built to mimic the high-end financial documents used by Fortune 500 companies. It features clean typography, perfect alignment, and subtle branding elements that elevate your business image.
+        </p>
+        <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">Why Design Matters for Invoicing</h4>
+        <ul className="list-disc pl-5 mb-4 space-y-2">
+          <li><strong>Faster Payments:</strong> Clear, professional layouts reduce confusion, leading to quicker approvals and payments.</li>
+          <li><strong>Brand Authority:</strong> A polished PDF signals competence and reliability to your clients.</li>
+          <li><strong>Legal Clarity:</strong> Our templates ensure that critical fields like Tax IDs, Due Dates, and Payment Terms are impossible to miss.</li>
+        </ul>
+        <p>
+          Whether you are a solo creative using our <strong>freelance invoice maker</strong> or a corporation needing a <strong>GST invoice tool</strong>, our design ensures you always look your best.
+        </p>
+      </>
+    )
   },
   {
     id: 'security',
     icon: <ShieldCheck />,
     title: 'Local-First Privacy',
-    description: 'Data lives on your device. Zero server storage. 100% secure.'
+    description: 'Your data stays on your device. We offer a secure invoice software solution with zero server storage and 100% privacy.',
+    popupContent: (
+      <>
+        <p className="mb-4">
+          Privacy is not an optional feature; it is the foundation of our engineering. Unlike most <strong>online invoicing tools</strong> that force you to create an account and upload your sensitive client data to their cloud, InvoicePro operates on a "Local-First" architecture.
+        </p>
+        <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">How Local-First Works</h4>
+        <p className="mb-4">
+          When you type a client's name or a project fee, that data is saved directly to your browser's internal memory (Local Storage). It never travels over the internet to our database. We literally cannot see your revenue, your clients, or your business details.
+        </p>
+        <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">Security Benefits</h4>
+        <ul className="list-disc pl-5 mb-4 space-y-2">
+          <li><strong>Zero Data Leaks:</strong> Since we don't hold your data, we cannot be breached. Your business secrets remain on your hard drive.</li>
+          <li><strong>No "Lock-In":</strong> You are not tied to our platform. You generate your PDF and leave. You own your records.</li>
+          <li><strong>GDPR & Compliance:</strong> By minimizing data collection, we offer a <strong>secure billing solution</strong> that naturally aligns with global privacy standards.</li>
+        </ul>
+      </>
+    )
   },
   {
     id: 'speed',
     icon: <Zap />,
     title: 'Instant Export',
-    description: 'Generate high-resolution A4 PDFs in under 100ms.'
+    description: 'Generate high-resolution A4 PDFs in milliseconds. The fastest free invoice generator for busy professionals.',
+    popupContent: (
+      <>
+        <p className="mb-4">
+          Time is money. You shouldn't have to wait for a spinning loading screen just to bill a client. Our <strong>instant invoice generator</strong> is engineered for extreme speed, rendering complex documents in under 100 milliseconds.
+        </p>
+        <p className="mb-4">
+          We use advanced client-side PDF generation technology. This means the PDF is constructed right on your computer's powerful processor, rather than waiting for a slow remote server to do the work and send it back.
+        </p>
+        <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">Efficiency for Your Workflow</h4>
+        <ul className="list-disc pl-5 mb-4 space-y-2">
+          <li><strong>Print-Ready:</strong> Our PDFs are formatted strictly to A4 standards with exact margins, ensuring they look perfect when printed physically.</li>
+          <li><strong>One-Click Download:</strong> No email sign-ups, no "wait 5 minutes" queues. Click download, and the file is in your folder instantly.</li>
+          <li><strong>Cross-Platform:</strong> Works flawlessly on mobile, tablet, and desktop, making it the ideal <strong>online invoice software</strong> for contractors on the go.</li>
+        </ul>
+      </>
+    )
   },
   {
     id: 'global',
     icon: <Globe />,
     title: 'Multi-Currency',
-    description: 'Built for global business. Support for USD, EUR, INR, and more.'
+    description: 'Bill international clients with ease. Support for USD, EUR, INR, and more makes this the ultimate global invoicing tool.',
+    popupContent: (
+      <>
+        <p className="mb-4">
+          The modern economy is global. Freelancers in India work for clients in the US; agencies in London bill startups in Berlin. Your <strong>invoice generator</strong> needs to speak the language of international finance.
+        </p>
+        <p className="mb-4">
+          InvoicePro supports dynamic currency switching. With a single click, you can transform your invoice from Dollars ($) to Euros (€), Rupees (₹), or Pounds (£). We handle the symbol placement and formatting automatically.
+        </p>
+        <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">Built for International Business</h4>
+        <ul className="list-disc pl-5 mb-4 space-y-2">
+          <li><strong>Freelancer Friendly:</strong> Perfect for digital nomads and remote workers billing across borders.</li>
+          <li><strong>Compliance Ready:</strong> Combine currency settings with our flexible tax labels (VAT/GST) to create legally compliant documents for any jurisdiction.</li>
+          <li><strong>No Conversion Fees:</strong> Unlike payment gateways, we don't charge you to change the currency symbol on your document. It's completely free.</li>
+        </ul>
+      </>
+    )
+  }
+];
+
+const FAQS = [
+  {
+    question: "Is this invoice generator truly free?",
+    answer: "Yes, InvoicePro is a completely free invoice generator designed to help freelancers and small businesses create professional documents without any cost. Unlike other platforms that limit the number of documents you can create, we impose no hidden fees or paywalls. You can generate unlimited invoices and download them as high-quality PDFs instantly. We believe in providing accessible financial tools for everyone, ensuring you can manage your billing efficiently without worrying about monthly subscriptions or trial periods."
+  },
+  {
+    question: "Do I need to sign up or create an account?",
+    answer: "No, you do not need to create an account or sign up to use our online invoice generator. We value your time and privacy, which is why our tool is designed for instant access. Simply visit the website, enter your billing details, and download your invoice immediately. By removing the registration barrier, we allow you to focus on your business rather than managing passwords. However, your data is still preserved locally on your device for your convenience."
+  },
+  {
+    question: "Is my data safe?",
+    answer: "Absolutely. We prioritize your privacy by using a \"Local-First\" secure invoice generator architecture. This means that all the data you enter—client names, addresses, and financial figures—is stored exclusively in your browser's local storage on your own device. We do not transmit or store your sensitive invoice data on our servers or any cloud database. This ensures that you retain 100% control and ownership of your business information, keeping it safe from external data breaches."
+  },
+  {
+    question: "Can I generate a GST Invoice for India?",
+    answer: "Yes, our tool is fully equipped to serve as a comprehensive GST invoice generator for Indian businesses. We offer a dedicated GST mode that allows you to easily input your GSTIN, HSN codes, and tax rates. The system automatically calculates the correct breakdown for CGST, SGST, and IGST based on whether the transaction is intra-state or inter-state. This ensures your documents are tax-compliant and legally valid for filing returns in India."
+  },
+  {
+    question: "Can I add my own logo?",
+    answer: "Yes, adding your branding is simple. Our professional invoice generator allows you to upload your company logo directly onto the invoice template. Supported formats include PNG, JPG, and SVG. Adding a logo enhances your brand identity and makes your documents look more established and trustworthy to clients. The logo is processed locally in your browser and is not uploaded to any external server, maintaining strict data privacy."
+  },
+  {
+    question: "Can I change the currency?",
+    answer: "Yes, InvoicePro supports multi-currency invoicing to cater to global businesses and freelancers working with international clients. You can select major currencies such as USD ($), EUR (€), GBP (£), INR (₹), and many others from the settings panel. Our online invoice generator formats the currency symbols and decimal places correctly for each region, ensuring your international invoices are clear, professional, and easy for your clients to understand."
+  },
+  {
+    question: "Can I save the invoice to edit later?",
+    answer: "Yes, we offer a convenient auto-save feature powered by your browser's local storage. If you close the tab or browser window, your current invoice details will be automatically retained for your next visit. Additionally, our \"History\" feature keeps track of your recently generated invoices, allowing you to reload previous data with a single click. This makes it easy to duplicate past invoices for recurring billing without needing to re-enter all the information manually."
+  },
+  {
+    question: "Is there a mobile app?",
+    answer: "InvoicePro is built as a highly responsive Progressive Web App (PWA), which means it functions just like a native mobile app directly in your browser. You do not need to download or install cumbersome software from an app store. Whether you are using an iPhone, iPad, or Android device, our mobile invoice generator adapts perfectly to your screen size, allowing you to create, edit, and send professional invoices while you are on the go."
   }
 ];
 
@@ -304,7 +410,7 @@ const updateHead = (meta) => {
     }
     element.setAttribute('content', content);
   };
-  
+
   // Helper for OG tags (property instead of name)
   const setOg = (property, content) => {
     let element = document.querySelector(`meta[property="${property}"]`);
@@ -335,7 +441,7 @@ const updateHead = (meta) => {
   setOg('og:description', meta.description);
   setOg('og:url', meta.url);
   setOg('og:type', 'website');
-  
+
   // Twitter
   setMeta('twitter:card', 'summary_large_image');
   setMeta('twitter:title', meta.title);
@@ -350,7 +456,7 @@ const updateHead = (meta) => {
     schemaScript.type = 'application/ld+json';
     document.head.appendChild(schemaScript);
   }
-  
+
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -368,15 +474,47 @@ const updateHead = (meta) => {
   schemaScript.textContent = JSON.stringify(schemaData);
 };
 
-const FeatureCard = ({ icon, title, desc }) => (
-  <div className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
-    <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center text-indigo-600 mb-4">
+const FeatureCard = ({ icon, title, desc, onClick }) => (
+  <div
+    onClick={onClick}
+    className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out cursor-pointer group"
+  >
+    <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 transition-transform">
       {icon}
     </div>
-    <h3 className="font-bold text-lg mb-2 text-slate-900 dark:text-white">{title}</h3>
+    <h3 className="font-bold text-lg mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 transition-colors">{title}</h3>
     <p className="text-slate-600 dark:text-slate-400 text-sm">{desc}</p>
+    <div className="mt-4 flex items-center text-indigo-600 text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity">
+      Learn More <ArrowRight size={12} className="ml-1" />
+    </div>
   </div>
 );
+
+const FeaturePopup = ({ feature, onClose }) => {
+  if (!feature) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
+      <div
+        className="bg-white dark:bg-slate-800 w-full max-w-lg rounded-2xl shadow-2xl p-8 relative animate-in zoom-in-95 duration-200 border border-slate-200 dark:border-slate-700"
+        onClick={e => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+        >
+          <X size={20} />
+        </button>
+        <div className="w-14 h-14 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 mb-6">
+          {feature.icon}
+        </div>
+        <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">{feature.title}</h3>
+        <div className="prose dark:prose-invert text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+          {feature.popupContent}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // --- LEGAL & CONTENT PAGES ---
 
@@ -393,18 +531,236 @@ const LegalLayout = ({ title, children }) => (
 
 const PrivacyPolicy = () => (
   <LegalLayout title="Privacy Policy">
-    <p className="mb-4">Last updated: {new Date().getFullYear()}</p>
-    <p className="mb-4">InvoicePro adheres to a strict "Local-First" data policy.</p>
-    
-    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">1. Data Sovereignty</h3>
-    <p className="mb-4">We do not operate a backend database for invoice data. <strong>Your financial data never leaves your browser.</strong></p>
-    <p className="mb-4">All inputs (client details, amounts, tax info) are stored exclusively in your device's Local Storage. We have zero visibility into your business operations.</p>
+    <div className="mb-8 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
+      <p className="mb-3 text-sm">
+        <strong>Primary Keywords:</strong> privacy policy invoice generator, invoice software privacy policy, invoicing platform privacy policy, billing software privacy policy
+      </p>
+      <p className="mb-3 text-sm">
+        <strong>Secondary Keywords:</strong> invoice data privacy, online invoicing data protection, secure invoice generator, billing software data security, gst invoice privacy policy
+      </p>
+      <p className="text-sm">
+        <strong>Long-Tail Keywords:</strong> how invoice data is protected, invoice generator privacy policy india, secure billing software for businesses, invoice pdf data protection, privacy focused invoice software
+      </p>
+    </div>
 
-    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">2. Cookies & Storage</h3>
-    <p className="mb-4">We use local storage strictly for functional purposes: preserving your preferences (dark mode, last used invoice number) to enhance your workflow.</p>
+    <p className="mb-6 text-sm text-slate-500">Last updated: {new Date().getFullYear()}</p>
 
-    <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">3. External Services</h3>
-    <p className="mb-4">We do not share data with third-party advertisers or data brokers.</p>
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">1. Introduction to Privacy Policy</h2>
+    <p className="mb-4">
+      Welcome to InvoicePro ("we," "our," or "us"). We recognize that your financial data is the lifeblood of your business, and protecting your privacy is not just a legal obligation but our core ethical commitment. This Privacy Policy outlines how InvoicePro collects, uses, maintains, and discloses information collected from users (each, a "User") of the InvoicePro website and <strong>invoice generator</strong> services (the "Service").
+    </p>
+    <p className="mb-4">
+      Unlike traditional cloud-based <strong>invoicing platforms</strong> that harvest, store, and monetize your data, InvoicePro is built on a "Local-First" architecture. This means that we have fundamentally designed our software to minimize data collection and maximize user privacy.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">2. Scope and Purpose of This Policy</h2>
+    <p className="mb-4">
+      This Privacy Policy applies to the website and all products and services offered by InvoicePro. It governs any data you may provide to us directly or that we may collect automatically through your use of our <strong>billing software</strong>.
+    </p>
+    <p className="mb-4">
+      The purpose of this policy is to provide you with clear, transparent, and comprehensive information regarding:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li>What data allows the <strong>invoice software</strong> to function.</li>
+      <li>How your sensitive financial data is handled (and why we don't see it).</li>
+      <li>Your rights regarding your personal and business information.</li>
+      <li>Our compliance with global data protection standards.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">3. Our Commitment to User Privacy</h2>
+    <p className="mb-4">
+      We believe that you should not have to sacrifice privacy for productivity. Our commitment to you is simple: <strong>We do not sell, trade, or rent Users' personal identification information to others.</strong>
+    </p>
+    <p className="mb-4">
+      We operate as a <strong>secure invoice generator</strong> provider, meaning our business model relies on providing utility, not on exploiting user data. We have implemented robust technical safeguards to ensure that your invoice data remains under your sole control.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">4. Definitions and Terminology</h2>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>"User"</strong>: Any individual or entity accessing or using our Service.</li>
+      <li><strong>"Invoice Data"</strong>: The specific content you enter into the generator, including client names, addresses, line items, prices, tax rates, and banking details.</li>
+      <li><strong>"Personal Information"</strong>: Data that can identify you as an individual, such as your IP address or email address (if voluntarily provided).</li>
+      <li><strong>"Local Storage"</strong>: A web browser technology that allows data to be stored locally on your device rather than on a remote server.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">5. Information We Do NOT Collect</h2>
+    <p className="mb-4">
+      To be a truly <strong>privacy-focused invoice software</strong>, it is crucial to clarify what we do <strong>NOT</strong> collect. Unlike competitors, we have zero visibility into:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Your Client List:</strong> We do not know who you are billing.</li>
+      <li><strong>Your Revenue Data:</strong> We do not track your transaction amounts or total income.</li>
+      <li><strong>Your Banking Credentials:</strong> We do not see or store your bank account numbers or UPI IDs.</li>
+      <li><strong>Your Generated Documents:</strong> We do not keep copies of the PDFs you generate.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">6. Information We May Collect</h2>
+    <p className="mb-4">
+      While we avoid collecting sensitive business data, we may collect limited technical data to maintain and improve our <strong>online invoicing data protection</strong> standards and service performance:
+    </p>
+
+    <h3 className="text-xl font-bold mt-6 mb-3">6.1. Non-Personal Identification Information</h3>
+    <p className="mb-4">
+      We may collect non-personal identification information about Users whenever they interact with our Site. Non-personal identification information may include the browser name, the type of computer, and technical information about Users' means of connection to our Site, such as the operating system and the Internet service providers utilized and other similar information.
+    </p>
+
+    <h3 className="text-xl font-bold mt-6 mb-3">6.2. Web Browser Cookies</h3>
+    <p className="mb-4">
+      Our Site may use "cookies" to enhance User experience. User's web browser places cookies on their hard drive for record-keeping purposes and sometimes to track information about them. You may choose to set your web browser to refuse cookies or to alert you when cookies are being sent. If you do so, note that some parts of the Site may not function properly.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">7. Business and Invoice Data Handling</h2>
+    <p className="mb-4">
+      This section explains the technical core of our <strong>invoice data privacy</strong>.
+    </p>
+    <p className="mb-4">
+      When you use our tool to create an invoice, the data entry fields (Sender Name, Receiver Name, Items, Prices) are active only within your browser's "DOM" (Document Object Model). When you click "Download," the PDF is generated client-side using JavaScript libraries running on your device.
+    </p>
+    <p className="mb-4">
+      At no point does this raw JSON data transmit to a backend API for saving. It remains volatile and local. This architecture ensures that even in the unlikely event of a server breach, your financial documents would not be compromised because they were never there in the first place.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">8. Local-First and User-Controlled Data Philosophy</h2>
+    <p className="mb-4">
+      We champion a "Local-First" software philosophy. This means:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Data Ownership:</strong> You own your data, literally. It resides on your hard drive.</li>
+      <li><strong>Portability:</strong> You are responsible for exporting your data (via PDF).</li>
+      <li><strong>Persistence:</strong> We use `localStorage` to save your state between sessions so you don't lose work if you accidentally close the tab. This storage is managed entirely by your browser.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">9. GST, Tax, and Financial Data Privacy</h2>
+    <p className="mb-4">
+      For users utilizing our <strong>gst invoice privacy policy</strong> compliant features:
+    </p>
+    <p className="mb-4">
+      We understand that GSTINs, Harmonized System of Nomenclature (HSN) codes, and tax breakdowns are sensitive regulatory information.
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Input Validation:</strong> We may validate the format of a GSTIN (e.g., verifying it is 15 characters) purely for UI feedback.</li>
+      <li><strong>No Cross-Referencing:</strong> We do not cross-reference your entered GSTINs with government databases or third-party APIs.</li>
+      <li><strong>Financial Secrecy:</strong> Your tax liability calculations are performed locally. We do not aggregate or analyze tax data across users.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">10. How Information Is Used</h2>
+    <p className="mb-4">
+      Any information we do collect (technical logs, analytics) is used for the following purposes:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>To improve customer service:</strong> Information you provide helps us respond to your customer service requests and support needs more efficiently.</li>
+      <li><strong>To personalize user experience:</strong> We may use information in the aggregate to understand how our Users as a group use the services and resources provided on our Site.</li>
+      <li><strong>To improve our Site:</strong> We may use feedback you provide to improve our products and services.</li>
+      <li><strong>To maintain security:</strong> To monitor for DDOS attacks or malicious traffic patterns.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">11. Data Storage and Retention Policy</h2>
+    <p className="mb-4">
+      <strong>Server Storage:</strong> We retain server logs (IP addresses, request times) for a limited period (typically 30-90 days) for security auditing, after which they are deleted or anonymized.
+    </p>
+    <p className="mb-4">
+      <strong>Browser Storage:</strong> Data stored in your browser's Local Storage remains there until you explicitly clear your browser cache or use the "Reset" function within the app. We have no mechanism to remotely delete this data as we have no access to it.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">12. Cookies and Analytics Usage</h2>
+    <p className="mb-4">
+      We may use third-party analytics services (such as Google Analytics) to understand website traffic. These services use cookies to track stats like page visits, session duration, and bounce rates.
+    </p>
+    <p className="mb-4">
+      This data is anonymized. We do not link analytics data to specific invoice contents. For example, we might know that 1,000 users visited the "Freelance Invoice" page, but we will not know what any of those 1,000 users wrote in their invoices.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">13. Third-Party Services and Integrations</h2>
+    <p className="mb-4">
+      Our Service may contain links to third-party websites or services (e.g., advertising partners). We do not control the content or links that appear on these sites and are not responsible for the practices employed by websites linked to or from our Site.
+    </p>
+    <p className="mb-4">
+      Browsing and interaction on any other website, including websites which have a link to our Site, is subject to that website's own terms and policies. We encourage our users to be aware when they leave our site and to read the privacy statements of any other site that collects personal information.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">14. Data Sharing and Disclosure Policy</h2>
+    <p className="mb-4">
+      We do not sell, trade, or rent Users' personal identification information. We may share generic aggregated demographic information not linked to any personal identification information regarding visitors and users with our business partners, trusted affiliates, and advertisers for the purposes outlined above.
+    </p>
+    <p className="mb-4">
+      We will disclose information only when required by law, such as in response to a subpoena, court order, or other governmental request, or when we believe in good faith that disclosure is reasonably necessary to protect the property or rights of InvoicePro, third parties, or the public at large.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">15. Security Measures and Safeguards</h2>
+    <p className="mb-4">
+      We adopt appropriate data collection, storage, and processing practices and security measures to protect against unauthorized access, alteration, disclosure, or destruction of your personal information, username, password, transaction information, and data stored on our Site.
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>HTTPS Encryption:</strong> All data transmitted between your browser and our content delivery network is encrypted using SSL (Secure Socket Layer) technology.</li>
+      <li><strong>Content Security Policy (CSP):</strong> We employ strict CSP headers to prevent Cross-Site Scripting (XSS) attacks.</li>
+      <li><strong>Minimal Exposure:</strong> By not storing user data, we remove the primary target for attackers, inherently increasing <strong>billing software data security</strong>.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">16. User Responsibilities for Data Protection</h2>
+    <p className="mb-4">
+      While we secure the infrastructure, you play a vital role in <strong>invoice pdf data protection</strong>:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>Device Security:</strong> Ensure your computer or mobile device is password protected and free from malware.</li>
+      <li><strong>Browser Hygiene:</strong> If using a public computer, always use "Incognito" or "Private" mode so that your local storage data is wiped upon closing the window.</li>
+      <li><strong>Physical Privacy:</strong> Be aware of your surroundings when entering sensitive client data in public spaces.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">17. Data Accuracy and User Control</h2>
+    <p className="mb-4">
+      Because we do not store your data, we cannot correct, update, or delete it for you. You have total control. If you make a mistake on an invoice, you can simply edit the fields in the generator and re-download the PDF. You are the sole curator of your data accuracy.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">18. Children's Privacy</h2>
+    <p className="mb-4">
+      Protecting the privacy of the very young is especially important. For that reason, we never collect or maintain information at our Site from those we actually know are under 13, and no part of our website is structured to attract anyone under 13. If you are a parent or guardian and believe your child has provided us with Personal Information, please contact us.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">19. International Users</h2>
+    <p className="mb-4">
+      The Service is hosted in secure global data centers. If you are accessing the Service from the European Union, Asia, or any other region with laws or regulations governing personal data collection, use, and disclosure that differ from United States or Indian laws, please be advised that through your continued use of the Service, which is governed by this Privacy Policy, you are transferring your personal information to the jurisdictions where our servers operate.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">20. Legal Compliance and Regulatory Framework</h2>
+    <p className="mb-4">
+      We strive to align our privacy practices with major global regulations, including:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>GDPR (General Data Protection Regulation):</strong> We respect the rights of EU users to data minimization and transparency.</li>
+      <li><strong>CCPA (California Consumer Privacy Act):</strong> We do not sell personal data of California residents.</li>
+      <li><strong>IT Act, 2000 (India):</strong> We adhere to reasonable security practices and procedures as mandated for sensitive personal data in India.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">21. User Rights and Choices</h2>
+    <p className="mb-4">
+      Depending on your jurisdiction, you may have specific rights regarding your data:
+    </p>
+    <ul className="list-disc pl-6 mb-6 space-y-2">
+      <li><strong>The Right to Access:</strong> You have the right to request copies of your personal data (though we generally possess none).</li>
+      <li><strong>The Right to Rectification:</strong> You have the right to request that we correct any information you believe is inaccurate.</li>
+      <li><strong>The Right to Erasure:</strong> You have the right to request that we erase your personal data.</li>
+    </ul>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">22. Data Breach Response Policy</h2>
+    <p className="mb-4">
+      In the event that we become aware that the security of the Site has been compromised or users' Personal Information has been disclosed to unrelated third parties as a result of external activity, including, but not limited to, security attacks or fraud, we reserve the right to take reasonably appropriate measures, including, but not limited to, investigation and reporting, as well as notification to and cooperation with data protection authorities. In the event of a data breach, we will make reasonable efforts to notify affected individuals if we believe that there is a reasonable risk of harm to the user as a result of the breach or if notice is otherwise required by law.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">23. Changes to This Privacy Policy</h2>
+    <p className="mb-4">
+      InvoicePro has the discretion to update this privacy policy at any time. When we do, we will revise the updated date at the top of this page. We encourage Users to frequently check this page for any changes to stay informed about how we are helping to protect the personal information we collect. You acknowledge and agree that it is your responsibility to review this privacy policy periodically and become aware of modifications.
+    </p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">24. Contact Information</h2>
+    <p className="mb-4">
+      If you have any questions about this Privacy Policy, the practices of this site, or your dealings with this site, please contact us at:
+    </p>
+    <p className="font-semibold text-indigo-600 mb-4">support@invoicepro.com</p>
+
+    <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">25. Final Privacy Commitment Summary</h2>
+    <p className="mb-4">
+      At InvoicePro, trust is our currency. We are building a sustainable <strong>secure billing software for businesses</strong> by focusing on excellence, not exploitation. We promise to remain transparent, vigilant, and protective of the data you entrust to your browser while using our tools. Your business is yours alone.
+    </p>
   </LegalLayout>
 );
 
@@ -728,7 +1084,7 @@ const ContactUs = () => (
 
 const HowToCreateInvoice = () => (
   <LegalLayout title="The Ultimate Invoice Guide: How to Create Professional Invoices">
-    
+
     <div className="mb-8 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
       <p className="mb-3 text-sm">
         <strong>Primary Keywords:</strong> invoice guide, how to create an invoice, professional invoice, invoice format, invoice generator, online invoice maker, invoice pdf, business invoice, billing guide, free invoice creator.
@@ -867,12 +1223,12 @@ const HowToCreateInvoice = () => (
       <li><strong>Line Item Total:</strong> <code>Quantity × Unit Price</code>.</li>
       <li><strong>Subtotal:</strong> The sum of all Line Item Totals.</li>
       <li><strong>Discount:</strong> Applied to the Subtotal.
-        <br/><em>Note: Discounts are usually applied BEFORE tax to reduce the tax burden on the customer.</em>
+        <br /><em>Note: Discounts are usually applied BEFORE tax to reduce the tax burden on the customer.</em>
       </li>
       <li><strong>Taxable Value:</strong> <code>Subtotal - Discount</code>.</li>
       <li><strong>Tax Amount:</strong> <code>Taxable Value × Tax Rate (%)</code>.</li>
       <li><strong>Shipping / Handling:</strong> Added AFTER tax.
-        <br/><em>Note: In some jurisdictions, shipping itself is taxable. Our tool allows for flexible configuration.</em>
+        <br /><em>Note: In some jurisdictions, shipping itself is taxable. Our tool allows for flexible configuration.</em>
       </li>
       <li><strong>Grand Total:</strong> <code>Taxable Value + Tax Amount + Shipping</code>.</li>
     </ol>
@@ -926,7 +1282,7 @@ const HowToCreateInvoice = () => (
     </ul>
 
     <h2 className="text-2xl font-bold mt-10 mb-6 text-slate-900 dark:text-white">Frequently Asked Questions (FAQ)</h2>
-    
+
     <div className="space-y-6">
       <div>
         <h3 className="font-bold text-lg text-slate-800 dark:text-slate-200">1. Is a digital invoice legally valid?</h3>
@@ -962,6 +1318,12 @@ const HowToCreateInvoice = () => (
 );
 
 export default function App() {
+  const [activeFaq, setActiveFaq] = useState(null);
+
+  const toggleFaq = (index) => {
+    setActiveFaq(prev => prev === index ? null : index);
+  };
+
   const [activeRoute, setActiveRoute] = useState('home');
   const [invoice, setInvoice] = useState(DEFAULT_INVOICE);
   const [logo, setLogo] = useState(null);
@@ -972,18 +1334,20 @@ export default function App() {
   const [validationErrors, setValidationErrors] = useState({});
   const [history, setHistory] = useState([]);
   const [pdfMode, setPdfMode] = useState('single');
-  
+
   const previewRef = useRef(null);
   const invoiceHeaderRef = useRef(null); // ✅ NEW REF
   const invoiceBodyRef = useRef(null);   // ✅ NEW REF
   const tableHeaderRef = useRef(null);   // ✅ NEW REF
   const config = activeRoute !== 'home' ? INVOICE_TYPES[activeRoute] : null;
 
+  const [activeFeature, setActiveFeature] = useState(null); // ✅ Feature Popup State
+
   // --- STANDARD INVOICE SUB-CONFIG LOGIC ---
   const stdConfig = React.useMemo(() => {
     if (activeRoute !== 'standard') return null;
     const type = invoice.documentTitle?.toUpperCase();
-    
+
     if (type === 'SALES INVOICE') {
       return {
         invoiceNoLabel: "Invoice No",
@@ -991,7 +1355,8 @@ export default function App() {
         qtyLabel: "Quantity",
         showDueDate: true,
         showDiscount: true,
-        showShipping: true
+        showShipping: true,
+        showTerms: true
       };
     }
     if (type === 'SERVICE INVOICE') {
@@ -1001,7 +1366,8 @@ export default function App() {
         qtyLabel: "Hours / Sessions",
         showDueDate: true,
         showDiscount: true,
-        showShipping: false
+        showShipping: false,
+        showTerms: true
       };
     }
     if (type === 'GENERAL BILL') {
@@ -1011,7 +1377,8 @@ export default function App() {
         qtyLabel: "Qty",
         showDueDate: false,
         showDiscount: false,
-        showShipping: false
+        showShipping: false,
+        showTerms: false
       };
     }
     // Default Standard
@@ -1021,19 +1388,20 @@ export default function App() {
       qtyLabel: "Qty",
       showDueDate: true,
       showDiscount: true,
-      showShipping: true
+      showShipping: true,
+      showTerms: true
     };
   }, [activeRoute, invoice.documentTitle]);
 
   // --- ROUTING & SEO LOGIC ---
-  
+
   useEffect(() => {
     const path = window.location.pathname;
     let foundRoute = 'home';
-    
+
     // Add 'how-to-create-invoice' to the route check
     if (['/privacy', '/terms', '/about', '/contact', '/how-to-create-invoice'].includes(path)) {
-      foundRoute = path.substring(1); 
+      foundRoute = path.substring(1);
     } else {
       Object.values(INVOICE_TYPES).forEach(type => {
         if (path === type.path) {
@@ -1066,31 +1434,31 @@ export default function App() {
       newPath = typeConfig.path;
       document.title = typeConfig.metaTitle;
       setInvoice(prev => ({
-         ...prev,
-         documentTitle: typeConfig.subCategories?.[0]?.toUpperCase() || 'INVOICE'
+        ...prev,
+        documentTitle: typeConfig.subCategories?.[0]?.toUpperCase() || 'INVOICE'
       }));
     } else if (['privacy', 'terms', 'about', 'contact', 'how-to-create-invoice'].includes(activeRoute)) {
-       // ... [Extended Static Page SEO Logic] ...
-       const titles = {
-         privacy: 'Privacy Policy - InvoicePro',
-         terms: 'Terms of Service - InvoicePro | Legal User Agreement',
-         about: 'About Us - InvoicePro | Secure & Free Invoicing',
-         contact: 'Contact Us - InvoicePro',
-         'how-to-create-invoice': 'Professional Invoicing Guide | InvoicePro'
-       };
-       const descs = {
-         'how-to-create-invoice': 'Master the art of professional invoicing. A concise guide for freelancers and businesses.',
-         about: 'Learn about InvoicePro, the privacy-first free invoice generator. Our mission is to simplify billing for freelancers and small businesses globally.',
-         terms: 'Read the Terms of Service for InvoicePro. Understand the rules, user responsibilities, and legal agreement for using our free invoice generator.'
-       };
+      // ... [Extended Static Page SEO Logic] ...
+      const titles = {
+        privacy: 'Privacy Policy - InvoicePro',
+        terms: 'Terms of Service - InvoicePro | Legal User Agreement',
+        about: 'About Us - InvoicePro | Secure & Free Invoicing',
+        contact: 'Contact Us - InvoicePro',
+        'how-to-create-invoice': 'Professional Invoicing Guide | InvoicePro'
+      };
+      const descs = {
+        'how-to-create-invoice': 'Master the art of professional invoicing. A concise guide for freelancers and businesses.',
+        about: 'Learn about InvoicePro, the privacy-first free invoice generator. Our mission is to simplify billing for freelancers and small businesses globally.',
+        terms: 'Read the Terms of Service for InvoicePro. Understand the rules, user responsibilities, and legal agreement for using our free invoice generator.'
+      };
 
-       meta.title = titles[activeRoute];
-       if (descs[activeRoute]) meta.description = descs[activeRoute];
-       
-       newPath = `/${activeRoute}`;
-       document.title = titles[activeRoute];
+      meta.title = titles[activeRoute];
+      if (descs[activeRoute]) meta.description = descs[activeRoute];
+
+      newPath = `/${activeRoute}`;
+      document.title = titles[activeRoute];
     } else {
-       document.title = meta.title;
+      document.title = meta.title;
     }
 
     // FIX 2: Correct Canonical URL
@@ -1114,10 +1482,10 @@ export default function App() {
       setInvoice(prev => ({
         ...prev,
         enableTax: true,
-        taxRate: prev.taxRate || 18 
+        taxRate: prev.taxRate || 18
       }));
     }
-    
+
     window.scrollTo(0, 0);
   }, [activeRoute]);
 
@@ -1125,34 +1493,34 @@ export default function App() {
     setActiveRoute(routeId);
     setMobileMenu(false);
   };
-  
+
   // ... [Keep existing effects for script loading, persistence, handlers, etc.] ...
 
   useEffect(() => {
     loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
     loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
-    
+
     const saved = localStorage.getItem('premiumInvoiceData');
     if (saved) {
-      try { 
+      try {
         const parsed = JSON.parse(saved);
         if (!parsed.payment) parsed.payment = { ...DEFAULT_INVOICE.payment };
         if (parsed.terms === undefined) parsed.terms = DEFAULT_INVOICE.terms;
         if (parsed.payment.amount === undefined) parsed.payment.amount = 0;
         if (parsed.sender && parsed.sender.signature === undefined) parsed.sender.signature = '';
-        
+
         if (parsed.notes === 'Thank you for your shopping!') {
-           parsed.notes = 'Thank you for your business!';
+          parsed.notes = 'Thank you for your business!';
         }
 
         if (parsed.items) {
           parsed.items = parsed.items.map(item => ({
-             ...item,
-             description: item.description || '' 
+            ...item,
+            description: item.description || ''
           }));
         }
 
-        setInvoice(parsed); 
+        setInvoice(parsed);
       } catch (e) { console.error("Failed to load invoice data", e); }
     } else {
       const lastNo = localStorage.getItem('lastInvoiceNo');
@@ -1189,7 +1557,7 @@ export default function App() {
         console.error("Failed to load history", e);
       }
     }
-    
+
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setDarkMode(true);
     }
@@ -1199,12 +1567,12 @@ export default function App() {
     try {
       localStorage.setItem('premiumInvoiceData', JSON.stringify(invoice));
       if (invoice.invoiceNo && invoice.invoiceNo.startsWith('INV-')) {
-         const parts = invoice.invoiceNo.split('-');
-         if (parts.length === 2 && !isNaN(parts[1])) {
-           localStorage.setItem('lastInvoiceNo', invoice.invoiceNo);
-         }
+        const parts = invoice.invoiceNo.split('-');
+        if (parts.length === 2 && !isNaN(parts[1])) {
+          localStorage.setItem('lastInvoiceNo', invoice.invoiceNo);
+        }
       }
-    } catch (e) {}
+    } catch (e) { }
   }, [invoice]);
 
   const handleLogoUpload = (e) => {
@@ -1212,7 +1580,7 @@ export default function App() {
     if (!file) return;
 
     // --- HARD VALIDATION START ---
-    
+
     // 1. Validate File Type
     const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml'];
     if (!validTypes.includes(file.type)) {
@@ -1272,7 +1640,7 @@ export default function App() {
         setLogo(x.target.result);
         setLogoError(''); // Clear error on success
       };
-      
+
       img.onerror = () => {
         setLogoError('❌ Invalid Image Data');
         e.target.value = '';
@@ -1283,6 +1651,125 @@ export default function App() {
     reader.readAsDataURL(file);
     // --- HARD VALIDATION END ---
   };
+
+
+
+  // --- AUTO-FILL LOGIC: NOTES & TERMS ---
+  useEffect(() => {
+    // 1. NOTES LOGIC
+    // We only auto-fill if the user hasn't typed a custom note (i.e. field is empty or matches a known default).
+    const defaultNotes = [
+      'Thank you for your business!',
+      'Thank you for your shopping!',
+      'Thank you for choosing our services!',
+      'Payment received. Thank you!',
+      'Partial payment received. Balance due.',
+      'Thank you for your purchase!'
+    ];
+
+    const currentNotes = invoice.notes || '';
+    const isDefaultOrEmpty = !currentNotes.trim() || defaultNotes.includes(currentNotes.trim());
+
+    if (isDefaultOrEmpty) {
+      let newNote = 'Thank you for your business!';
+      const title = (invoice.documentTitle || '').toLowerCase();
+      const status = invoice.payment.status;
+
+      if (status === 'paid') {
+        newNote = 'Payment received. Thank you!';
+      } else if (status === 'partial') {
+        newNote = 'Partial payment received. Balance due.';
+      } else if (title.includes('service') || title.includes('consult')) {
+        newNote = 'Thank you for choosing our services!';
+      } else if (title.includes('sales') || activeRoute === 'standard') {
+        newNote = 'Thank you for your shopping!';
+      } else if (activeRoute === 'transport' || activeRoute === 'gst') {
+        // Keep generic for specific types if not matching above
+        newNote = 'Thank you for your business!';
+      } else {
+        newNote = 'Thank you for your purchase!';
+      }
+
+      // Only update if changed
+      if (newNote !== currentNotes) {
+        setInvoice(prev => ({ ...prev, notes: newNote }));
+      }
+    }
+
+    // 2. PAYMENT TERMS LOGIC
+    // Only auto-fill if empty or matches known patterns, to avoid killing user data.
+    // Logic: Prepend "Payment due..." if pending. Add attributes.
+
+    // We can't easily detect "is default" for complex multi-line terms strings reliably 
+    // without risking user data loss, so we strictly follow: "If payment instructions field is EMPTY"
+    // OR if it matches exactly the initial default state.
+
+    const initialDefault = DEFAULT_INVOICE.terms; // 'Payment Due upon receipt.\nBank: \nAccount: '
+    const currentTerms = invoice.terms || '';
+
+    // Check if effective empty or untouched default
+    const isTermsEmpty = !currentTerms.trim() || currentTerms === initialDefault;
+
+    // We also want to support switching between methods without clearing if it was auto-generated.
+    // But to be safe per "STRICT RULES", we primarily target Empty or Initial Default.
+    // However, if the user changes Method, they expect the attributes to change.
+    // Let's allow update if it matches a "System Generated" pattern.
+    const isSystemGenerated = currentTerms.includes('UPI ID:') ||
+      currentTerms.includes('Bank Name:') ||
+      currentTerms === 'Cash payment accepted.' ||
+      currentTerms === 'Card payment received.';
+
+    if (isTermsEmpty || isSystemGenerated) {
+      const method = invoice.payment.method;
+      const status = invoice.payment.status;
+
+      let newTerms = '';
+
+      // Prefix
+      if (status === 'pending') {
+        newTerms += 'Payment Due upon receipt.\n';
+      }
+
+      // Method specific
+      if (method === 'UPI') {
+        newTerms += 'Please pay via UPI ID: ______';
+      } else if (method === 'Bank Transfer') {
+        newTerms += 'Bank Name: \nAccount No: \nIFSC: ';
+      } else if (method === 'Cash') {
+        newTerms += 'Cash payment accepted.';
+      } else if (method === 'Card') {
+        newTerms += 'Card payment received.';
+      } else if (method === 'PayPal') { // Fallback/Extra
+        newTerms += 'PayPal: ';
+      }
+
+      // Clean up double newlines if any
+      newTerms = newTerms.trim();
+
+      if (newTerms !== currentTerms.trim()) {
+        setInvoice(prev => ({ ...prev, terms: newTerms }));
+      }
+    }
+
+  }, [
+    activeRoute,
+    invoice.documentTitle,
+    invoice.payment.status,
+    invoice.payment.method,
+    // We do NOT depend on 'invoice.notes' or 'invoice.terms' directly to avoid loops,
+    // but we access their current value via the closure or ref if needed. 
+    // Actually, since we're inside the component, 'invoice' is the current state.
+    // To avoid infinite loop, we MUST check if value is different before setting.
+    // And we must be careful.
+
+    // Better strategy: Only run when the *triggers* change.
+    // But we need the current 'invoice.notes' to check if we should overwrite.
+    // We include 'invoice.notes' in dependency? No, that causes loop if we set it.
+    // We use a functional update for setInvoice, but we need to know IF we should update.
+    // React Effect nuances:
+    // If we include invoice.notes, and we update notes, effect runs again. 
+    // If logic says "New Note == Current Note", we don't set, loop breaks. Safe.
+  ]);
 
   const handleSignatureUpload = (e) => {
     const file = e.target.files[0];
@@ -1338,18 +1825,18 @@ export default function App() {
   const updateRoot = (field, value) => {
     let safeValue = value;
     if (field === 'taxRate') {
-       safeValue = Math.min(100, Math.max(0, safeFloat(value)));
-       if (value === '') safeValue = ''; 
+      safeValue = Math.min(100, Math.max(0, safeFloat(value)));
+      if (value === '') safeValue = '';
     }
     if (field === 'discountValue' || field === 'shipping') {
-       safeValue = Math.max(0, safeFloat(value));
-       if (value === '') safeValue = '';
+      safeValue = Math.max(0, safeFloat(value));
+      if (value === '') safeValue = '';
     }
 
     setInvoice(p => ({ ...p, [field]: safeValue }));
   };
-  
-  const updateNested = (section, field, value) => 
+
+  const updateNested = (section, field, value) =>
     setInvoice(p => ({ ...p, [section]: { ...p[section], [field]: value } }));
 
   const handlePaymentStatusChange = (e) => {
@@ -1393,27 +1880,81 @@ export default function App() {
       items: p.items.map(i => {
         if (i.id !== id) return i;
         if (field === 'quantity' || field === 'price') {
-           if (value === '') return { ...i, [field]: '' };
-           const safeVal = Math.max(0, parseFloat(value));
-           return { ...i, [field]: isNaN(safeVal) ? '' : safeVal };
+          if (value === '') return { ...i, [field]: '' };
+          const safeVal = Math.max(0, parseFloat(value));
+          return { ...i, [field]: isNaN(safeVal) ? '' : safeVal };
         }
         return { ...i, [field]: value };
       })
     }));
   };
 
-  const addItem = () => 
+  const addItem = () =>
     setInvoice(p => ({ ...p, items: [...p.items, { id: Date.now(), name: '', description: '', quantity: '', price: '', hsn: '' }] }));
 
-  const removeItem = (id) => 
+  const removeItem = (id) =>
     setInvoice(p => ({ ...p, items: p.items.filter(i => i.id !== id) }));
 
   const validateInvoice = () => {
     const errors = {};
-    if (!invoice.receiver.name) errors.clientName = true;
-    if (invoice.items.length === 0) errors.items = true;
+    const messages = [];
+
+    // 1. Client Check
+    if (!invoice.receiver.name || invoice.receiver.name.trim() === '') {
+      errors.clientName = true;
+      messages.push('Client name is required.');
+    }
+
+    // 2. Items Existence Check
+    if (invoice.items.length === 0) {
+      errors.items = true;
+      messages.push('At least one line item is required.');
+    }
+
+    // 2.5 Validation: Strict GST Rules
+    // If taxMode = "gst", Seller GSTIN is mandatory.
+    if (config?.id === 'gst' || invoice.taxMode === 'gst') {
+      if (!invoice.sender.gstin || invoice.sender.gstin.trim() === '') {
+        errors.senderGstin = true;
+        messages.push('Seller GSTIN is required for GST Invoices.');
+      }
+    }
+
+    // 3. Items Validity Check (Quantity & Price)
+    let hasInvalidItems = false;
+    invoice.items.forEach(item => {
+      const q = safeFloat(item.quantity);
+      const p = safeFloat(item.price);
+      if (q <= 0 || p <= 0) {
+        hasInvalidItems = true;
+      }
+    });
+    if (hasInvalidItems) {
+      errors.items = true; // Mark items as clear error
+      messages.push('All items must have a quantity and unit price greater than 0.');
+    }
+
+    // 4. Total Check
+    const sub = invoice.items.reduce((a, i) => a + calculateLineItem(i.quantity, i.price), 0);
+    const disc = invoice.discountType === 'percent'
+      ? (sub * safeFloat(invoice.discountValue)) / 100
+      : safeFloat(invoice.discountValue);
+    const tax = invoice.enableTax ? ((sub - Math.min(disc, sub)) * safeFloat(invoice.taxRate)) / 100 : 0;
+    const ship = safeFloat(invoice.shipping);
+    const totalCheck = Math.max(0, sub - Math.min(disc, sub) + tax + ship);
+
+    if (totalCheck <= 0) {
+      messages.push('Invoice total amount must be greater than 0.');
+    }
+
     setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
+
+    if (messages.length > 0) {
+      alert(`Cannot generate invoice:\n\n- ${messages.join('\n- ')}`);
+      return false;
+    }
+
+    return true;
   };
 
   const resetInvoice = () => {
@@ -1444,6 +1985,7 @@ export default function App() {
   };
 
   const handlePrint = () => {
+    if (!validateInvoice()) return;
     saveToHistory();
     const printContent = previewRef.current;
     if (!printContent) return;
@@ -1481,9 +2023,10 @@ export default function App() {
             }
             
             /* Logo Fix for Print */
+            /* Logo Fix for Print */
             .invoice-logo {
-              max-width: 140px !important;
-              max-height: 50px !important;
+              max-width: 180px !important;
+              max-height: 100px !important;
               object-fit: contain !important;
             }
 
@@ -1534,8 +2077,8 @@ export default function App() {
 
   const generatePDF = async () => {
     // ✅ FIX: Stop execution if validation fails
-    if (!validateInvoice()) return; 
-    
+    if (!validateInvoice()) return;
+
     saveToHistory();
     if (!window.html2canvas || !window.jspdf) {
       alert("Generating engine is warming up... please click again in 2 seconds.");
@@ -1543,7 +2086,7 @@ export default function App() {
     }
     setLoadingPdf(true);
     const element = previewRef.current;
-    
+
     // Save minimal original styles needed for restoration
     const originalShadow = element.style.boxShadow;
     const originalHeight = element.style.height;
@@ -1557,8 +2100,8 @@ export default function App() {
     // Prepare DOM for capture
     element.style.boxShadow = 'none';
     element.style.height = 'auto'; // Allow full height capture
-    element.style.overflow = 'visible'; 
-    
+    element.style.overflow = 'visible';
+
     // Force A4 width context
     element.style.width = '210mm';
 
@@ -1567,32 +2110,32 @@ export default function App() {
         // ✅ html2canvas (Clean Capture)
         const canvas = await window.html2canvas(element, {
           scale: 3, // High quality
-          useCORS: true, 
+          useCORS: true,
           backgroundColor: '#ffffff',
           logging: false
         });
-        
+
         // ✅ jsPDF SINGLE PAGE PERFECT FIT
         const imgData = canvas.toDataURL('image/png');
         const { jsPDF } = window.jspdf;
-        
+
         const pdf = new jsPDF('p', 'mm', 'a4');
-        
+
         // --- SINGLE PAGE LOGIC (NO CUT) ---
         const imgProps = pdf.getImageProperties(imgData);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
-        
+
         // Convert px to mm (approx 96dpi)
         const imgWidthMM = imgProps.width * 0.264583;
         const imgHeightMM = imgProps.height * 0.264583;
-        
+
         // Calculate perfect scale to fit
         const scale = Math.min(pdfWidth / imgWidthMM, pdfHeight / imgHeightMM);
-        
+
         const finalWidth = imgWidthMM * scale;
         const finalHeight = imgHeightMM * scale;
-        
+
         const x = (pdfWidth - finalWidth) / 2;
         const y = 0; // ⬅️ top aligned (prevent vertical cut)
 
@@ -1606,7 +2149,7 @@ export default function App() {
           useCORS: true,
           backgroundColor: '#ffffff'
         });
-        
+
         // 2. Capture Body separate
         const bodyCanvas = await window.html2canvas(invoiceBodyRef.current, {
           scale: 3,
@@ -1616,50 +2159,50 @@ export default function App() {
 
         const headerImg = headerCanvas.toDataURL('image/png');
         const bodyImg = bodyCanvas.toDataURL('image/png');
-        
+
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'mm', 'a4');
-        
+
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
-        
+
         // Calculate rendered heights in PDF units
         const headerHeight = (headerCanvas.height * pdfWidth) / headerCanvas.width;
         const bodyTotalHeight = (bodyCanvas.height * pdfWidth) / bodyCanvas.width;
-        
+
         // Start printing
         // Page 1: Header + Start of Body
         pdf.addImage(headerImg, 'PNG', 0, 0, pdfWidth, headerHeight);
-        
+
         // We print body starting at headerHeight
         // Available space per page = pdfHeight - headerHeight
         const printableHeight = pdfHeight - headerHeight;
-        
+
         let renderedHeight = 0; // Tracks how much of body we have printed
-        
+
         // Print first slice on Page 1
         // We place the image at (0, headerHeight).
         // But since it's the full body image, we need to clip it?
         // jsPDF addImage doesn't clip easily. The trick is vertical offset.
         // P1: Place body at Y = headerHeight. It prints 0...printableHeight of body.
-        
+
         pdf.addImage(bodyImg, 'PNG', 0, headerHeight, pdfWidth, bodyTotalHeight);
-        
+
         renderedHeight += printableHeight;
-        
+
         while (renderedHeight < bodyTotalHeight) {
           pdf.addPage();
           // Repeat Header
           pdf.addImage(headerImg, 'PNG', 0, 0, pdfWidth, headerHeight);
-          
+
           // Print Body Slice
           // We shift the image UP so the already printed part is hidden above the header
           // Offset = headerHeight - renderedHeight
           pdf.addImage(bodyImg, 'PNG', 0, headerHeight - renderedHeight, pdfWidth, bodyTotalHeight);
-          
+
           renderedHeight += printableHeight;
         }
-        
+
         pdf.save(`${invoice.invoiceNo || 'invoice'}.pdf`);
       }
 
@@ -1671,15 +2214,15 @@ export default function App() {
       element.style.boxShadow = originalShadow;
       element.style.height = originalHeight;
       element.style.overflow = originalOverflow;
-      
+
       // Remove temporary overrides
-      element.style.removeProperty('width'); 
-      
+      element.style.removeProperty('width');
+
       // ✅ RESTORE RESPONSIVE SCALE
       element.classList.add('invoice-preview-scaled');
       element.style.removeProperty('transform');
       element.style.removeProperty('margin-bottom');
-      
+
       setLoadingPdf(false);
     }
   };
@@ -1734,19 +2277,19 @@ export default function App() {
       return `${amount}`;
     }
   };
-  
+
   const getLabel = (baseLabel) => {
     const title = invoice.documentTitle?.toLowerCase() || '';
     if (activeRoute === 'transport') {
-       if (title.includes('export') || title.includes('import')) {
-         if (baseLabel === 'Vehicle No.') return 'Vessel / Flight No';
-         if (baseLabel === 'Driver Name') return 'B.L. / A.W.B. No';
-       }
+      if (title.includes('export') || title.includes('import')) {
+        if (baseLabel === 'Vehicle No.') return 'Vessel / Flight No';
+        if (baseLabel === 'Driver Name') return 'B.L. / A.W.B. No';
+      }
     }
     if (activeRoute === 'salon') {
-       if (title.includes('medical')) return baseLabel === 'Stylist Name' ? 'Doctor / Provider' : baseLabel;
-       if (title.includes('repair')) return baseLabel === 'Stylist Name' ? 'Technician' : baseLabel;
-       if (title.includes('hotel')) return baseLabel === 'Stylist Name' ? 'Room No' : baseLabel;
+      if (title.includes('medical')) return baseLabel === 'Stylist Name' ? 'Doctor / Provider' : baseLabel;
+      if (title.includes('repair')) return baseLabel === 'Stylist Name' ? 'Technician' : baseLabel;
+      if (title.includes('hotel')) return baseLabel === 'Stylist Name' ? 'Room No' : baseLabel;
     }
     return baseLabel;
   };
@@ -1783,41 +2326,45 @@ export default function App() {
     return (
       <div className={`min-h-screen font-sans transition-colors duration-300 ${darkMode ? 'dark bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
         <nav className="sticky top-0 z-40 w-full backdrop-blur-lg bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800">
-           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-             <a 
-               href="/"
-               className="flex items-center gap-2 cursor-pointer group no-underline" 
-               onClick={(e) => { e.preventDefault(); handleRouteChange('home'); }}
-             >
-               <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
-                 <Zap size={20} fill="currentColor" />
-               </div>
-               <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Invoice<span className="text-indigo-600">Pro</span></span>
-             </a>
-             <div className="flex gap-3">
-                 <button 
-                   onClick={() => setDarkMode(!darkMode)}
-                   className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                 >
-                   {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-                 </button>
-                 <button onClick={() => handleRouteChange('home')} className="px-4 py-2 text-sm font-medium hover:text-indigo-600">Back</button>
-             </div>
-           </div>
+          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+            <a
+              href="/"
+              className="flex items-center gap-2 cursor-pointer group no-underline"
+              onClick={(e) => { e.preventDefault(); handleRouteChange('home'); }}
+            >
+              <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+                <Zap size={20} fill="currentColor" />
+              </div>
+              <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Invoice<span className="text-indigo-600">Pro</span></span>
+            </a>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
+              <button onClick={() => handleRouteChange('home')} className="px-4 py-2 text-sm font-medium hover:text-indigo-600">Back</button>
+            </div>
+          </div>
         </nav>
         {PageContent && <PageContent />}
         <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-20 pt-16 pb-8">
-           <div className="container mx-auto px-4 text-center">
-             <div className="flex justify-center gap-6 text-sm text-slate-500 dark:text-slate-400 mb-8 flex-wrap">
-               <button onClick={() => handleRouteChange('privacy')} className="hover:text-indigo-600">Privacy Policy</button>
-               <button onClick={() => handleRouteChange('terms')} className="hover:text-indigo-600">Terms of Service</button>
-               <button onClick={() => handleRouteChange('about')} className="hover:text-indigo-600">About Us</button>
-               <button onClick={() => handleRouteChange('contact')} className="hover:text-indigo-600">Contact</button>
-               <button onClick={() => handleRouteChange('how-to-create-invoice')} className="hover:text-indigo-600 font-semibold text-indigo-500">Invoice Guide</button>
-             </div>
-             <p className="text-xs text-slate-400">&copy; {new Date().getFullYear()} InvoicePro. All rights reserved.</p>
-           </div>
+          <div className="container mx-auto px-4 text-center">
+            <div className="flex justify-center gap-6 text-sm text-slate-500 dark:text-slate-400 mb-8 flex-wrap">
+              <button onClick={() => handleRouteChange('privacy')} className="hover:text-indigo-600">Privacy Policy</button>
+              <button onClick={() => handleRouteChange('terms')} className="hover:text-indigo-600">Terms of Service</button>
+              <button onClick={() => handleRouteChange('about')} className="hover:text-indigo-600">About Us</button>
+              <button onClick={() => handleRouteChange('contact')} className="hover:text-indigo-600">Contact</button>
+              <button onClick={() => handleRouteChange('how-to-create-invoice')} className="hover:text-indigo-600 font-semibold text-indigo-500">Invoice Guide</button>
+            </div>
+            <p className="text-xs text-slate-400">&copy; {new Date().getFullYear()} InvoicePro. All rights reserved.</p>
+          </div>
         </footer>
+        {/* Detail Popup */}
+        {activeFeature && (
+          <FeaturePopup feature={activeFeature} onClose={() => setActiveFeature(null)} />
+        )}
       </div>
     );
   }
@@ -1827,12 +2374,16 @@ export default function App() {
     // ... [Existing Layout] ...
     // ... [Existing Footer in Main UI] ...
     <div className={`min-h-screen font-sans transition-colors duration-300 ${darkMode ? 'dark bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
-      
+      {/* Detail Popup for Main UI */}
+      {activeFeature && (
+        <FeaturePopup feature={activeFeature} onClose={() => setActiveFeature(null)} />
+      )}
+
       {/* --- NAVBAR --- */}
       <nav className="sticky top-0 z-40 w-full backdrop-blur-lg bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 no-print">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div 
-            className="flex items-center gap-2 cursor-pointer group" 
+          <div
+            className="flex items-center gap-2 cursor-pointer group"
             onClick={() => handleRouteChange('home')}
           >
             <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
@@ -1842,107 +2393,107 @@ export default function App() {
           </div>
 
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
-             {Object.values(INVOICE_TYPES).map(type => (
-               <button 
-                 key={type.id}
-                 onClick={() => handleRouteChange(type.id)}
-                 className={`hover:text-indigo-600 transition-colors ${activeRoute === type.id ? 'text-indigo-600 font-bold' : ''}`}
-               >
-                 {type.title.split(' ')[0]}
-               </button>
-             ))}
+            {Object.values(INVOICE_TYPES).map(type => (
+              <button
+                key={type.id}
+                onClick={() => handleRouteChange(type.id)}
+                className={`hover:text-indigo-600 transition-colors ${activeRoute === type.id ? 'text-indigo-600 font-bold' : ''}`}
+              >
+                {type.title.split(' ')[0]}
+              </button>
+            ))}
           </div>
 
           <div className="flex items-center gap-3">
-             <button 
-               onClick={() => setDarkMode(!darkMode)}
-               className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-             >
-               {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-             </button>
-             <button 
-               className="md:hidden p-2"
-               onClick={() => setMobileMenu(!mobileMenu)}
-             >
-               {mobileMenu ? <X size={20} /> : <Menu size={20} />}
-             </button>
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            <button
+              className="md:hidden p-2"
+              onClick={() => setMobileMenu(!mobileMenu)}
+            >
+              {mobileMenu ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
-        
+
         {mobileMenu && (
           <div className="md:hidden absolute w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-xl p-4 flex flex-col gap-2">
             {Object.values(INVOICE_TYPES).map(type => (
-               <button 
-                 key={type.id}
-                 onClick={() => { setActiveRoute(type.id); setMobileMenu(false); }}
-                 className="text-left px-4 py-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 font-medium"
-               >
-                 {type.title}
-               </button>
+              <button
+                key={type.id}
+                onClick={() => { setActiveRoute(type.id); setMobileMenu(false); }}
+                className="text-left px-4 py-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 font-medium"
+              >
+                {type.title}
+              </button>
             ))}
           </div>
         )}
       </nav>
 
       {/* --- CONTENT AREA --- */}
-      
+
       {activeRoute === 'home' ? (
-        
+
         <div className="animate-in fade-in duration-500 no-print">
           <section className="py-20 text-center px-4 relative overflow-hidden">
-             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-3xl -z-10" />
-             <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-slate-900 dark:text-white">
-               Invoicing Made Simple <br className="hidden md:block"/>
-               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-                 Completely Free
-               </span>
-             </h1>
-             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-               Generate professional PDF invoices in seconds. No account required. Zero data stored on servers.
-             </p>
-             
-             <div className="flex flex-col items-center gap-6 mb-16">
-               <div className="flex flex-wrap justify-center gap-4">
-                 <button 
-                   onClick={() => handleRouteChange('standard')}
-                   className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold shadow-lg shadow-indigo-600/30 transition-all transform hover:scale-105 flex items-center gap-2"
-                 >
-                   Start Invoicing <ArrowRight size={18} />
-                 </button>
-                 <button 
-                   onClick={() => handleRouteChange('gst')}
-                   className="px-8 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-full font-bold hover:shadow-lg transition-all flex items-center gap-2"
-                 >
-                   GST Invoice <CreditCard size={18} className="text-emerald-500" />
-                 </button>
-               </div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-3xl -z-10" />
+            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-slate-900 dark:text-white">
+              Invoicing Made Simple <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
+                Completely Free
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+              Generate professional PDF invoices in seconds. No account required. Zero data stored on servers.
+            </p>
 
-               <button
-                 onClick={() => handleRouteChange('how-to-create-invoice')}
-                 className="flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
-               >
-                 📘 Professional Invoicing Guide
-               </button>
-             </div>
+            <div className="flex flex-col items-center gap-6 mb-16">
+              <div className="flex flex-wrap justify-center gap-4">
+                <button
+                  onClick={() => handleRouteChange('standard')}
+                  className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold shadow-lg shadow-indigo-600/30 transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 flex items-center gap-2"
+                >
+                  Start Invoicing <ArrowRight size={18} />
+                </button>
+                <button
+                  onClick={() => handleRouteChange('gst')}
+                  className="px-8 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-full font-bold hover:shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all duration-200 ease-in-out flex items-center gap-2"
+                >
+                  GST Invoice <CreditCard size={18} className="text-emerald-500" />
+                </button>
+              </div>
 
-             <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl px-4 text-left">
-               {Object.values(INVOICE_TYPES).map(type => (
-                 <div 
-                   key={type.id}
-                   onClick={() => handleRouteChange(type.id)}
-                   className="group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 shadow-sm hover:shadow-xl transition-all cursor-pointer relative overflow-hidden"
-                 >
-                   <div className={`absolute top-0 right-0 p-4 opacity-10 group-hover:scale-150 transition-transform duration-500 ${type.color.split(' ')[0]}`}>
-                     {type.icon}
-                   </div>
-                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${type.color}`}>
-                     {type.icon}
-                   </div>
-                   <h3 className="text-xl font-bold mb-2">{type.title}</h3>
-                   <p className="text-slate-500 dark:text-slate-400 text-sm">{type.description}</p>
-                 </div>
-               ))}
-             </div>
+              <button
+                onClick={() => handleRouteChange('how-to-create-invoice')}
+                className="flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+              >
+                📘 Professional Invoicing Guide
+              </button>
+            </div>
+
+            <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl px-4 text-left">
+              {Object.values(INVOICE_TYPES).map(type => (
+                <div
+                  key={type.id}
+                  onClick={() => handleRouteChange(type.id)}
+                  className="group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 shadow-sm hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden"
+                >
+                  <div className={`absolute top-0 right-0 p-4 opacity-10 group-hover:scale-150 transition-transform duration-500 ${type.color.split(' ')[0]}`}>
+                    {type.icon}
+                  </div>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${type.color}`}>
+                    {type.icon}
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">{type.title}</h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm">{type.description}</p>
+                </div>
+              ))}
+            </div>
           </section>
 
           {/* 🔥 ADS START */}
@@ -1959,11 +2510,12 @@ export default function App() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {APP_FEATURES.map((feature) => (
-                  <FeatureCard 
+                  <FeatureCard
                     key={feature.id}
-                    icon={feature.icon} 
-                    title={feature.title} 
-                    desc={feature.description} 
+                    icon={feature.icon}
+                    title={feature.title}
+                    desc={feature.description}
+                    onClick={() => setActiveFeature(feature)}
                   />
                 ))}
               </div>
@@ -1971,217 +2523,159 @@ export default function App() {
           </section>
 
           <section className="py-20 container mx-auto px-4 max-w-4xl prose dark:prose-invert">
-             
-             {/* --- LONG FORM SEO CONTENT START --- */}
-             
-             <h1 className="text-4xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-               The #1 Free Invoice Generator for Modern Business
-             </h1>
 
-             <p className="text-xl text-slate-600 dark:text-slate-400 text-center mb-12 leading-relaxed">
-               Create, download, and send professional PDF invoices in seconds. No signup required. No hidden fees. 
-               The secure <strong>free invoice generator</strong> trusted by freelancers and small businesses worldwide.
-             </p>
+            {/* --- LONG FORM SEO CONTENT START --- */}
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">What is a Free Invoice Generator?</h2>
-             <p>
-               A <strong>free invoice generator</strong> is an online tool that allows business owners, freelancers, and contractors to create professional billing documents without needing expensive accounting software. 
-               Unlike manual methods like Word or Excel, an <strong>online invoice maker</strong> automates the calculation of subtotals, taxes, and discounts, ensuring accuracy and compliance with professional standards.
-             </p>
-             <p>
-               InvoicePro takes this a step further by offering a "Local-First" architecture. This means when you create an invoice, the data stays on your device. We do not store your client list or financial details on our servers, ensuring enterprise-grade privacy for your small business.
-             </p>
+            <h1 className="text-4xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+              The #1 Free Invoice Generator for Modern Business
+            </h1>
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">Why Use an Online Invoice Maker Instead of Excel?</h2>
-             <p>
-               For decades, businesses relied on spreadsheets. However, manual invoicing is prone to errors and looks unprofessional. Here is why switching to a dedicated <strong>invoice creator</strong> is crucial:
-             </p>
-             <ul className="list-disc pl-5 space-y-3 mb-6">
-               <li><strong>Automatic Math:</strong> Never send an invoice with a calculation error again. Our tool handles quantity × price, discounts, and complex tax percentages automatically.</li>
-               <li><strong>Mobile Friendly:</strong> Create invoices on the go from your smartphone. Excel templates often break on mobile screens.</li>
-               <li><strong>Professional PDFs:</strong> Generate a crisp, clean <strong>PDF invoice</strong> that looks consistent on every device. Word documents can lose formatting when opened on different computers.</li>
-               <li><strong>Speed:</strong> Save client details and auto-fill your next bill. What used to take 10 minutes now takes 10 seconds.</li>
-             </ul>
+            <p className="text-xl text-slate-600 dark:text-slate-400 text-center mb-12 leading-relaxed">
+              Create, download, and send professional PDF invoices in seconds. No signup required. No hidden fees.
+              The secure <strong>free invoice generator</strong> trusted by freelancers and small businesses worldwide.
+            </p>
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">How to Create a Professional Invoice in 3 Steps</h2>
-             <p>Using our <strong>simple invoice maker</strong> is intuitive. You don't need an account or a credit card. Just follow these steps:</p>
-             <ol className="list-decimal pl-5 space-y-4 mb-6">
-               <li>
-                 <strong>Enter Business Details:</strong> Start by adding your "From" details. Upload your company logo to make the document look official. Add your business address and contact info.
-               </li>
-               <li>
-                 <strong>Add Client & Line Items:</strong> Fill in the "Bill To" section with your client's information. Then, add your services or products as line items. Enter the quantity and rate; the <strong>invoice calculator</strong> does the rest.
-               </li>
-               <li>
-                 <strong>Download PDF:</strong> Review the total, add any payment instructions (like bank details or UPI ID), and hit "Download PDF". You now have a file ready to email to your client.
-               </li>
-             </ol>
+            <h2 className="text-2xl font-bold mt-12 mb-6">What is a Free Invoice Generator?</h2>
+            <p>
+              A <strong>free invoice generator</strong> is an online tool that allows business owners, freelancers, and contractors to create professional billing documents without needing expensive accounting software.
+              Unlike manual methods like Word or Excel, an <strong>online invoice maker</strong> automates the calculation of subtotals, taxes, and discounts, ensuring accuracy and compliance with professional standards.
+            </p>
+            <p>
+              InvoicePro takes this a step further by offering a "Local-First" architecture. This means when you create an invoice, the data stays on your device. We do not store your client list or financial details on our servers, ensuring enterprise-grade privacy for your small business.
+            </p>
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">The Essential Elements of a Valid Invoice</h2>
-             <p>
-               To ensure your <strong>bill format</strong> is legally valid and looks professional, it must contain specific components. Our <strong>invoice templates</strong> include all of these by default:
-             </p>
-             <ul className="list-disc pl-5 space-y-3 mb-6">
-               <li><strong>Header:</strong> Clearly marked with the word "INVOICE" (or Tax Invoice/Bill of Supply).</li>
-               <li><strong>Unique Invoice Number:</strong> A sequential ID (e.g., INV-001) for tracking and accounting.</li>
-               <li><strong>Date of Issue & Due Date:</strong> Establishes when the payment is expected.</li>
-               <li><strong>Seller & Buyer Info:</strong> Names, addresses, and tax IDs (GSTIN/VAT) if applicable.</li>
-               <li><strong>Itemized List:</strong> Clear description of goods sold or services rendered.</li>
-               <li><strong>Financial Breakdown:</strong> Subtotal, Tax Amount, Discounts, and Grand Total.</li>
-               <li><strong>Payment Terms:</strong> Instructions on how to pay (Bank transfer, PayPal, Stripe, etc.).</li>
-             </ul>
+            <h2 className="text-2xl font-bold mt-12 mb-6">Why Use an Online Invoice Maker Instead of Excel?</h2>
+            <p>
+              For decades, businesses relied on spreadsheets. However, manual invoicing is prone to errors and looks unprofessional. Here is why switching to a dedicated <strong>invoice creator</strong> is crucial:
+            </p>
+            <ul className="list-disc pl-5 space-y-3 mb-6">
+              <li><strong>Automatic Math:</strong> Never send an invoice with a calculation error again. Our tool handles quantity × price, discounts, and complex tax percentages automatically.</li>
+              <li><strong>Mobile Friendly:</strong> Create invoices on the go from your smartphone. Excel templates often break on mobile screens.</li>
+              <li><strong>Professional PDFs:</strong> Generate a crisp, clean <strong>PDF invoice</strong> that looks consistent on every device. Word documents can lose formatting when opened on different computers.</li>
+              <li><strong>Speed:</strong> Save client details and auto-fill your next bill. What used to take 10 minutes now takes 10 seconds.</li>
+            </ul>
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">Understanding Invoice Data Privacy & Security</h2>
-             <p>
-               Most <strong>free invoicing software</strong> requires you to create an account, storing your sensitive financial data on their servers. This creates a risk of data breaches or data mining.
-             </p>
-             <p>
-               <strong>InvoicePro is different.</strong> We utilize <strong>Local Storage technology</strong>. When you type your client's name or your price list, that data is saved directly to your browser's internal memory on your specific device. It is never transmitted to our cloud databases.
-             </p>
-             <p>
-               This makes InvoicePro the most secure <strong>receipt generator</strong> for privacy-conscious freelancers. You get the convenience of cloud software with the privacy of an offline Excel file.
-             </p>
+            <h2 className="text-2xl font-bold mt-12 mb-6">How to Create a Professional Invoice in 3 Steps</h2>
+            <p>Using our <strong>simple invoice maker</strong> is intuitive. You don't need an account or a credit card. Just follow these steps:</p>
+            <ol className="list-decimal pl-5 space-y-4 mb-6">
+              <li>
+                <strong>Enter Business Details:</strong> Start by adding your "From" details. Upload your company logo to make the document look official. Add your business address and contact info.
+              </li>
+              <li>
+                <strong>Add Client & Line Items:</strong> Fill in the "Bill To" section with your client's information. Then, add your services or products as line items. Enter the quantity and rate; the <strong>invoice calculator</strong> does the rest.
+              </li>
+              <li>
+                <strong>Download PDF:</strong> Review the total, add any payment instructions (like bank details or UPI ID), and hit "Download PDF". You now have a file ready to email to your client.
+              </li>
+            </ol>
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">Who Needs a Free Invoice Creator?</h2>
-             <p>Our versatile tool is designed for a wide range of professionals:</p>
-             <ul className="list-disc pl-5 space-y-3 mb-6">
-               <li><strong>Freelancers:</strong> Web designers, writers, and developers who need a quick <strong>freelance invoice</strong> to get paid at the end of a project.</li>
-               <li><strong>Contractors:</strong> Tradespeople like plumbers, electricians, and carpenters who need to issue a <strong>service receipt</strong> on the spot.</li>
-               <li><strong>Small Business Owners:</strong> Retailers and service providers needing a robust <strong>GST invoice generator</strong> without monthly subscription fees.</li>
-               <li><strong>Consultants:</strong> Professionals billing for hourly work who need a clean, corporate <strong>consulting invoice</strong>.</li>
-             </ul>
+            <h2 className="text-2xl font-bold mt-12 mb-6">The Essential Elements of a Valid Invoice</h2>
+            <p>
+              To ensure your <strong>bill format</strong> is legally valid and looks professional, it must contain specific components. Our <strong>invoice templates</strong> include all of these by default:
+            </p>
+            <ul className="list-disc pl-5 space-y-3 mb-6">
+              <li><strong>Header:</strong> Clearly marked with the word "INVOICE" (or Tax Invoice/Bill of Supply).</li>
+              <li><strong>Unique Invoice Number:</strong> A sequential ID (e.g., INV-001) for tracking and accounting.</li>
+              <li><strong>Date of Issue & Due Date:</strong> Establishes when the payment is expected.</li>
+              <li><strong>Seller & Buyer Info:</strong> Names, addresses, and tax IDs (GSTIN/VAT) if applicable.</li>
+              <li><strong>Itemized List:</strong> Clear description of goods sold or services rendered.</li>
+              <li><strong>Financial Breakdown:</strong> Subtotal, Tax Amount, Discounts, and Grand Total.</li>
+              <li><strong>Payment Terms:</strong> Instructions on how to pay (Bank transfer, PayPal, Stripe, etc.).</li>
+            </ul>
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">Benefits of Professional PDF Invoices</h2>
-             <p>
-               Why is PDF the gold standard? A <strong>PDF invoice</strong> is non-editable by the receiver, ensuring the integrity of the amount and terms you set. It creates a digital paper trail that is universally accepted by accounting departments and tax authorities globally.
-             </p>
-             <p>
-               Furthermore, PDF files are lightweight and preserve your formatting (fonts, logo placement) regardless of whether the client views them on a phone, tablet, or desktop computer.
-             </p>
+            <h2 className="text-2xl font-bold mt-12 mb-6">Understanding Invoice Data Privacy & Security</h2>
+            <p>
+              Most <strong>free invoicing software</strong> requires you to create an account, storing your sensitive financial data on their servers. This creates a risk of data breaches or data mining.
+            </p>
+            <p>
+              <strong>InvoicePro is different.</strong> We utilize <strong>Local Storage technology</strong>. When you type your client's name or your price list, that data is saved directly to your browser's internal memory on your specific device. It is never transmitted to our cloud databases.
+            </p>
+            <p>
+              This makes InvoicePro the most secure <strong>receipt generator</strong> for privacy-conscious freelancers. You get the convenience of cloud software with the privacy of an offline Excel file.
+            </p>
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">Common Invoicing Mistakes to Avoid</h2>
-             <p>Even seasoned business owners make mistakes that delay payment. Here is how our <strong>invoice maker</strong> helps you avoid them:</p>
-             <ul className="list-disc pl-5 space-y-3 mb-6">
-               <li><strong>Vague Descriptions:</strong> Instead of "Consulting", use "Marketing Strategy Consultation - Jan 2024". Our template encourages detailed descriptions.</li>
-               <li><strong>Missing Due Date:</strong> If you don't tell a client when to pay, they will prioritize other bills. Always set a clear Due Date.</li>
-               <li><strong>Forgotten Payment Info:</strong> A client cannot pay you if they don't know your bank details. Our dedicated "Payment Instructions" field ensures this is never missed.</li>
-               <li><strong>Incorrect Tax Calculations:</strong> Manual math is risky. Our automated engine ensures your tax and totals are pixel-perfect.</li>
-             </ul>
+            <h2 className="text-2xl font-bold mt-12 mb-6">Who Needs a Free Invoice Creator?</h2>
+            <p>Our versatile tool is designed for a wide range of professionals:</p>
+            <ul className="list-disc pl-5 space-y-3 mb-6">
+              <li><strong>Freelancers:</strong> Web designers, writers, and developers who need a quick <strong>freelance invoice</strong> to get paid at the end of a project.</li>
+              <li><strong>Contractors:</strong> Tradespeople like plumbers, electricians, and carpenters who need to issue a <strong>service receipt</strong> on the spot.</li>
+              <li><strong>Small Business Owners:</strong> Retailers and service providers needing a robust <strong>GST invoice generator</strong> without monthly subscription fees.</li>
+              <li><strong>Consultants:</strong> Professionals billing for hourly work who need a clean, corporate <strong>consulting invoice</strong>.</li>
+            </ul>
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">Global Invoicing: Currencies and Taxes</h2>
-             <p>
-               Business is global, and so is InvoicePro. Our tool supports all major currencies including USD ($), EUR (€), GBP (£), INR (₹), and more.
-             </p>
-             <p>
-               Whether you need a <strong>VAT invoice</strong> for Europe, a <strong>GST invoice</strong> for India/Australia, or a standard sales tax invoice for the US, our flexible tax settings allow you to rename the tax label and set custom percentages to comply with local regulations.
-             </p>
+            <h2 className="text-2xl font-bold mt-12 mb-6">Benefits of Professional PDF Invoices</h2>
+            <p>
+              Why is PDF the gold standard? A <strong>PDF invoice</strong> is non-editable by the receiver, ensuring the integrity of the amount and terms you set. It creates a digital paper trail that is universally accepted by accounting departments and tax authorities globally.
+            </p>
+            <p>
+              Furthermore, PDF files are lightweight and preserve your formatting (fonts, logo placement) regardless of whether the client views them on a phone, tablet, or desktop computer.
+            </p>
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">How Automation Improves Cash Flow</h2>
-             <p>
-               The faster you invoice, the faster you get paid. By reducing the friction of creating a bill, you are more likely to send invoices immediately upon job completion rather than waiting until the end of the month.
-             </p>
-             <p>
-               Using a <strong>fast invoice generator</strong> reduces administrative drag, allowing you to focus on revenue-generating work rather than paperwork. Consistent, professional billing also signals reliability to clients, often leading to faster approval cycles.
-             </p>
+            <h2 className="text-2xl font-bold mt-12 mb-6">Common Invoicing Mistakes to Avoid</h2>
+            <p>Even seasoned business owners make mistakes that delay payment. Here is how our <strong>invoice maker</strong> helps you avoid them:</p>
+            <ul className="list-disc pl-5 space-y-3 mb-6">
+              <li><strong>Vague Descriptions:</strong> Instead of "Consulting", use "Marketing Strategy Consultation - Jan 2024". Our template encourages detailed descriptions.</li>
+              <li><strong>Missing Due Date:</strong> If you don't tell a client when to pay, they will prioritize other bills. Always set a clear Due Date.</li>
+              <li><strong>Forgotten Payment Info:</strong> A client cannot pay you if they don't know your bank details. Our dedicated "Payment Instructions" field ensures this is never missed.</li>
+              <li><strong>Incorrect Tax Calculations:</strong> Manual math is risky. Our automated engine ensures your tax and totals are pixel-perfect.</li>
+            </ul>
 
-             <h2 className="text-2xl font-bold mt-12 mb-6">Frequently Asked Questions (FAQ)</h2>
-             
-             <div className="space-y-4">
-               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
-                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
-                   Is this invoice generator truly free?
-                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-                 </summary>
-                 <p className="mt-3 text-slate-600 dark:text-slate-400">
-                   Yes. InvoicePro is 100% free to use. You can generate unlimited invoices and download unlimited PDFs. There are no watermarks on the invoices themselves (only a small footer credit which is removed if you add your own logo).
-                 </p>
-               </details>
+            <h2 className="text-2xl font-bold mt-12 mb-6">Global Invoicing: Currencies and Taxes</h2>
+            <p>
+              Business is global, and so is InvoicePro. Our tool supports all major currencies including USD ($), EUR (€), GBP (£), INR (₹), and more.
+            </p>
+            <p>
+              Whether you need a <strong>VAT invoice</strong> for Europe, a <strong>GST invoice</strong> for India/Australia, or a standard sales tax invoice for the US, our flexible tax settings allow you to rename the tax label and set custom percentages to comply with local regulations.
+            </p>
 
-               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
-                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
-                   Do I need to sign up or create an account?
-                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-                 </summary>
-                 <p className="mt-3 text-slate-600 dark:text-slate-400">
-                   No. We do not require any login or registration. You can start creating your invoice immediately. This ensures your privacy and saves you time.
-                 </p>
-               </details>
+            <h2 className="text-2xl font-bold mt-12 mb-6">How Automation Improves Cash Flow</h2>
+            <p>
+              The faster you invoice, the faster you get paid. By reducing the friction of creating a bill, you are more likely to send invoices immediately upon job completion rather than waiting until the end of the month.
+            </p>
+            <p>
+              Using a <strong>fast invoice generator</strong> reduces administrative drag, allowing you to focus on revenue-generating work rather than paperwork. Consistent, professional billing also signals reliability to clients, often leading to faster approval cycles.
+            </p>
 
-               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
-                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
-                   Is my data safe?
-                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-                 </summary>
-                 <p className="mt-3 text-slate-600 dark:text-slate-400">
-                   Absolutely. We use a "Local-First" approach. Your data (client names, prices, bank details) is stored in your browser's local storage on your own device. It is never sent to our servers or stored in a cloud database.
-                 </p>
-               </details>
+            <h2 className="text-2xl font-bold mt-12 mb-6">Frequently Asked Questions (FAQ)</h2>
 
-               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
-                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
-                   Can I generate a GST Invoice for India?
-                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-                 </summary>
-                 <p className="mt-3 text-slate-600 dark:text-slate-400">
-                   Yes. We have a dedicated "GST Invoice" mode. Simply click the GST button or switch the invoice type. It supports CGST, SGST, IGST, HSN codes, and GSTIN fields for both supplier and receiver.
-                 </p>
-               </details>
+            <div className="space-y-4">
+              {FAQS.map((faq, index) => (
+                <details
+                  key={index}
+                  open={activeFaq === index}
+                  className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800"
+                >
+                  <summary
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleFaq(index);
+                    }}
+                    className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200"
+                  >
+                    {faq.question}
+                    <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p className="mt-3 text-slate-600 dark:text-slate-400">
+                    {faq.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
 
-               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
-                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
-                   Can I add my own logo?
-                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-                 </summary>
-                 <p className="mt-3 text-slate-600 dark:text-slate-400">
-                   Yes. You can upload your business logo (PNG, JPG, or SVG). It will appear on the top-left of the invoice PDF, making it look fully professional and branded.
-                 </p>
-               </details>
+            <div className="mt-12 p-8 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl text-center border border-indigo-100 dark:border-indigo-800">
+              <h2 className="text-2xl font-bold mb-4">Ready to Get Paid?</h2>
+              <p className="mb-6 text-slate-600 dark:text-slate-300">
+                Join thousands of freelancers and small businesses using InvoicePro to streamline their billing.
+              </p>
+              <button
+                onClick={() => window.scrollTo(0, 0)}
+                className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-lg transition-transform hover:scale-105"
+              >
+                Create Your Free Invoice Now
+              </button>
+            </div>
 
-               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
-                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
-                   Can I change the currency?
-                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-                 </summary>
-                 <p className="mt-3 text-slate-600 dark:text-slate-400">
-                   Yes. We support multiple currencies. You can select USD, EUR, GBP, INR, CAD, AUD, or AED from the currency dropdown in the settings panel.
-                 </p>
-               </details>
-
-               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
-                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
-                   Can I save the invoice to edit later?
-                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-                 </summary>
-                 <p className="mt-3 text-slate-600 dark:text-slate-400">
-                   Your browser will automatically remember the details of your last invoice (using Local Storage). If you close the tab and come back, your data will still be there. We also offer a "History" feature that saves your last 20 generated invoices for quick restoration.
-                 </p>
-               </details>
-
-               <details className="group p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
-                 <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-slate-800 dark:text-slate-200">
-                   Is there a mobile app?
-                   <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180"/>
-                 </summary>
-                 <p className="mt-3 text-slate-600 dark:text-slate-400">
-                   InvoicePro is a Progressive Web App (PWA) that works perfectly in your mobile browser. You do not need to download an app from the store; simply visit the website on your phone to create invoices on the go.
-                 </p>
-               </details>
-             </div>
-
-             <div className="mt-12 p-8 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl text-center border border-indigo-100 dark:border-indigo-800">
-               <h2 className="text-2xl font-bold mb-4">Ready to Get Paid?</h2>
-               <p className="mb-6 text-slate-600 dark:text-slate-300">
-                 Join thousands of freelancers and small businesses using InvoicePro to streamline their billing.
-               </p>
-               <button 
-                 onClick={() => window.scrollTo(0,0)} 
-                 className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-lg transition-transform hover:scale-105"
-               >
-                 Create Your Free Invoice Now
-               </button>
-             </div>
-
-             {/* --- LONG FORM SEO CONTENT END --- */}
+            {/* --- LONG FORM SEO CONTENT END --- */}
 
           </section>
 
@@ -2190,7 +2684,7 @@ export default function App() {
       ) : (
 
         <div className="container mx-auto px-4 py-8 animate-in slide-in-from-bottom-4 duration-500">
-          
+
           <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
             <div>
               <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-3">
@@ -2221,17 +2715,17 @@ export default function App() {
               <p className="text-slate-500 dark:text-slate-400 mt-1">{config?.description}</p>
             </div>
             <div className="flex gap-3">
-              <button 
+              <button
                 onClick={resetInvoice}
                 className="px-3 py-2 text-sm font-medium text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors flex items-center gap-1"
               >
                 <Plus size={16} /> New
               </button>
-              <button 
+              <button
                 onClick={() => handleRouteChange('home')}
-                className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 hover:border-indigo-300 shadow-sm hover:shadow dark:bg-slate-800 dark:text-indigo-300 dark:border-slate-700 dark:hover:bg-slate-700 rounded-full transition-all duration-200 ease-in-out active:scale-95"
               >
-                &larr; Back to Home
+                <ArrowLeft size={18} /> Back to Home
               </button>
             </div>
           </div>
@@ -2239,9 +2733,9 @@ export default function App() {
           {/* <AdUnit type="banner" label="Top Banner Ad" /> */}
 
           <div className="flex flex-col xl:flex-row gap-8 items-start">
-            
+
             <div className="w-full xl:w-5/12 space-y-6 no-print">
-              
+
               <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
                 <div className="flex items-center gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-700">
                   <Settings className="text-indigo-600" size={20} />
@@ -2249,16 +2743,16 @@ export default function App() {
                 </div>
 
                 <div className="mb-4">
-                   <label className="label">Document Header</label>
-                   <select 
-                     className="input font-semibold text-indigo-600"
-                     value={invoice.documentTitle}
-                     onChange={(e) => updateRoot('documentTitle', e.target.value)}
-                   >
-                     {config?.subCategories?.map(sub => (
-                       <option key={sub} value={sub.toUpperCase()}>{sub}</option>
-                     ))}
-                   </select>
+                  <label className="label">Document Header</label>
+                  <select
+                    className="input font-semibold text-indigo-600"
+                    value={invoice.documentTitle}
+                    onChange={(e) => updateRoot('documentTitle', e.target.value)}
+                  >
+                    {config?.subCategories?.map(sub => (
+                      <option key={sub} value={sub.toUpperCase()}>{sub}</option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
@@ -2289,9 +2783,9 @@ export default function App() {
                     <h3 className="text-xs font-bold uppercase text-emerald-600 mb-2">GST Settings</h3>
                     <div className="flex items-center gap-4">
                       <label className="flex items-center gap-2 cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          checked={invoice.isInterstate} 
+                        <input
+                          type="checkbox"
+                          checked={invoice.isInterstate}
                           onChange={(e) => updateRoot('isInterstate', e.target.checked)}
                           className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"
                         />
@@ -2303,7 +2797,7 @@ export default function App() {
 
                 {config?.id === 'transport' && (
                   <div className="mb-6 bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-100 dark:border-orange-800">
-                    <h3 className="text-xs font-bold uppercase text-orange-600 mb-2 flex items-center gap-2"><Truck size={14}/> Transport Details</h3>
+                    <h3 className="text-xs font-bold uppercase text-orange-600 mb-2 flex items-center gap-2"><Truck size={14} /> Transport Details</h3>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[10px] uppercase text-gray-500 font-bold mb-1 block">{getLabel('Vehicle No.')}</label>
@@ -2318,10 +2812,10 @@ export default function App() {
                     </div>
                   </div>
                 )}
-                 
+
                 {config?.id === 'salon' && (
                   <div className="mb-6 bg-pink-50 dark:bg-pink-900/20 p-4 rounded-lg border border-pink-100 dark:border-pink-800">
-                    <h3 className="text-xs font-bold uppercase text-pink-600 mb-2 flex items-center gap-2"><Scissors size={14}/> Service Details</h3>
+                    <h3 className="text-xs font-bold uppercase text-pink-600 mb-2 flex items-center gap-2"><Scissors size={14} /> Service Details</h3>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[10px] uppercase text-gray-500 font-bold mb-1 block">{getLabel('Stylist Name')}</label>
@@ -2333,65 +2827,65 @@ export default function App() {
                 )}
 
                 <div className="space-y-6">
-                   <div className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
-                      <div className="flex justify-between items-center mb-2">
-                        <h3 className="font-bold text-slate-700 dark:text-slate-300">From (Business)</h3>
-                        <div className="flex gap-2">
-                           <label className="text-xs text-indigo-600 cursor-pointer font-semibold hover:underline flex items-center gap-1">
-                             <Plus size={14} /> Logo
-                             <input type="file" className="hidden" onChange={handleLogoUpload} accept="image/*" />
-                           </label>
-                           <label className="text-xs text-indigo-600 cursor-pointer font-semibold hover:underline flex items-center gap-1">
-                             <PenTool size={14} /> Sign
-                             <input type="file" className="hidden" onChange={handleSignatureUpload} accept="image/*" />
-                           </label>
-                        </div>
+                  <div className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="font-bold text-slate-700 dark:text-slate-300">From (Business)</h3>
+                      <div className="flex gap-2">
+                        <label className="text-xs font-bold text-indigo-700 dark:text-indigo-400 cursor-pointer bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1.5 rounded-md border border-indigo-100 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors flex items-center gap-2 shadow-sm">
+                          <Plus size={14} strokeWidth={3} /> Logo
+                          <input type="file" className="hidden" onChange={handleLogoUpload} accept="image/*" />
+                        </label>
+                        <label className="text-xs font-bold text-indigo-700 dark:text-indigo-400 cursor-pointer bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1.5 rounded-md border border-indigo-100 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors flex items-center gap-2 shadow-sm">
+                          <PenTool size={14} strokeWidth={2.5} /> Sign
+                          <input type="file" className="hidden" onChange={handleSignatureUpload} accept="image/*" />
+                        </label>
                       </div>
+                    </div>
 
-                      {logo && (
-                        <p className="text-xs text-emerald-600 mt-1 mb-2">
-                          ✅ Logo uploaded successfully
-                        </p>
-                      )}
+                    {logo && (
+                      <p className="text-xs text-emerald-600 mt-1 mb-2">
+                        ✅ Logo uploaded successfully
+                      </p>
+                    )}
 
-                      {logoError && (
-                        <p className="text-xs text-red-500 mt-1 mb-2">
-                          ❌ {logoError}
-                        </p>
-                      )}
+                    {logoError && (
+                      <p className="text-xs text-red-500 mt-1 mb-2">
+                        ❌ {logoError}
+                      </p>
+                    )}
 
-                      <div className="space-y-2">
-                        <input placeholder="Business Name" className="input" value={invoice.sender.name} onChange={e => updateNested('sender', 'name', e.target.value)} />
-                        <input placeholder="Email" className="input" value={invoice.sender.email} onChange={e => updateNested('sender', 'email', e.target.value)} />
-                        <textarea placeholder="Address" rows="2" className="input" value={invoice.sender.address} onChange={e => updateNested('sender', 'address', e.target.value)} />
-                        {config?.fields.includes('gstin') && (
-                           <input 
-                             placeholder="GST Number (GSTIN)" 
-                             className={`input border-emerald-200 focus:border-emerald-500 ${validationErrors.senderGstin ? 'border-red-500 ring-1 ring-red-500' : ''}`}
-                             value={invoice.sender.gstin} 
-                             onChange={e => updateNested('sender', 'gstin', e.target.value.toUpperCase())} 
-                             maxLength={15}
-                           />
-                        )}
-                      </div>
-                   </div>
-
-                   <div className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
-                      <h3 className="font-bold text-slate-700 dark:text-slate-300 mb-2">Bill To (Client)</h3>
-                      <div className="space-y-2">
-                        <input 
-                          placeholder="Client Name" 
-                          className={`input ${validationErrors.clientName ? 'border-red-400 ring-1 ring-red-200' : ''}`}
-                          value={invoice.receiver.name} 
-                          onChange={e => { updateNested('receiver', 'name', e.target.value); setValidationErrors(p => ({...p, clientName: false})) }} 
+                    <div className="space-y-2">
+                      <input placeholder="Business Name" className="input" value={invoice.sender.name} onChange={e => updateNested('sender', 'name', e.target.value)} />
+                      <input placeholder="Email" className="input" value={invoice.sender.email} onChange={e => updateNested('sender', 'email', e.target.value)} />
+                      <textarea placeholder="Address" rows="2" className="input" value={invoice.sender.address} onChange={e => updateNested('sender', 'address', e.target.value)} />
+                      {(config?.fields.includes('gstin') || invoice.taxMode === 'gst') && (
+                        <input
+                          placeholder="GST Number (GSTIN)"
+                          className={`input border-emerald-200 focus:border-emerald-500 ${validationErrors.senderGstin ? 'border-red-500 ring-1 ring-red-500' : ''}`}
+                          value={invoice.sender.gstin}
+                          onChange={e => updateNested('sender', 'gstin', e.target.value.toUpperCase())}
+                          maxLength={15}
                         />
-                        <input placeholder="Email" className="input" value={invoice.receiver.email} onChange={e => updateNested('receiver', 'email', e.target.value)} />
-                        <textarea placeholder="Address" rows="2" className="input" value={invoice.receiver.address} onChange={e => updateNested('receiver', 'address', e.target.value)} />
-                        {config?.fields.includes('gstin') && (
-                           <input placeholder="Client GSTIN" className="input border-emerald-200 focus:border-emerald-500" value={invoice.receiver.gstin} onChange={e => updateNested('receiver', 'gstin', e.target.value)} />
-                        )}
-                      </div>
-                   </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                    <h3 className="font-bold text-slate-700 dark:text-slate-300 mb-2">Bill To (Client)</h3>
+                    <div className="space-y-2">
+                      <input
+                        placeholder="Client Name"
+                        className={`input ${validationErrors.clientName ? 'border-red-400 ring-1 ring-red-200' : ''}`}
+                        value={invoice.receiver.name}
+                        onChange={e => { updateNested('receiver', 'name', e.target.value); setValidationErrors(p => ({ ...p, clientName: false })) }}
+                      />
+                      <input placeholder="Email" className="input" value={invoice.receiver.email} onChange={e => updateNested('receiver', 'email', e.target.value)} />
+                      <textarea placeholder="Address" rows="2" className="input" value={invoice.receiver.address} onChange={e => updateNested('receiver', 'address', e.target.value)} />
+                      {(config?.fields.includes('gstin') || invoice.taxMode === 'gst') && (
+                        <input placeholder="Client GSTIN" className="input border-emerald-200 focus:border-emerald-500" value={invoice.receiver.gstin} onChange={e => updateNested('receiver', 'gstin', e.target.value)} />
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="mt-8">
@@ -2400,53 +2894,53 @@ export default function App() {
                     {invoice.items.map((item) => (
                       <div key={item.id} className="flex gap-2 items-start p-2 border border-slate-100 dark:border-slate-700 rounded bg-white dark:bg-slate-900 shadow-sm">
                         <div className="flex-grow space-y-2">
-                          <input 
+                          <input
                             placeholder={stdConfig ? stdConfig.itemPlaceholder : getDescriptionPlaceholder()}
-                            className="input font-medium" 
-                            value={item.name} 
+                            className="input font-medium"
+                            value={item.name}
                             onChange={(e) => updateItem(item.id, 'name', e.target.value)}
                           />
-                          <textarea 
-                             rows="2"
-                             placeholder="Additional details (optional)"
-                             className="input text-xs text-slate-600 resize-none"
-                             value={item.description || ''}
-                             onChange={(e) => updateItem(item.id, 'description', e.target.value)}
-                           />
+                          <textarea
+                            rows="2"
+                            placeholder="Additional details (optional)"
+                            className="input text-xs text-slate-600 resize-none"
+                            value={item.description || ''}
+                            onChange={(e) => updateItem(item.id, 'description', e.target.value)}
+                          />
                           {config?.fields.includes('hsn') && (
-                            <input 
-                              placeholder="HSN/SAC Code (Optional)" 
-                              className="input text-xs w-24" 
-                              value={item.hsn || ''} 
+                            <input
+                              placeholder="HSN/SAC Code (Optional)"
+                              className="input text-xs w-24"
+                              value={item.hsn || ''}
                               onChange={(e) => updateItem(item.id, 'hsn', e.target.value)}
                             />
                           )}
                         </div>
                         <div className="w-20">
-                          <input 
-                             type="number" 
-                             placeholder="Qty" 
-                             title="Number of units (e.g. 1, 5, 10)"
-                             className="input text-center" 
-                             value={item.quantity} 
-                             onChange={(e) => updateItem(item.id, 'quantity', e.target.value)}
-                           />
+                          <input
+                            type="number"
+                            placeholder={stdConfig ? stdConfig.qtyLabel : "Qty"}
+                            title="Number of units (e.g. 1, 5, 10)"
+                            className="input text-center"
+                            value={item.quantity}
+                            onChange={(e) => updateItem(item.id, 'quantity', e.target.value)}
+                          />
                         </div>
                         <div className="w-24">
-                          <input 
-                             type="number" 
-                             placeholder="Unit Price" 
-                             title="Enter price for ONE unit. Total is auto calculated."
-                             className="input text-right" 
-                             value={item.price} 
-                             onChange={(e) => updateItem(item.id, 'price', e.target.value)}
-                           />
+                          <input
+                            type="number"
+                            placeholder="Unit Price"
+                            title="Enter price for ONE unit. Total is auto calculated."
+                            className="input text-right"
+                            value={item.price}
+                            onChange={(e) => updateItem(item.id, 'price', e.target.value)}
+                          />
                         </div>
                         {/* Read-Only Amount Display - STATIC DIV */}
                         <div className="w-24 flex items-center justify-end px-2 h-10 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 overflow-hidden">
-                             <span className="font-bold text-slate-700 dark:text-slate-300 text-sm truncate">
-                                {formatCurrency(calculateLineItem(item.quantity, item.price))}
-                             </span>
+                          <span className="font-bold text-slate-700 dark:text-slate-300 text-sm truncate">
+                            {formatCurrency(calculateLineItem(item.quantity, item.price))}
+                          </span>
                         </div>
 
                         <button onClick={() => removeItem(item.id)} className="p-2 text-red-400 hover:text-red-600 transition-colors">
@@ -2467,21 +2961,33 @@ export default function App() {
                   {/* TAX TOGGLE */}
                   <div className="flex justify-between items-center mb-1">
                     <label className="text-sm font-medium flex items-center gap-2 cursor-pointer">
-                      <input 
-                        type="checkbox" 
+                      <input
+                        type="checkbox"
                         checked={invoice.enableTax}
                         onChange={(e) => updateRoot('enableTax', e.target.checked)}
                         className="rounded text-indigo-600 focus:ring-indigo-500"
                       />
-                      Enable Tax
+                      {config?.id === 'gst' ? (
+                        'Enable GST'
+                      ) : (
+                        <select
+                          className="bg-transparent border-none outline-none font-medium text-indigo-600 p-0 m-0 text-sm focus:ring-0 cursor-pointer hover:underline"
+                          value={invoice.taxMode || 'tax'}
+                          onChange={(e) => updateRoot('taxMode', e.target.value)}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <option value="tax">Enable Tax (Non-GST)</option>
+                          <option value="gst">Enable GST</option>
+                        </select>
+                      )}
                     </label>
                     <div className={`flex items-center gap-2 transition-opacity ${invoice.enableTax ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}>
-                      <label className="text-sm font-medium">Tax Rate (%)</label>
-                      <input 
-                          type="number" 
-                          value={invoice.taxRate} 
-                          onChange={(e) => updateRoot('taxRate', e.target.value)}
-                          className="input w-20 text-right" 
+                      <label className="text-sm font-medium">{(config?.id === 'gst' || invoice.taxMode === 'gst') ? 'GST Rate (%)' : 'Tax Rate (Non-GST)'}</label>
+                      <input
+                        type="number"
+                        value={invoice.taxRate}
+                        onChange={(e) => updateRoot('taxRate', e.target.value)}
+                        className="input w-20 text-right"
                       />
                     </div>
                   </div>
@@ -2492,22 +2998,22 @@ export default function App() {
                     <>
                       <div className="flex justify-between items-center mb-1">
                         <div className="flex items-center gap-1 border rounded p-1 bg-white dark:bg-slate-900">
-                          <button 
+                          <button
                             onClick={() => updateRoot('discountType', 'percent')}
                             className={`px-2 py-1 text-xs rounded ${invoice.discountType === 'percent' ? 'bg-indigo-100 text-indigo-700 font-bold' : 'text-slate-500'}`}
                           >%</button>
-                          <button 
+                          <button
                             onClick={() => updateRoot('discountType', 'flat')}
                             className={`px-2 py-1 text-xs rounded ${invoice.discountType === 'flat' ? 'bg-indigo-100 text-indigo-700 font-bold' : 'text-slate-500'}`}
                           >Flat</button>
                         </div>
                         <div className="flex items-center gap-2">
                           <label className="text-sm font-medium">Discount</label>
-                          <input 
-                              type="number" 
-                              value={invoice.discountValue} 
-                              onChange={(e) => updateRoot('discountValue', e.target.value)}
-                              className="input w-24 text-right" 
+                          <input
+                            type="number"
+                            value={invoice.discountValue}
+                            onChange={(e) => updateRoot('discountValue', e.target.value)}
+                            className="input w-24 text-right"
                           />
                         </div>
                       </div>
@@ -2522,11 +3028,11 @@ export default function App() {
                     <>
                       <div className="flex justify-end items-center mb-1 gap-2">
                         <label className="text-sm font-medium">Shipping / Extra</label>
-                        <input 
-                            type="number" 
-                            value={invoice.shipping} 
-                            onChange={(e) => updateRoot('shipping', e.target.value)}
-                            className="input w-24 text-right" 
+                        <input
+                          type="number"
+                          value={invoice.shipping}
+                          onChange={(e) => updateRoot('shipping', e.target.value)}
+                          className="input w-24 text-right"
                         />
                       </div>
                       <p className="text-[10px] text-slate-400 mb-6 text-right">Shipping / extra charges are added after tax</p>
@@ -2550,39 +3056,43 @@ export default function App() {
                     )}
                     {(invoice.enableTax && taxRateVal > 0) && (
                       <div className="flex justify-between text-sm text-slate-500">
-                          <span>Tax ({taxRateVal}%)</span>
-                          <span>{formatCurrency(taxAmount)}</span>
+                        <span>Tax ({taxRateVal}%)</span>
+                        <span>{formatCurrency(taxAmount)}</span>
                       </div>
                     )}
                     {shippingVal > 0 && (
                       <div className="flex justify-between text-sm text-slate-500">
-                          <span>Shipping</span>
-                          <span>{formatCurrency(shippingVal)}</span>
+                        <span>Shipping</span>
+                        <span>{formatCurrency(shippingVal)}</span>
                       </div>
                     )}
                     <div className="flex justify-between text-xl font-bold text-slate-900 dark:text-white pt-2 border-t border-slate-100 dark:border-slate-700">
-                        <span>Total</span>
-                        <span>{formatCurrency(total)}</span>
+                      <span>Total</span>
+                      <span>{formatCurrency(total)}</span>
                     </div>
                   </div>
 
                   <label className="label">Notes / Terms</label>
-                  <textarea 
-                      rows="2" 
-                      placeholder="e.g. Thank you for your business!"
-                      className="input mb-4" 
-                      value={invoice.notes}
-                      onChange={(e) => updateRoot('notes', e.target.value)}
-                    />
+                  <textarea
+                    rows="2"
+                    placeholder="e.g. Thank you for your business!"
+                    className="input mb-4"
+                    value={invoice.notes}
+                    onChange={(e) => updateRoot('notes', e.target.value)}
+                  />
 
-                  <label className="label">Payment Instructions</label>
-                  <textarea 
-                      rows="4" 
-                      placeholder="e.g. Bank Account Details / UPI ID"
-                      className="input" 
-                      value={invoice.terms}
-                      onChange={(e) => updateRoot('terms', e.target.value)}
-                    />
+                  {(!stdConfig || stdConfig.showTerms) && (
+                    <>
+                      <label className="label">Payment Instructions</label>
+                      <textarea
+                        rows="4"
+                        placeholder="e.g. Bank Account Details / UPI ID"
+                        className="input"
+                        value={invoice.terms}
+                        onChange={(e) => updateRoot('terms', e.target.value)}
+                      />
+                    </>
+                  )}
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
@@ -2591,13 +3101,13 @@ export default function App() {
                     <h2 className="font-bold text-lg">Payment Details / Proof</h2>
                   </div>
                   <p className="text-xs text-slate-500 mb-4">This information acts as payment proof for this invoice.</p>
-                  
+
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="label">Payment Status</label>
-                      <select 
-                        className="input" 
-                        value={invoice.payment?.status || 'pending'} 
+                      <select
+                        className="input"
+                        value={invoice.payment?.status || 'pending'}
                         onChange={handlePaymentStatusChange}
                       >
                         <option value="pending">Pending</option>
@@ -2607,9 +3117,9 @@ export default function App() {
                     </div>
                     <div>
                       <label className="label">Payment Method</label>
-                      <select 
-                        className="input" 
-                        value={invoice.payment?.method || 'UPI'} 
+                      <select
+                        className="input"
+                        value={invoice.payment?.method || 'UPI'}
                         onChange={(e) => updateNested('payment', 'method', e.target.value)}
                         disabled={invoice.payment?.status === 'pending'}
                       >
@@ -2621,24 +3131,24 @@ export default function App() {
                       </select>
                     </div>
                   </div>
-                  
+
                   {invoice.payment?.status === 'partial' && (
-                      <div className="mb-4">
-                          <label className="label">Amount Paid</label>
-                          <input 
-                             type="number"
-                             className="input"
-                             value={invoice.payment?.amount || ''}
-                             onChange={(e) => updateNested('payment', 'amount', e.target.value)}
-                          />
-                          <p className="text-[10px] text-slate-400 mt-1">Remaining balance will be calculated automatically.</p>
-                      </div>
+                    <div className="mb-4">
+                      <label className="label">Amount Paid</label>
+                      <input
+                        type="number"
+                        className="input"
+                        value={invoice.payment?.amount || ''}
+                        onChange={(e) => updateNested('payment', 'amount', e.target.value)}
+                      />
+                      <p className="text-[10px] text-slate-400 mt-1">Remaining balance will be calculated automatically.</p>
+                    </div>
                   )}
 
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="label">Transaction ID / Ref No</label>
-                      <input 
+                      <input
                         placeholder="e.g. UPI Ref No / Bank Txn ID"
                         className="input"
                         value={invoice.payment?.referenceId || ''}
@@ -2648,7 +3158,7 @@ export default function App() {
                     </div>
                     <div>
                       <label className="label">Payment Date</label>
-                      <input 
+                      <input
                         type="date"
                         className="input"
                         value={invoice.payment?.paidDate || ''}
@@ -2657,16 +3167,16 @@ export default function App() {
                       />
                     </div>
                   </div>
-                  
+
                   {invoice.payment?.status === 'pending' && (
                     <p className="text-[10px] text-slate-400 italic">Payment not received yet. Details disabled.</p>
                   )}
                 </div>
 
                 <div className="mb-2 flex justify-end">
-                  <select 
-                    value={pdfMode} 
-                    onChange={(e) => setPdfMode(e.target.value)} 
+                  <select
+                    value={pdfMode}
+                    onChange={(e) => setPdfMode(e.target.value)}
                     className="text-xs border rounded p-1 bg-slate-50 dark:bg-slate-800 dark:border-slate-700 text-slate-600 dark:text-slate-400"
                   >
                     <option value="single">Single Page (Auto-Fit)</option>
@@ -2675,14 +3185,14 @@ export default function App() {
                 </div>
 
                 <div className="flex gap-4 mt-6">
-                  <button 
-                    onClick={generatePDF} 
+                  <button
+                    onClick={generatePDF}
                     disabled={loadingPdf}
                     className="flex-1 bg-indigo-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-indigo-600/20 flex justify-center items-center gap-2 xl:hidden"
                   >
                     {loadingPdf ? <RefreshCw className="animate-spin" /> : <Download size={20} />} Download PDF
                   </button>
-                  <button 
+                  <button
                     onClick={handlePrint}
                     className="flex-1 bg-white border border-slate-300 text-slate-700 py-4 rounded-xl font-bold shadow-sm flex justify-center items-center gap-2 xl:hidden"
                   >
@@ -2701,7 +3211,7 @@ export default function App() {
                   </div>
                   <span className="text-xs text-slate-400 bg-white dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">Last 20</span>
                 </div>
-                
+
                 {history.length === 0 ? (
                   <div className="p-8 text-center text-slate-400 text-sm">
                     <p>No invoices created yet.</p>
@@ -2723,14 +3233,14 @@ export default function App() {
                             {formatHistoryCurrency(item.totalAmount, item.fullJson.currency)}
                           </span>
                           <div className="flex gap-1">
-                            <button 
+                            <button
                               onClick={() => restoreInvoice(item)}
                               className="p-1.5 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded transition-colors"
                               title="Restore"
                             >
                               <RotateCcw size={16} />
                             </button>
-                            <button 
+                            <button
                               onClick={() => deleteHistoryItem(item.id)}
                               className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors"
                               title="Delete"
@@ -2744,23 +3254,23 @@ export default function App() {
                   </div>
                 )}
               </div>
-              
+
               <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 shadow-sm prose dark:prose-invert max-w-none">
                 {config?.seoContent}
-                
+
                 <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
                   <h3 className="font-bold mb-4">FAQ</h3>
                   <details className="group mb-4">
                     <summary className="font-semibold cursor-pointer list-none flex justify-between">
-                      Can I save this invoice? <ChevronDown className="group-open:rotate-180 transition-transform"/>
+                      Can I save this invoice? <ChevronDown className="group-open:rotate-180 transition-transform" />
                     </summary>
                     <p className="mt-2 text-sm text-slate-500">Yes. Data is auto-saved to your browser's local storage.</p>
                   </details>
                   <details className="group mb-4">
-                      <summary className="font-semibold cursor-pointer list-none flex justify-between">
-                        Is the PDF really free? <ChevronDown className="group-open:rotate-180 transition-transform"/>
-                      </summary>
-                      <p className="mt-2 text-sm text-slate-500">Yes. Generate unlimited, watermark-free PDFs.</p>
+                    <summary className="font-semibold cursor-pointer list-none flex justify-between">
+                      Is the PDF really free? <ChevronDown className="group-open:rotate-180 transition-transform" />
+                    </summary>
+                    <p className="mt-2 text-sm text-slate-500">Yes. Generate unlimited, watermark-free PDFs.</p>
                   </details>
                 </div>
               </div>
@@ -2768,12 +3278,12 @@ export default function App() {
             </div>
 
             <div className="w-full xl:w-7/12 flex flex-col gap-6 sticky top-24">
-              
+
               <div className="hidden xl:flex flex-col gap-2">
                 <div className="flex justify-end">
-                  <select 
-                    value={pdfMode} 
-                    onChange={(e) => setPdfMode(e.target.value)} 
+                  <select
+                    value={pdfMode}
+                    onChange={(e) => setPdfMode(e.target.value)}
                     className="text-xs border rounded p-1 bg-slate-50 dark:bg-slate-800 dark:border-slate-700 text-slate-600 dark:text-slate-400"
                   >
                     <option value="single">Single Page (Auto-Fit)</option>
@@ -2781,14 +3291,14 @@ export default function App() {
                   </select>
                 </div>
                 <div className="flex gap-4 w-full">
-                  <button 
-                      onClick={generatePDF} 
-                      disabled={loadingPdf}
-                      className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold shadow-lg shadow-indigo-600/20 flex justify-center items-center gap-2 transition-all transform hover:scale-[1.01]"
+                  <button
+                    onClick={generatePDF}
+                    disabled={loadingPdf}
+                    className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold shadow-lg shadow-indigo-600/20 flex justify-center items-center gap-2 transition-all transform hover:scale-[1.01]"
                   >
                     {loadingPdf ? <RefreshCw className="animate-spin" /> : <Download size={20} />} Download PDF
                   </button>
-                  <button 
+                  <button
                     onClick={handlePrint}
                     className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-6 rounded-lg font-semibold flex items-center gap-2 transition-colors"
                   >
@@ -2798,112 +3308,118 @@ export default function App() {
               </div>
 
               <div className="overflow-x-auto rounded-lg shadow-2xl bg-slate-500/10 p-4 md:p-8 flex justify-center">
-                
-                <div 
+
+                <div
                   id="invoice-preview"
                   ref={previewRef}
                   className="bg-white text-slate-900 w-full p-[10mm] md:p-[15mm] text-sm leading-normal relative shadow-sm invoice-preview-scaled invoice-preview"
-                  style={{ width: '210mm', minHeight: '297mm', overflow: 'visible' }} 
+                  style={{ width: '210mm', minHeight: '297mm', overflow: 'visible' }}
                 >
                   {/* HEADER */}
                   {/* ✅ REF ADDED TO HEADER CONTAINER */}
                   <div ref={invoiceHeaderRef} className="flex justify-between items-center mb-8 pb-8 border-b border-slate-100">
-                      <div className="w-1/2 flex flex-col justify-center">
-                        {logo ? (
-                          <div className="invoice-logo-wrapper mb-2">
-                            <img src={logo} alt="Logo" className="invoice-logo" />
-                          </div>
-                        ) : (
-                          <div className="h-4"></div>
+                    <div className="w-1/2 flex flex-col justify-center">
+                      {logo ? (
+                        <div className="invoice-logo-wrapper mb-2 relative">
+                          <img
+                            src={logo}
+                            alt="Logo"
+                            className="invoice-logo"
+                            style={{ maxWidth: '180px', maxHeight: '100px', objectFit: 'contain', display: 'block' }}
+                          />
+                        </div>
+                      ) : (
+                        <div className="h-4"></div>
+                      )}
+                      {invoice.sender.name && <h2 className="font-bold text-xl text-slate-900">{invoice.sender.name}</h2>}
+                      <p className="whitespace-pre-wrap text-slate-500 text-sm">{invoice.sender.address}</p>
+                      <div className="text-slate-500 text-sm space-y-1">
+                        {invoice.sender.email && <p>{invoice.sender.email}</p>}
+                        {invoice.sender.email && <p>{invoice.sender.email}</p>}
+                        {(config?.id === 'gst' || invoice.taxMode === 'gst') && invoice.sender.gstin && (
+                          <p className="font-semibold text-slate-700">GSTIN: {invoice.sender.gstin}</p>
                         )}
-                        {invoice.sender.name && <h2 className="font-bold text-xl text-slate-900">{invoice.sender.name}</h2>}
-                        <p className="whitespace-pre-wrap text-slate-500 text-sm">{invoice.sender.address}</p>
-                        <div className="text-slate-500 text-sm space-y-1">
-                           {invoice.sender.email && <p>{invoice.sender.email}</p>}
-                           {config?.id === 'gst' && invoice.sender.gstin && (
-                             <p className="font-semibold text-slate-700">GSTIN: {invoice.sender.gstin}</p>
-                           )}
-                        </div>
                       </div>
-                      <div className="text-right">
-                        <h1 className="text-3xl font-bold text-slate-900 uppercase tracking-tight mb-4">{invoice.documentTitle || 'INVOICE'}</h1>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-end gap-6">
-                            <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">{stdConfig ? stdConfig.invoiceNoLabel : 'Invoice No'}</span>
-                            <span className="font-bold text-slate-700">{invoice.invoiceNo}</span>
-                          </div>
-                          <div className="flex justify-end gap-6">
-                            <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Date</span>
-                            <span className="font-bold text-slate-700">{invoice.date}</span>
-                          </div>
-                          {(!stdConfig || stdConfig.showDueDate) && (
-                            <div className="flex justify-end gap-6">
-                              <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Due Date</span>
-                              <span className="font-bold text-slate-700">{invoice.dueDate}</span>
-                            </div>
-                          )}
+                    </div>
+                    <div className="text-right">
+                      <h1 className="text-3xl font-bold text-slate-900 uppercase tracking-tight mb-4">{invoice.documentTitle || 'INVOICE'}</h1>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-end gap-6">
+                          <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">{stdConfig ? stdConfig.invoiceNoLabel : 'Invoice No'}</span>
+                          <span className="font-bold text-slate-700">{invoice.invoiceNo}</span>
                         </div>
+                        <div className="flex justify-end gap-6">
+                          <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Date</span>
+                          <span className="font-bold text-slate-700">{invoice.date}</span>
+                        </div>
+                        {(!stdConfig || stdConfig.showDueDate) && (
+                          <div className="flex justify-end gap-6">
+                            <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Due Date</span>
+                            <span className="font-bold text-slate-700">{invoice.dueDate}</span>
+                          </div>
+                        )}
                       </div>
+                    </div>
                   </div>
 
                   {/* ✅ REF ADDED TO BODY WRAPPER */}
                   <div ref={invoiceBodyRef} className="w-full">
                     {/* BILL TO & SPECIFICS */}
                     <div className="flex justify-between items-stretch gap-8 mb-10">
-                        <div className="w-1/2 bg-slate-50 rounded-xl p-6">
-                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Bill To</span>
-                           {invoice.receiver.name ? (
-                              <>
-                                 <h3 className="font-bold text-lg text-slate-900 mb-1">{invoice.receiver.name}</h3>
-                                 <p className="whitespace-pre-wrap text-slate-500 text-sm leading-relaxed">{invoice.receiver.address}</p>
-                                 <p className="text-slate-500 text-sm mt-1">{invoice.receiver.email}</p>
-                                 {config?.id === 'gst' && invoice.receiver.gstin && (
-                                   <p className="font-semibold text-slate-700 text-sm mt-3 pt-3 border-t border-slate-200">GSTIN: {invoice.receiver.gstin}</p>
-                                 )}
-                              </>
-                            ) : (
-                              <p className="text-slate-400 italic text-sm">Client details not provided</p>
-                            )}
-                        </div>
-                        
-                        <div className="w-1/2 bg-slate-50 rounded-xl p-6">
-                           {config?.id === 'transport' ? (
-                             <>
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Transport Details</span>
-                                <div className="grid grid-cols-2 gap-y-3 text-sm">
-                                  <span className="text-slate-500 font-medium">{getLabel('Vehicle No.')}</span>
-                                  <span className="font-bold text-slate-700 text-right">{invoice.transport.vehicleNo || '-'}</span>
-                                  <span className="text-slate-500 font-medium">{getLabel('Driver Name')}</span>
-                                  <span className="font-bold text-slate-700 text-right">{invoice.transport.driverName || '-'}</span>
-                                  <span className="text-slate-500 font-medium">Origin</span>
-                                  <span className="font-bold text-slate-700 text-right">{invoice.transport.origin || '-'}</span>
-                                  <span className="text-slate-500 font-medium">Destination</span>
-                                  <span className="font-bold text-slate-700 text-right">{invoice.transport.destination || '-'}</span>
-                                </div>
-                             </>
-                            ) : config?.id === 'salon' ? (
-                             <>
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Service Details</span>
-                                <div className="grid grid-cols-2 gap-y-3 text-sm">
-                                  <span className="text-slate-500 font-medium">{getLabel('Stylist Name')}</span>
-                                  <span className="font-bold text-slate-700 text-right">{invoice.salon.stylist || '-'}</span>
-                                  <span className="text-slate-500 font-medium">Appointment</span>
-                                  <span className="font-bold text-slate-700 text-right">
-                                    {invoice.salon.appointmentDate ? new Date(invoice.salon.appointmentDate).toLocaleString() : '-'}
-                                  </span>
-                                </div>
-                             </>
-                            ) : (
-                             <div className="h-full flex flex-col justify-between">
-                               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Payment Status</span>
-                               <div className="text-sm font-bold">
-                                  <span className={`px-2 py-1 rounded border uppercase ${invoice.payment.status === 'paid' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : invoice.payment.status === 'partial' ? 'bg-amber-100 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                                           {invoice.payment.status}
-                                  </span>
-                               </div>
-                             </div>
-                            )}
-                        </div>
+                      <div className="w-1/2 bg-slate-50 rounded-xl p-6">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Bill To</span>
+                        {invoice.receiver.name ? (
+                          <>
+                            <h3 className="font-bold text-lg text-slate-900 mb-1">{invoice.receiver.name}</h3>
+                            <p className="whitespace-pre-wrap text-slate-500 text-sm leading-relaxed">{invoice.receiver.address}</p>
+                            <p className="text-slate-500 text-sm mt-1">{invoice.receiver.email}</p>
+                            {config?.id === 'gst' || invoice.taxMode === 'gst' ? (
+                              invoice.receiver.gstin && <p className="font-semibold text-slate-700 text-sm mt-3 pt-3 border-t border-slate-200">GSTIN: {invoice.receiver.gstin}</p>
+                            ) : null}
+                          </>
+                        ) : (
+                          <p className="text-slate-400 italic text-sm">Client details not provided</p>
+                        )}
+                      </div>
+
+                      <div className="w-1/2 bg-slate-50 rounded-xl p-6">
+                        {config?.id === 'transport' ? (
+                          <>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Transport Details</span>
+                            <div className="grid grid-cols-2 gap-y-3 text-sm">
+                              <span className="text-slate-500 font-medium">{getLabel('Vehicle No.')}</span>
+                              <span className="font-bold text-slate-700 text-right">{invoice.transport.vehicleNo || '-'}</span>
+                              <span className="text-slate-500 font-medium">{getLabel('Driver Name')}</span>
+                              <span className="font-bold text-slate-700 text-right">{invoice.transport.driverName || '-'}</span>
+                              <span className="text-slate-500 font-medium">Origin</span>
+                              <span className="font-bold text-slate-700 text-right">{invoice.transport.origin || '-'}</span>
+                              <span className="text-slate-500 font-medium">Destination</span>
+                              <span className="font-bold text-slate-700 text-right">{invoice.transport.destination || '-'}</span>
+                            </div>
+                          </>
+                        ) : config?.id === 'salon' ? (
+                          <>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Service Details</span>
+                            <div className="grid grid-cols-2 gap-y-3 text-sm">
+                              <span className="text-slate-500 font-medium">{getLabel('Stylist Name')}</span>
+                              <span className="font-bold text-slate-700 text-right">{invoice.salon.stylist || '-'}</span>
+                              <span className="text-slate-500 font-medium">Appointment</span>
+                              <span className="font-bold text-slate-700 text-right">
+                                {invoice.salon.appointmentDate ? new Date(invoice.salon.appointmentDate).toLocaleString() : '-'}
+                              </span>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="h-full flex flex-col justify-between">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Payment Status</span>
+                            <div className="text-sm font-bold">
+                              <span className={`px-2 py-1 rounded border uppercase ${invoice.payment.status === 'paid' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : invoice.payment.status === 'partial' ? 'bg-amber-100 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                                {invoice.payment.status}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     {/* TABLE */}
@@ -2922,8 +3438,8 @@ export default function App() {
                           {invoice.items.map((item, idx) => (
                             <tr key={item.id} className="border-b border-slate-50 last:border-0">
                               <td className="py-4 pl-4 text-sm font-bold text-slate-700">
-                                 {item.name || `Item ${idx+1}`}
-                                 {item.description && <p className="text-xs text-slate-500 font-normal mt-0.5 whitespace-pre-line">{item.description}</p>}
+                                {item.name || `Item ${idx + 1}`}
+                                {item.description && <p className="text-xs text-slate-500 font-normal mt-0.5 whitespace-pre-line">{item.description}</p>}
                               </td>
                               {config?.id === 'gst' && <td className="py-4 text-center text-sm text-slate-500">{item.hsn || '-'}</td>}
                               <td className="py-4 text-center text-sm text-slate-500">{item.quantity}</td>
@@ -2937,142 +3453,142 @@ export default function App() {
 
                     {/* FOOTER TOTALS */}
                     <div className="flex justify-end mb-10">
-                        <div className="w-1/2">
-                           <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
-                              <span>Subtotal</span>
-                              <span className="font-medium text-slate-700">{formatCurrency(subtotal)}</span>
-                           </div>
-                           
-                           {discountAmount > 0 && (!stdConfig || stdConfig.showDiscount) && (
-                             <div className="flex justify-between text-sm text-emerald-600 mb-3 px-4">
-                                <span>Discount</span>
-                                <span className="font-medium">-{formatCurrency(discountAmount)}</span>
-                             </div>
-                           )}
-
-                           {config?.id === 'gst' && invoice.enableTax && taxRateVal > 0 ? (
-                             invoice.isInterstate ? (
-                               <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
-                                  <span>IGST ({taxRateVal}%)</span>
-                                  <span className="font-medium text-slate-700">{formatCurrency(taxAmount)}</span>
-                               </div>
-                             ) : (
-                               <>
-                                 <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
-                                    <span>CGST ({taxRateVal / 2}%)</span>
-                                    <span className="font-medium text-slate-700">{formatCurrency(taxAmount / 2)}</span>
-                                 </div>
-                                 <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
-                                    <span>SGST ({taxRateVal / 2}%)</span>
-                                    <span className="font-medium text-slate-700">{formatCurrency(taxAmount / 2)}</span>
-                                 </div>
-                               </>
-                             )
-                           ) : (invoice.enableTax && taxRateVal > 0) && (
-                             <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
-                                <span>Tax ({taxRateVal}%)</span>
-                                <span className="font-medium text-slate-700">{formatCurrency(taxAmount)}</span>
-                             </div>
-                           )}
-
-                           {shippingVal > 0 && (!stdConfig || stdConfig.showShipping) && (
-                             <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
-                                <span>Shipping</span>
-                                <span className="font-medium text-slate-700">{formatCurrency(shippingVal)}</span>
-                             </div>
-                           )}
-
-                           <div className="bg-slate-50 rounded-xl p-6 mt-4">
-                              <div className="flex justify-between items-center mb-3">
-                                <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total</span>
-                                <span className="text-xl font-bold text-slate-900">{formatCurrency(total)}</span>
-                              </div>
-                              
-                              {paidAmount > 0 && (
-                                <div className="flex justify-between items-center mb-3 text-emerald-600 border-b border-emerald-100 pb-2">
-                                  <span className="text-xs font-bold uppercase tracking-wider">Paid ({invoice.payment.paidDate || 'No Date'})</span>
-                                  <span className="text-sm font-bold">{formatCurrency(paidAmount)}</span>
-                                </div>
-                              )}
-
-                              <div className="flex justify-between items-center pt-2">
-                                <span className="text-sm font-bold text-slate-900 uppercase tracking-wider">Balance Due</span>
-                                <span className="text-2xl font-bold text-slate-900">{formatCurrency(balanceDue)}</span>
-                              </div>
-                           </div>
+                      <div className="w-1/2">
+                        <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
+                          <span>Subtotal</span>
+                          <span className="font-medium text-slate-700">{formatCurrency(subtotal)}</span>
                         </div>
+
+                        {discountAmount > 0 && (!stdConfig || stdConfig.showDiscount) && (
+                          <div className="flex justify-between text-sm text-emerald-600 mb-3 px-4">
+                            <span>Discount</span>
+                            <span className="font-medium">-{formatCurrency(discountAmount)}</span>
+                          </div>
+                        )}
+
+                        {(config?.id === 'gst' || invoice.taxMode === 'gst') && invoice.enableTax && taxRateVal > 0 ? (
+                          invoice.isInterstate ? (
+                            <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
+                              <span>IGST ({taxRateVal}%)</span>
+                              <span className="font-medium text-slate-700">{formatCurrency(taxAmount)}</span>
+                            </div>
+                          ) : (
+                            <>
+                              <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
+                                <span>CGST ({taxRateVal / 2}%)</span>
+                                <span className="font-medium text-slate-700">{formatCurrency(taxAmount / 2)}</span>
+                              </div>
+                              <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
+                                <span>SGST ({taxRateVal / 2}%)</span>
+                                <span className="font-medium text-slate-700">{formatCurrency(taxAmount / 2)}</span>
+                              </div>
+                            </>
+                          )
+                        ) : (invoice.enableTax && taxRateVal > 0) && (
+                          <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
+                            <span>Tax (Non-GST) ({taxRateVal}%)</span>
+                            <span className="font-medium text-slate-700">{formatCurrency(taxAmount)}</span>
+                          </div>
+                        )}
+
+                        {shippingVal > 0 && (!stdConfig || stdConfig.showShipping) && (
+                          <div className="flex justify-between text-sm text-slate-500 mb-3 px-4">
+                            <span>Shipping</span>
+                            <span className="font-medium text-slate-700">{formatCurrency(shippingVal)}</span>
+                          </div>
+                        )}
+
+                        <div className="bg-slate-50 rounded-xl p-6 mt-4">
+                          <div className="flex justify-between items-center mb-3">
+                            <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total</span>
+                            <span className="text-xl font-bold text-slate-900">{formatCurrency(total)}</span>
+                          </div>
+
+                          {paidAmount > 0 && (
+                            <div className="flex justify-between items-center mb-3 text-emerald-600 border-b border-emerald-100 pb-2">
+                              <span className="text-xs font-bold uppercase tracking-wider">Paid ({invoice.payment.paidDate || 'No Date'})</span>
+                              <span className="text-sm font-bold">{formatCurrency(paidAmount)}</span>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between items-center pt-2">
+                            <span className="text-sm font-bold text-slate-900 uppercase tracking-wider">Balance Due</span>
+                            <span className="text-2xl font-bold text-slate-900">{formatCurrency(balanceDue)}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
                     {/* Payment Details / Proof - Visible only if NOT pending */}
                     {invoice.payment?.status !== 'pending' && (
                       <div className="bg-slate-50 rounded-xl p-6 mb-8 border border-slate-100">
-                          <h4 className="font-bold text-xs text-slate-400 uppercase tracking-widest mb-4">Payment Details / Proof</h4>
-                          <div className="grid grid-cols-2 gap-4 text-sm">
-                             <div className="flex justify-between">
-                               <span className="text-slate-500">Status:</span>
-                               <span className="font-bold uppercase text-slate-800">{invoice.payment.status}</span>
-                             </div>
-                             <div className="flex justify-between">
-                               <span className="text-slate-500">Method:</span>
-                               <span className="font-medium text-slate-900">{invoice.payment.method}</span>
-                             </div>
-                             {invoice.payment.paidDate && (
-                               <div className="flex justify-between">
-                                 <span className="text-slate-500">Date:</span>
-                                 <span className="font-medium text-slate-900">{invoice.payment.paidDate}</span>
-                               </div>
-                             )}
-                             {invoice.payment.referenceId && (
-                               <div className="flex justify-between">
-                                 <span className="text-slate-500">Txn ID:</span>
-                                 <span className="font-medium text-slate-900">{invoice.payment.referenceId}</span>
-                               </div>
-                             )}
-                              <div className="flex justify-between pt-2 border-t border-slate-200 mt-2 col-span-2">
-                                 <span className="text-slate-500 font-medium">Amount Paid:</span>
-                                 <span className="font-bold text-slate-900">{formatCurrency(paidAmount)}</span>
-                              </div>
+                        <h4 className="font-bold text-xs text-slate-400 uppercase tracking-widest mb-4">Payment Details / Proof</h4>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-slate-500">Status:</span>
+                            <span className="font-bold uppercase text-slate-800">{invoice.payment.status}</span>
                           </div>
-                          {invoice.payment.status === 'paid' && (
-                             <div className="mt-4 pt-4 border-t border-slate-200 text-center">
-                               <span className="text-emerald-600 font-bold text-sm flex items-center justify-center gap-2">
-                                 <CheckCircle size={16} /> Payment Received
-                               </span>
-                             </div>
+                          <div className="flex justify-between">
+                            <span className="text-slate-500">Method:</span>
+                            <span className="font-medium text-slate-900">{invoice.payment.method}</span>
+                          </div>
+                          {invoice.payment.paidDate && (
+                            <div className="flex justify-between">
+                              <span className="text-slate-500">Date:</span>
+                              <span className="font-medium text-slate-900">{invoice.payment.paidDate}</span>
+                            </div>
                           )}
+                          {invoice.payment.referenceId && (
+                            <div className="flex justify-between">
+                              <span className="text-slate-500">Txn ID:</span>
+                              <span className="font-medium text-slate-900">{invoice.payment.referenceId}</span>
+                            </div>
+                          )}
+                          <div className="flex justify-between pt-2 border-t border-slate-200 mt-2 col-span-2">
+                            <span className="text-slate-500 font-medium">Amount Paid:</span>
+                            <span className="font-bold text-slate-900">{formatCurrency(paidAmount)}</span>
+                          </div>
+                        </div>
+                        {invoice.payment.status === 'paid' && (
+                          <div className="mt-4 pt-4 border-t border-slate-200 text-center">
+                            <span className="text-emerald-600 font-bold text-sm flex items-center justify-center gap-2">
+                              <CheckCircle size={16} /> Payment Received
+                            </span>
+                          </div>
+                        )}
                       </div>
                     )}
 
                     {/* Split Notes & Terms in PDF */}
                     <div className="flex gap-8 mb-12">
-                        <div className="w-1/2">
-                          {invoice.notes && (
-                           <div className="bg-slate-50 rounded-xl p-6 h-full">
-                             <h4 className="font-bold text-xs text-slate-400 uppercase tracking-widest mb-2">Notes</h4>
-                             <p className="text-sm text-slate-600 whitespace-pre-wrap leading-relaxed">{invoice.notes}</p>
-                           </div>
-                          )}
+                      <div className="w-1/2">
+                        {invoice.notes && (
+                          <div className="bg-slate-50 rounded-xl p-6 h-full">
+                            <h4 className="font-bold text-xs text-slate-400 uppercase tracking-widest mb-2">Notes</h4>
+                            <p className="text-sm text-slate-600 whitespace-pre-wrap leading-relaxed">{invoice.notes}</p>
+                          </div>
+                        )}
+                      </div>
+                      <div className="w-1/2">
+                        <div className="bg-slate-50 rounded-xl p-6 h-full">
+                          <h4 className="font-bold text-xs text-slate-400 uppercase tracking-widest mb-2">Payment Instructions</h4>
+                          <p className="text-sm text-slate-600 whitespace-pre-wrap leading-relaxed">{invoice.terms}</p>
                         </div>
-                        <div className="w-1/2">
-                           <div className="bg-slate-50 rounded-xl p-6 h-full">
-                             <h4 className="font-bold text-xs text-slate-400 uppercase tracking-widest mb-2">Payment Instructions</h4>
-                             <p className="text-sm text-slate-600 whitespace-pre-wrap leading-relaxed">{invoice.terms}</p>
-                           </div>
-                        </div>
+                      </div>
                     </div>
 
                     {/* Authorized Signature */}
                     <div className="flex justify-end mt-12 mb-12">
-                        <div className="text-center w-48">
-                           <div className="mb-2 h-20 flex items-end justify-center">
-                               {invoice.sender.signature ? (
-                                   <img src={invoice.sender.signature} alt="Signature" className="max-h-20 max-w-full object-contain" />
-                               ) : (
-                                   <div className="w-full border-b border-slate-300"></div>
-                               )}
-                           </div>
-                           <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Authorized Signatory</p>
+                      <div className="text-center w-48">
+                        <div className="mb-2 h-20 flex items-end justify-center">
+                          {invoice.sender.signature ? (
+                            <img src={invoice.sender.signature} alt="Signature" className="max-h-20 max-w-full object-contain" />
+                          ) : (
+                            <div className="w-full border-b border-slate-300"></div>
+                          )}
                         </div>
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Authorized Signatory</p>
+                      </div>
                     </div>
 
                     {/* Company Footer (replaces SaaS watermark) */}
@@ -3087,7 +3603,7 @@ export default function App() {
 
                 </div>
               </div>
-              
+
               {/* <AdUnit type="sidebar" label="Sidebar Skyscraper Ad" /> */}
 
             </div>
@@ -3097,44 +3613,44 @@ export default function App() {
 
       {/* --- FOOTER --- */}
       <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-20 pt-16 pb-8">
-         <div className="container mx-auto px-4">
-           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-             <div className="col-span-1 md:col-span-1">
-               <div className="flex items-center gap-2 mb-4">
-                 <div className="bg-indigo-600 p-1.5 rounded text-white"><Zap size={16} fill="currentColor"/></div>
-                 <span className="font-bold text-xl">Invoice<span className="text-indigo-600">Pro</span></span>
-               </div>
-               <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
-                 The premium choice for freelancers and businesses. Fast, secure, and always free invoice generation.
-               </p>
-             </div>
-             <div>
-               <h4 className="font-bold mb-4 text-slate-900 dark:text-white">Generators</h4>
-               <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
-                 {Object.values(INVOICE_TYPES).map(t => (
-                   <li key={t.id}><button onClick={() => setActiveRoute(t.id)} className="hover:text-indigo-600">{t.title}</button></li>
-                 ))}
-               </ul>
-             </div>
-             <div>
-               <h4 className="font-bold mb-4 text-slate-900 dark:text-white">Legal</h4>
-               <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
-                 <li><button onClick={() => setActiveRoute('privacy')} className="hover:text-indigo-600">Privacy Policy</button></li>
-                 <li><button onClick={() => setActiveRoute('terms')} className="hover:text-indigo-600">Terms of Service</button></li>
-                 <li><button onClick={() => setActiveRoute('about')} className="hover:text-indigo-600">About Us</button></li>
-                 <li><button onClick={() => setActiveRoute('how-to-create-invoice')} className="hover:text-indigo-600 font-semibold text-indigo-500">Invoice Guide</button></li>
-               </ul>
-             </div>
-             <div>
-               <h4 className="font-bold mb-4 text-slate-900 dark:text-white">Contact</h4>
-               <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">support@invoicepro.com</p>
-               <p className="text-sm text-slate-500 dark:text-slate-400">Online Service | Global</p>
-             </div>
-           </div>
-           <div className="border-t border-slate-100 dark:border-slate-800 pt-8 text-center text-sm text-slate-400">
-             &copy; {new Date().getFullYear()} InvoicePro SaaS. All rights reserved.
-           </div>
-         </div>
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div className="col-span-1 md:col-span-1">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="bg-indigo-600 p-1.5 rounded text-white"><Zap size={16} fill="currentColor" /></div>
+                <span className="font-bold text-xl">Invoice<span className="text-indigo-600">Pro</span></span>
+              </div>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                The premium choice for freelancers and businesses. Fast, secure, and always free invoice generation.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4 text-slate-900 dark:text-white">Generators</h4>
+              <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+                {Object.values(INVOICE_TYPES).map(t => (
+                  <li key={t.id}><button onClick={() => setActiveRoute(t.id)} className="hover:text-indigo-600">{t.title}</button></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4 text-slate-900 dark:text-white">Legal</h4>
+              <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+                <li><button onClick={() => setActiveRoute('privacy')} className="hover:text-indigo-600">Privacy Policy</button></li>
+                <li><button onClick={() => setActiveRoute('terms')} className="hover:text-indigo-600">Terms of Service</button></li>
+                <li><button onClick={() => setActiveRoute('about')} className="hover:text-indigo-600">About Us</button></li>
+                <li><button onClick={() => setActiveRoute('how-to-create-invoice')} className="hover:text-indigo-600 font-semibold text-indigo-500">Invoice Guide</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4 text-slate-900 dark:text-white">Contact</h4>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">support@invoicepro.com</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">Online Service | Global</p>
+            </div>
+          </div>
+          <div className="border-t border-slate-100 dark:border-slate-800 pt-8 text-center text-sm text-slate-400">
+            &copy; {new Date().getFullYear()} InvoicePro SaaS. All rights reserved.
+          </div>
+        </div>
       </footer>
 
       {/* STYLES */}
